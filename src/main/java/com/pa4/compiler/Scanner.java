@@ -10,7 +10,10 @@ package com.pa4.compiler;
  * @author yiradz
  */
 public interface Scanner {
+    
+    
+    
     public Token getNextToken();
-    public Token viewNextTocken();
+    public Token viewNextToken();
    
 }

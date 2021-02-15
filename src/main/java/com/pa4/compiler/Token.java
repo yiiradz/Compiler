@@ -23,7 +23,18 @@ public class Token {
         GREATERTHANEQUAL_TOKEN,
         GREATERTHAN_TOKEN,
         ASSIGN_TOKEN,
+        ERROR_TOKEN,
         // I'm sure i'm forgetting some 
+    }
+    
+    public enum StateType{
+        START,
+        INCOMMENT,
+        INNUM,
+        INID,
+        INASSIGN,
+        KEYWORD,
+        DONE,
     }
     
     private TokenType tokenType;
@@ -36,5 +47,34 @@ public class Token {
         tokenData = data;
     }
     
-    //there is more to go here
+    //Create helper methods to determine if the token character is an integer, a letter, a symbol, etc.
+    
+    //Keywords / Reserve words are from the C- file
+    
+    //Getter
+    public TokenType getTokenType() {
+        return tokenType;
+    }
+    
+    //Setter
+    public void setTokenType(TokenType tok) {
+        this.tokenType = tok;
+    }
+    
+    //Scantoken method
+    public TokenType scanToken() {
+        StateType state = StateType.START;
+        while (state != StateType.DONE) {
+            //SWITCH STATEMENT
+            switch(state) {
+                case START:
+                    //create helper function
+                    if (//)
+            }
+      
+        }
+
+                
+        
+    }
 }
