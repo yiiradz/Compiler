@@ -36,6 +36,7 @@ public class Token {
         KEYWORD,
         DONE,
     }
+ 
     
     private TokenType tokenType;
     private Object tokenData;
@@ -59,22 +60,5 @@ public class Token {
     //Setter
     public void setTokenType(TokenType tok) {
         this.tokenType = tok;
-    }
-    
-    //Scantoken method
-    public TokenType scanToken() {
-        StateType state = StateType.START;
-        while (state != StateType.DONE) {
-            //SWITCH STATEMENT
-            switch(state) {
-                case START:
-                    //create helper function
-                    if (//)
-            }
-      
-        }
-
-                
-        
     }
 }

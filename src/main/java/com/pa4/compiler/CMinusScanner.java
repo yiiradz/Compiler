@@ -25,6 +25,7 @@ public abstract class CMinusScanner implements Scanner {
         Token returnToken = nextToken;
         if (nextToken.getTokenType() != Token.TokenType.EOF_TOKEN)
                 nextToken = scanToken();
+        return returnToken;
     }
     
     public Token viewNextToken() {
@@ -32,8 +33,18 @@ public abstract class CMinusScanner implements Scanner {
     }
     
     //scanToken method
-    public TokenType getToken() {
-        
+    public Token scanToken() {
+        Token.StateType state = Token.StateType.START;
+        while (state != Token.StateType.DONE) {
+            //SWITCH STATEMENT
+            switch(state) {
+                case START:
+                    //create helper function
+                    if (//)
+            }
+      
+        }
+
     }
     
 }
