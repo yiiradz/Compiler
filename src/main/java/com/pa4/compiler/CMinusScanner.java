@@ -40,11 +40,23 @@ public abstract class CMinusScanner implements Scanner {
             switch(state) {
                 case START:
                     //create helper function
-                    if (//)
+                    if (/**/) {
+                        
+                    }
+                        
+                    //else is a single character token
+                    else {
+                            
+                    }
             }
       
         }
 
     }
+    
+    //main method
+    /*While current-token (or next token?) is not equal to end of file token
+    Print tokens (print end of file token)*/
+
     
 }
