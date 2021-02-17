@@ -21,6 +21,9 @@ public abstract class CMinusScanner implements Scanner {
 
     private BufferedReader inFile;
     private Token nextToken;
+    
+    //List of Keywords
+    
 
     public CMinusScanner(BufferedReader file) {
         inFile = file;
@@ -40,26 +43,9 @@ public abstract class CMinusScanner implements Scanner {
     }
 
     // method to munch the next character in token
-    public String getNextChar() {
-        try {
-            if (linepos == 0) {
-                if ((line = inFile.readLine()) == null) {
-                    return null;
-                } else {
-                    lnum += 1;
-                }
-            }
-            try {
-                temp = new String(line.charAt(linepos) + "");
-            } catch (IndexOutOfBoundsException e) {
-                linepos = 0;
-                return " ";
-            }
-            linepos += 1;
-        } catch (IOException e) {
-            System.err.println("Error reading input file ");
-        }
-        return temp;
+    public char getNextChar() {
+        //gets the next character of the line buff
+        
     }
     
     // method to rewind to the previous character in token
@@ -79,14 +65,46 @@ public abstract class CMinusScanner implements Scanner {
     public Token scanToken() {
         Token.StateType state = Token.StateType.START;
         while (state != Token.StateType.DONE) {
-            String c = getNextChar();
+            char c = getNextChar();
             //SWITCH STATEMENT
             switch (state) {
                 case START:
-                    //create helper function
-                    if (isDigit(c)) {
-
-                    } //else is a single character token
+                    //Check if character is a digit
+                    if (Character.isDigit(c)) {
+                        state = Token.StateType.ISNUM;
+                    } 
+                    //Check if character is an alpha
+                    else if (Character.isLetter(c)) {
+                        state = Token.StateType.ISID;
+                    }
+                    //Check if it is a divide or comment symbol
+                    else if (c == '/') {
+                        state = Token.StateType.ISDIVIDE;
+                    }
+                    //Check if it is a symbol
+                    else if (/*Regex to determine if it is a symbol*/) {
+                        state = Token.StateType.ISSYMBOL;
+                    }
+                    break;
+                case ISNUM:
+                    if (!Character.isDigit(c)) {
+                        ungetNextChar();
+                        state = Token.StateType.DONE;
+                    }
+                    
+                    break;
+                case ISID:
+                    break;
+                case ISDIVIDE:
+                    break;
+                case ISSYMBOL:
+                    break;
+                    
+                    
+                    
+                    
+                    
+                    //else is a single character token
                     else {
 
                     }

@@ -27,13 +27,17 @@ public class Token {
         // I'm sure i'm forgetting some 
     }
     
-    public enum StateType{
+    public static enum StateType{
         START,
-        INCOMMENT,
-        INNUM,
-        INID,
-        INASSIGN,
-        KEYWORD,
+        ISSYMBOL,
+        ISPLUS,
+        ISMINUS,
+        ISDOUBLE,
+        ISDIVIDE,
+        ISCOMMENT,
+        ISNUM,
+        ISID,
+        ISKEYWORD,
         DONE,
     }
  
