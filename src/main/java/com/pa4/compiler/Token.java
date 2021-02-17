@@ -8,26 +8,46 @@ package com.pa4.compiler;
 /**
  *
  * @author yiradz
+ * @author mpoh98
  */
 public class Token {
-    public enum TokenType{
-        INT_TOKEN,
-        DOUBLE_TOKEN,
+    public enum TokenType {
+        //Keywords
         IF_TOKEN,
         ELSE_TOKEN,
+        INT_TOKEN,
+        VOID_TOKEN,
         WHILE_TOKEN,
-        STRING_TOKEN,
+        RETURN_TOKEN,
+        //other tokens
         EOF_TOKEN,
-        LESSTHANEQUAL_TOKEN,
-        LESSTHAN_TOKEN,
-        GREATERTHANEQUAL_TOKEN,
-        GREATERTHAN_TOKEN,
-        ASSIGN_TOKEN,
         ERROR_TOKEN,
-        // I'm sure i'm forgetting some 
+        ID_TOKEN,
+        //2 character symbol tokens
+        LESSTHANEQUAL_TOKEN,
+        GREATERTHANEQUAL_TOKEN,
+        EQUALEQUAL_TOKEN,
+        PLUSEQUAL_TOKEN,
+        PLUSPLUS_TOKEN,
+        MINUSEQUAL_TOKEN,
+        MINUSMINUS_TOKEN,
+        NOTEQUAL_TOKEN,
+        //single character tokens
+        LESSTHAN_TOKEN,
+        GREATERTHAN_TOKEN,
+        EQUAL_TOKEN,
+        PLUS_TOKEN,
+        MINUS_TOKEN,
+        BRACEOPEN_TOKEN,
+        BRACECLOSE_TOKEN,
+        PARANOPEN_TOKEN,
+        PARANCLOSE_TOKEN,
+        MULTIPLY_TOKEN,
+        DIVIDE_TOKEN,
+        SEMICOLON_TOKEN,
     }
     
-    public static enum StateType{
+    public enum StateType {
         START,
         ISSYMBOL,
         ISPLUS,
@@ -35,13 +55,13 @@ public class Token {
         ISDOUBLE,
         ISDIVIDE,
         ISCOMMENT,
+        ISFINISHCOMMENT,
         ISNUM,
         ISID,
         ISKEYWORD,
         DONE,
     }
- 
-    
+
     private TokenType tokenType;
     private Object tokenData;
     

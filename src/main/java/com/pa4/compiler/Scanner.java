@@ -8,6 +8,7 @@ package com.pa4.compiler;
 /**
  *
  * @author yiradz
+ * @author mpoh98
  */
 public interface Scanner {
     
