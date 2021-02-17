@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pa4.compiler;
+package scanner;
 
 /**
  *
@@ -84,5 +84,15 @@ public class Token {
     //Setter
     public void setTokenType(TokenType tok) {
         this.tokenType = tok;
+    }
+    
+    //Getter
+    public Object getTokenData() {
+        return tokenData;
+    }
+    
+    //Setter
+    public void setTokenData(Object data) {
+        this.tokenData = data;
     }
 }

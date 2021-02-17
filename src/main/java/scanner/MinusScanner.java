@@ -3,26 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pa4.compiler;
+package scanner;
 
-import com.pa4.compiler.Token.KeywordType;
-import com.pa4.compiler.Token.TokenType;
-import com.pa4.compiler.Token.StateType;
+import scanner.Token.TokenType;
+import scanner.Token.StateType;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  *
  * @author yiradz
  * @author mpoh98
  */
-public abstract class CMinusScanner implements Scanner {
-    
+public abstract class MinusScanner implements Scanner {
+
     private char tokenString[];
     private int mark_position = 0;
+    private int stringIndex = 0;
     private BufferedReader inFile;
     private Token nextToken;
     //List of Keywords
@@ -30,7 +32,7 @@ public abstract class CMinusScanner implements Scanner {
         "if", "else", "int", "void", "while", "return"
     };
 
-    public CMinusScanner(BufferedReader file) {
+    public void CMinusScanner(BufferedReader file) {
         inFile = file;
         nextToken = scanToken();
     }
@@ -52,48 +54,41 @@ public abstract class CMinusScanner implements Scanner {
         char readChar = ' ';
         try {
             inFile.mark(mark_position);
-            readChar = (char)inFile.read();
+            readChar = (char) inFile.read();
             mark_position += 1;
-        } 
-        catch (IOException ex) {
-            Logger.getLogger(CMinusScanner.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MinusScanner.class.getName()).log(Level.SEVERE, null, ex);
         }
         return readChar;
     }
-    
+
     // method to rewind to the previous character in token
-    public void ungetNextChar() { 
+    public void ungetNextChar() {
         try {
             inFile.reset();
-        } 
-        catch (IOException ex) {
-            Logger.getLogger(CMinusScanner.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MinusScanner.class.getName()).log(Level.SEVERE, null, ex);
         }
         mark_position -= 1;
     }
-    
+
     //function to compare identifier to keywords
     public TokenType keywordLookup(char tokenString[]) {
         TokenType keywords = TokenType.ID_TOKEN;
-        String tString = new String (tokenString);
+        String tString = new String(tokenString);
         for (int i = 0; i < Keywords.length; i++) {
             if (tString == Keywords[i]) {
                 if (tString == "if") {
                     return keywords = TokenType.IF_TOKEN;
-                }
-                else if (tString == "else") {
+                } else if (tString == "else") {
                     return keywords = TokenType.ELSE_TOKEN;
-                }
-                else if (tString == "int") {
+                } else if (tString == "int") {
                     return keywords = TokenType.INT_TOKEN;
-                }
-                else if (tString == "void") {
+                } else if (tString == "void") {
                     return keywords = TokenType.VOID_TOKEN;
-                }
-                else if (tString == "while") {
+                } else if (tString == "while") {
                     return keywords = TokenType.WHILE_TOKEN;
-                }
-                else if (tString == "return") {
+                } else if (tString == "return") {
                     return keywords = TokenType.RETURN_TOKEN;
                 }
             }
@@ -120,32 +115,25 @@ public abstract class CMinusScanner implements Scanner {
                     //Check if character is a digit
                     if (Character.isDigit(c)) {
                         state = StateType.ISNUM;
-                    } 
-                    //Check if character is an alpha
+                    } //Check if character is an alpha
                     else if (Character.isLetter(c)) {
                         state = StateType.ISID;
-                    }
-                    //Check if it is a divide or comment symbol
+                    } //Check if it is a divide or comment symbol
                     else if (c == '/') {
                         state = StateType.ISDIVIDE;
-                    }
-                    //Check if it is a symbol other than + or -
+                    } //Check if it is a symbol other than + or -
                     else if (c == '=' || c == '>' || c == '<' || c == '!') {
                         state = StateType.ISDOUBLE;
-                    }
-                    else if (c == '+') {
+                    } else if (c == '+') {
                         state = StateType.ISPLUS;
-                    }
-                    else if (c == '-') {
+                    } else if (c == '-') {
                         state = StateType.ISMINUS;
-                    }
-                    else if (c == ' ' || c == '\t' || c == '\n') {
+                    } else if (c == ' ' || c == '\t' || c == '\n') {
                         save = false;
-                    }
-                    else {
+                    } else {
                         state = StateType.DONE;
                         switch (c) {
-                            case (char)(-1):
+                            case (char) (-1):
                                 save = false;
                                 currentToken.setTokenType(TokenType.EOF_TOKEN);
                                 break;
@@ -209,8 +197,7 @@ public abstract class CMinusScanner implements Scanner {
                 case ISDIVIDE:
                     if (c == '*') {
                         state = StateType.ISCOMMENT;
-                    }
-                    else {
+                    } else {
                         ungetNextChar();
                         state = StateType.DONE;
                     }
@@ -222,11 +209,10 @@ public abstract class CMinusScanner implements Scanner {
                     }
                     break;
                 case ISFINISHCOMMENT:
-                      save = false;
+                    save = false;
                     if (c == '/') {
                         state = StateType.START;
-                    }
-                    else {
+                    } else {
                         ungetNextChar();
                         state = StateType.ISCOMMENT;
                     }
@@ -235,12 +221,10 @@ public abstract class CMinusScanner implements Scanner {
                     if (c == '=') {
                         state = StateType.DONE;
                         currentToken.setTokenType(TokenType.PLUSEQUAL_TOKEN);
-                    }
-                    else if (c == '+') {
+                    } else if (c == '+') {
                         state = StateType.DONE;
                         currentToken.setTokenType(TokenType.PLUSPLUS_TOKEN);
-                    }
-                    else {
+                    } else {
                         ungetNextChar();
                         state = StateType.DONE;
                     }
@@ -249,12 +233,10 @@ public abstract class CMinusScanner implements Scanner {
                     if (c == '=') {
                         state = StateType.DONE;
                         currentToken.setTokenType(TokenType.MINUSEQUAL_TOKEN);
-                    }
-                    else if (c == '-') {
+                    } else if (c == '-') {
                         state = StateType.DONE;
                         currentToken.setTokenType(TokenType.MINUSMINUS_TOKEN);
-                    }
-                    else {
+                    } else {
                         ungetNextChar();
                         state = StateType.DONE;
                     }
@@ -263,8 +245,7 @@ public abstract class CMinusScanner implements Scanner {
                     if (c == '=') {
                         state = StateType.DONE;
                         currentToken.setTokenType(TokenType.EQUALEQUAL_TOKEN);
-                    }
-                    else {
+                    } else {
                         ungetNextChar();
                         state = StateType.DONE;
                     }
@@ -279,14 +260,45 @@ public abstract class CMinusScanner implements Scanner {
                     break;
             }
             //build tokenstring
-            
-        }
+            if (save){
+                tokenString[stringIndex] = c;
+                stringIndex++;
+            }
 
+        }
+        
+        // Set Token Data
+        currentToken.setTokenData(tokenString);
+        
+        // Reset Char array Index counter
+        stringIndex = 0;
+        
         //return object of the class token with data filled in
         return currentToken;
     }
 
     //main method
-    /*While current-token (or next token?) is not equal to end of file token
-    Print tokens (print end of file token)*/
+    public void main(String args[]) throws IOException {
+         BufferedReader br = null;
+        // Read input file 
+         br = new BufferedReader(new FileReader("/input1.txt"));
+         
+        //Call Scanner
+        
+       CMinusScanner(br);
+        
+        Token token = getNextToken();
+        BufferedWriter writer = new BufferedWriter(new FileWriter("/outputfile.txt"));
+
+        //While current-token (or next token?) is not equal to end of file token
+        while (token.getTokenType() != TokenType.EOF_TOKEN) {
+            
+            //Print tokens (print end of file token)
+            writer.write(token.getTokenType().toString() + " " + token.getTokenData()+ "\n");
+
+        }
+        
+        writer.close();
+
+    }
 }
