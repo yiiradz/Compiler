@@ -18,22 +18,22 @@ import java.util.logging.Logger;
  * @author yiradz
  */
 public class CMinusScanner {
-private char tokenString[];
-    private int mark_position = 0;
-    private int stringIndex = 0;
-    private BufferedReader inFile;
-    private Token nextToken;
+    static char tokenString[];
+    static int mark_position = 0;
+    static int stringIndex = 0;
+    static BufferedReader inFile;
+    static Token nextToken;
     //List of Keywords
-    private String Keywords[] = {
+    static String Keywords[] = {
         "if", "else", "int", "void", "while", "return"
     };
 
-    public void CMinusScanner(BufferedReader file) {
+    static void CMinusScanner(BufferedReader file) {
         inFile = file;
         nextToken = scanToken();
     }
 
-    public Token getNextToken() {
+    static Token getNextToken() {
         Token returnToken = nextToken;
         if (nextToken.getTokenType() != Token.TokenType.EOF_TOKEN) {
             nextToken = scanToken();
@@ -41,12 +41,12 @@ private char tokenString[];
         return returnToken;
     }
 
-    public Token viewNextToken() {
+    static Token viewNextToken() {
         return nextToken;
     }
 
     // method to munch the next character in token
-    public char getNextChar() {
+    static char getNextChar() {
         char readChar = ' ';
         try {
             inFile.mark(mark_position);
@@ -59,7 +59,7 @@ private char tokenString[];
     }
 
     // method to rewind to the previous character in token
-    public void ungetNextChar() {
+    static void ungetNextChar() {
         try {
             inFile.reset();
         } catch (IOException ex) {
@@ -69,7 +69,7 @@ private char tokenString[];
     }
 
     //function to compare identifier to keywords
-    public Token.TokenType keywordLookup(char tokenString[]) {
+    static Token.TokenType keywordLookup(char tokenString[]) {
         Token.TokenType keywords = Token.TokenType.ID_TOKEN;
         String tString = new String(tokenString);
         for (int i = 0; i < Keywords.length; i++) {
@@ -93,7 +93,7 @@ private char tokenString[];
     }
 
     //scanToken method
-    private Token scanToken() {
+    static Token scanToken() {
         //Set the starting state to START
         Token.StateType state = Token.StateType.START;
         //Create the tokenType variable
@@ -274,17 +274,18 @@ private char tokenString[];
     }
 
     //main method
-    public void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException {
          BufferedReader br = null;
         // Read input file 
-         br = new BufferedReader(new FileReader("/input1.txt"));
+         br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/scanner/input1.txt"));
          
         //Call Scanner
+       // CMinusScanner myScanner = new CMinusScanner(); // Create an object of Main
         
-       CMinusScanner(br);
+        CMinusScanner(br);
         
         Token token = getNextToken();
-        BufferedWriter writer = new BufferedWriter(new FileWriter("/outputfile.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("outputfile.txt"));
 
         //While current-token (or next token?) is not equal to end of file token
         while (token.getTokenType() != Token.TokenType.EOF_TOKEN) {
@@ -297,4 +298,5 @@ private char tokenString[];
         writer.close();
 
     }
+   
 }
