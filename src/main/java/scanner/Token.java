@@ -45,6 +45,8 @@ public class Token {
         MULTIPLY_TOKEN,
         DIVIDE_TOKEN,
         SEMICOLON_TOKEN,
+        //Period token
+        //exclamation point token
     }
     
     public enum StateType {
@@ -66,15 +68,14 @@ public class Token {
     private Object tokenData;
     
    // somewhere we need ID, Keyword,
+    public Token(){
+        
+    }
     
     public Token (TokenType type, Object data){
         tokenType = type;
         tokenData = data;
     }
-    
-    //Create helper methods to determine if the token character is an integer, a letter, a symbol, etc.
-    
-    //Keywords / Reserve words are from the C- file
     
     //Getter
     public TokenType getTokenType() {
