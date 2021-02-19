@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,23 +19,23 @@ import java.util.logging.Logger;
  * @author yiradz
  */
 public class CMinusScanner {
-    static char tokenString[] = new char[5];
+    static ArrayList<Character> tokenString = new ArrayList<Character>();
     static int mark_position = 0;
     static int fileInput = 0;
-    static int stringIndex = 0;
+    //static int stringIndex = 0;
     static BufferedReader inFile;
     static Token nextToken;
     //List of Keywords
-    static String Keywords[] = {
-        "if", "else", "int", "void", "while", "return"
-    };
-
+    static String[] Keywords = new String[]{"if", "else", "int", "void", "while", "return"};
+    static StringBuffer sb = new StringBuffer();
+    
     static void CMinusScanner(BufferedReader file) {
         inFile = file;
         nextToken = scanToken();
     }
 
     static Token getNextToken() {
+
         Token returnToken = nextToken;
         if (nextToken.getTokenType() != Token.TokenType.EOF_TOKEN) {
             nextToken = scanToken();
@@ -56,24 +57,34 @@ public class CMinusScanner {
         mark_position -= 1;
     }
 
-    //function to compare identifier to keywords TODO: this ain't workin so good
-    static Token.TokenType keywordLookup(char tokenString[]) {
+    //function to compare identifier to keywords
+    static Token.TokenType keywordLookup(ArrayList tokenString) {
         Token.TokenType keywords = Token.TokenType.ID_TOKEN;
-        String tString = new String(tokenString);
+        
+        //Convert the ArrayList to a String
+        for (Object s : tokenString) {
+            sb.append(s);
+        }
+        String tString = sb.toString();
+        
+        //Loop through and compare the tokenString to the keyword
         for (int i = 0; i < Keywords.length; i++) {
-            if (tString == Keywords[i]) {
-                if (tString == "if") {
-                    return keywords = Token.TokenType.IF_TOKEN;
-                } else if (tString == "else") {
-                    return keywords = Token.TokenType.ELSE_TOKEN;
-                } else if (tString == "int") {
-                    return keywords = Token.TokenType.INT_TOKEN;
-                } else if (tString == "void") {
-                    return keywords = Token.TokenType.VOID_TOKEN;
-                } else if (tString == "while") {
-                    return keywords = Token.TokenType.WHILE_TOKEN;
-                } else if (tString == "return") {
-                    return keywords = Token.TokenType.RETURN_TOKEN;
+            if (tString.equals(Keywords[i])) {
+                switch (tString) {
+                    case "if":
+                        return keywords = Token.TokenType.IF_TOKEN;
+                    case "else":
+                        return keywords = Token.TokenType.ELSE_TOKEN;
+                    case "int":
+                        return keywords = Token.TokenType.INT_TOKEN;
+                    case "void":
+                        return keywords = Token.TokenType.VOID_TOKEN;
+                    case "while":
+                        return keywords = Token.TokenType.WHILE_TOKEN;
+                    case "return":
+                        return keywords = Token.TokenType.RETURN_TOKEN;
+                    default:
+                        break;
                 }
             }
         }
@@ -86,8 +97,6 @@ public class CMinusScanner {
         Token.StateType state = Token.StateType.START;
         //Create the tokenType variable
         Token currentToken = new Token();
-        //Index for storing into tokenString
-        int tokenStringIndex = 0;
         //Flag to indicate save to tokenString
         boolean save;
         while (state != Token.StateType.DONE) {
@@ -254,7 +263,7 @@ public class CMinusScanner {
                     break;
                 case ISKEYWORD:
                     save = false;
-                    keywordLookup(tokenString);
+                    currentToken.setTokenType(keywordLookup(tokenString));
                     state = Token.StateType.DONE;
                     break;
                 case DONE:
@@ -264,18 +273,19 @@ public class CMinusScanner {
             }
             //build tokenstring
             if (save){
-                tokenString[stringIndex] = c;
-                stringIndex++;
+                tokenString.add(c);
             }
 
         }
         
         // Set Token Data
-        currentToken.setTokenData(tokenString);
-        
-        // Reset Char array Index counter
-        stringIndex = 0;
-        
+        sb.delete(0, sb.length());
+        tokenString.forEach(s -> {
+            sb.append(s);
+        });
+        String dataString = sb.toString();
+        currentToken.setTokenData(dataString);
+
         //return object of the class token with data filled in
         return currentToken;
     }
@@ -284,25 +294,33 @@ public class CMinusScanner {
     public static void main(String args[]) throws IOException {
          BufferedReader br = null;
         // Read input file (need to adjust this path name)
-         br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/scanner/input2.txt"));
-         
-        //Call Scanner     
+         br = new BufferedReader(new FileReader("/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/scanner/input1.txt"));
+        
+        //Call Scanner  
         CMinusScanner(br);
         
-        Token token = getNextToken();
-        BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/scanner/outputfile.txt"));
+        Token token;
+        BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/scanner/outputfile.txt"));
 
-        //While current-token (or next token?) is not equal to end of file token
-        //TODO: this line is broken because the token type isn't switching correctly.
-        while (nextToken.getTokenType() != Token.TokenType.EOF_TOKEN) {
+        //Loop through and print the tokens until you the end of file token
+        while (true) {
             
-            //Print tokens (print end of file token)
-            writer.write(token.getTokenType().toString() + " " + token.getTokenData()+ "\n");
+            //clear the tokenString to prepare for the next token
+            tokenString.clear();
+            
+            token = getNextToken();
 
+            //Print tokens (print end of file token)
+            if (token.getTokenType() == Token.TokenType.EOF_TOKEN) {
+                writer.write(token.getTokenType().toString() + " " + token.getTokenData()+ "\n");
+                break;
+            }
+            else {
+                writer.write(token.getTokenType().toString() + " " + token.getTokenData()+ "\n");
+            }
         }
         
         writer.close();
 
     }
-   
 }

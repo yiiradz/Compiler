@@ -66,6 +66,7 @@ public class Token {
 
     private TokenType tokenType;
     private Object tokenData;
+    private StringBuffer sb = new StringBuffer();
     
    // somewhere we need ID, Keyword,
     public Token(){
