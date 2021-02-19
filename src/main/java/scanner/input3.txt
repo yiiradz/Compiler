@@ -1,1 +1,1 @@
-int main { int a = 1 + 2 ; return }
+int main { int a = 1 + 2; return }

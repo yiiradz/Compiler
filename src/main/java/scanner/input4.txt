@@ -1,0 +1,1 @@
+int main { int 123anc = 1 + 2; return }

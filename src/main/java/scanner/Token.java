@@ -45,8 +45,7 @@ public class Token {
         MULTIPLY_TOKEN,
         DIVIDE_TOKEN,
         SEMICOLON_TOKEN,
-        //Period token
-        //exclamation point token
+        PERIOD_TOKEN,
     }
     
     public enum StateType {

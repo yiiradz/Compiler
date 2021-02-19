@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author yiradz
+ * @author mpoh98
  */
 public class CMinusScanner {
     static ArrayList<Character> tokenString = new ArrayList<Character>();
@@ -60,6 +61,9 @@ public class CMinusScanner {
     //function to compare identifier to keywords
     static Token.TokenType keywordLookup(ArrayList tokenString) {
         Token.TokenType keywords = Token.TokenType.ID_TOKEN;
+        
+        //Clear the String Buffer in case anything was left over
+        sb.delete(0, sb.length());
         
         //Convert the ArrayList to a String
         for (Object s : tokenString) {
@@ -132,6 +136,7 @@ public class CMinusScanner {
                         state = Token.StateType.ISID;
                     } //Check if it is a divide or comment symbol
                     else if (c == '/') {
+                        save = false;
                         state = Token.StateType.ISDIVIDE;
                     } //Check if it is a symbol other than + or -
                     else if (c == '=' || c == '>' || c == '<' || c == '!') {
@@ -147,21 +152,6 @@ public class CMinusScanner {
                             case (char) (-1):
                                 save = false;
                                 currentToken.setTokenType(Token.TokenType.EOF_TOKEN);
-                                break;
-                            case '<':
-                                currentToken.setTokenType(Token.TokenType.LESSTHAN_TOKEN);
-                                break;
-                            case '>':
-                                currentToken.setTokenType(Token.TokenType.GREATERTHAN_TOKEN);
-                                break;
-                            case '=':
-                                currentToken.setTokenType(Token.TokenType.EQUAL_TOKEN);
-                                break;
-                            case '+':
-                                currentToken.setTokenType(Token.TokenType.PLUS_TOKEN);
-                                break;
-                            case '-':
-                                currentToken.setTokenType(Token.TokenType.MINUS_TOKEN);
                                 break;
                             case '{':
                                 currentToken.setTokenType(Token.TokenType.BRACEOPEN_TOKEN);
@@ -183,6 +173,7 @@ public class CMinusScanner {
                                 break;
                             case ';':
                                 currentToken.setTokenType(Token.TokenType.SEMICOLON_TOKEN);
+                                break;
                             default:
                                 currentToken.setTokenType(Token.TokenType.ERROR_TOKEN);
                                 break;
@@ -191,24 +182,41 @@ public class CMinusScanner {
                     break;
                 case ISNUM:
                     if (!Character.isDigit(c)) {
-                        ungetNextChar();
-                        save = false;
-                        state = Token.StateType.DONE;
-                        currentToken.setTokenType(Token.TokenType.INT_TOKEN);
+                        if (!Character.isLetter(c)) {
+                            ungetNextChar();
+                            save = false;
+                            state = Token.StateType.DONE;
+                            currentToken.setTokenType(Token.TokenType.INT_TOKEN);
+                        }
+                        else {
+                            ungetNextChar();
+                            save = false;
+                            state = Token.StateType.DONE;
+                            currentToken.setTokenType(Token.TokenType.ERROR_TOKEN);
+                        }
                     }
                     break;
                 case ISID:
                     if (!Character.isLetter(c)) {
-                        ungetNextChar();
-                        save = false;
-                        state = Token.StateType.ISKEYWORD;
-                        currentToken.setTokenType(Token.TokenType.ID_TOKEN);
+                        if (!Character.isDigit(c)) {
+                            ungetNextChar();
+                            save = false;
+                            state = Token.StateType.ISKEYWORD;
+                            currentToken.setTokenType(Token.TokenType.ID_TOKEN);
+                        }
+                        else {
+                            ungetNextChar();
+                            save = false;
+                            state = Token.StateType.DONE;
+                            currentToken.setTokenType(Token.TokenType.ERROR_TOKEN);
+                        }
                     }
                     break;
                 case ISDIVIDE:
                     if (c == '*') {
                         state = Token.StateType.ISCOMMENT;
                     } else {
+                        save = true;
                         ungetNextChar();
                         state = Token.StateType.DONE;
                     }
@@ -229,6 +237,7 @@ public class CMinusScanner {
                     }
                     break;
                 case ISPLUS:
+                    save = false;
                     if (c == '=') {
                         state = Token.StateType.DONE;
                         currentToken.setTokenType(Token.TokenType.PLUSEQUAL_TOKEN);
@@ -237,10 +246,12 @@ public class CMinusScanner {
                         currentToken.setTokenType(Token.TokenType.PLUSPLUS_TOKEN);
                     } else {
                         ungetNextChar();
+                        currentToken.setTokenType(Token.TokenType.PLUS_TOKEN);
                         state = Token.StateType.DONE;
                     }
                     break;
                 case ISMINUS:
+                    save = false;
                     if (c == '=') {
                         state = Token.StateType.DONE;
                         currentToken.setTokenType(Token.TokenType.MINUSEQUAL_TOKEN);
@@ -249,15 +260,46 @@ public class CMinusScanner {
                         currentToken.setTokenType(Token.TokenType.MINUSMINUS_TOKEN);
                     } else {
                         ungetNextChar();
+                        currentToken.setTokenType(Token.TokenType.MINUS_TOKEN);
                         state = Token.StateType.DONE;
                     }
                     break;
                 case ISDOUBLE:
                     if (c == '=') {
+                        if (tokenString.get(0) == '>') {
+                            currentToken.setTokenType(Token.TokenType.GREATERTHANEQUAL_TOKEN);
+                        }
+                        else if (tokenString.get(0) == '<') {
+                            currentToken.setTokenType(Token.TokenType.LESSTHANEQUAL_TOKEN);
+                        }
+                        else if (tokenString.get(0) == '=') {
+                            currentToken.setTokenType(Token.TokenType.EQUALEQUAL_TOKEN);
+                        }
+                        else if (tokenString.get(0) == '!') {
+                            currentToken.setTokenType(Token.TokenType.NOTEQUAL_TOKEN);
+                        }
+                        else {
+                            currentToken.setTokenType(Token.TokenType.ERROR_TOKEN);
+                        }
                         state = Token.StateType.DONE;
-                        currentToken.setTokenType(Token.TokenType.EQUALEQUAL_TOKEN);
                     } else {
+                        save = false;
                         ungetNextChar();
+                        if (tokenString.get(0) == '>') {
+                            currentToken.setTokenType(Token.TokenType.GREATERTHAN_TOKEN);
+                        }
+                        else if (tokenString.get(0) == '<') {
+                            currentToken.setTokenType(Token.TokenType.LESSTHAN_TOKEN);
+                        }
+                        else if (tokenString.get(0) == '=') {
+                            currentToken.setTokenType(Token.TokenType.EQUAL_TOKEN);
+                        }
+                        else if (tokenString.get(0) == '!') {
+                            currentToken.setTokenType(Token.TokenType.NOTEQUAL_TOKEN);
+                        }
+                        else {
+                            currentToken.setTokenType(Token.TokenType.ERROR_TOKEN);
+                        }
                         state = Token.StateType.DONE;
                     }
                     break;
