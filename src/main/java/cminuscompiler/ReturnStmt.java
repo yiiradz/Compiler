@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scanner.parser;
+package cminuscompiler;
 
 /**
  *
  * @author yiradz
  */
-public interface Parser {
-    public Program parse();
+public class ReturnStmt extends Statement {
     
 }

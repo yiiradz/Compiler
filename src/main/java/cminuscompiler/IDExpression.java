@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scanner.parser;
+package cminuscompiler;
+
+import cminuscompiler.Token;
 
 /**
  *
  * @author yiradz
  */
-public class FunctionDecl {
-    
+public class IDExpression extends Expression {
+    public Expression createIDExpr(Token t){
+        
+    }
 }

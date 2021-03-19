@@ -3,18 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scanner;
+package cminuscompiler;
 
 /**
  *
  * @author yiradz
- * @author mpoh98
  */
-public interface Scanner {
+public class WhileStmt extends Statement{
     
-    
-    
-    public Token getNextToken();
-    public Token viewNextToken();
-   
 }

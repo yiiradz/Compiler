@@ -3,16 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scanner.parser;
-
-import scanner.Token;
+package cminuscompiler;
 
 /**
  *
  * @author yiradz
  */
-public class IDExpression extends Expression {
-    public Expression createIDExpr(Token t){
+public class Program {
+    // decl-list
+   // public ArrayList<decl> = DeclList<decl>;
+    public void printTree(){
         
+    }
+    
+    public void printProgram(){
+        // Print "Program { }"
     }
 }

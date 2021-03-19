@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scanner.parser;
+package cminuscompiler;
 
 /**
  *
  * @author yiradz
  */
-public class AdditiveExpression extends Expression{
+public class CompoundStmt extends Statement{
     
 }

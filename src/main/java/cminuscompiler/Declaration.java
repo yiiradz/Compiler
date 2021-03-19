@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scanner.parser;
+package cminuscompiler;
 
 /**
  *
  * @author yiradz
  */
-public class WhileStmt extends Statement{
+public class Declaration {
     
 }
