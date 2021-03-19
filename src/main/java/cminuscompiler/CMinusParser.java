@@ -73,22 +73,65 @@ public class CMinusParser implements Parser {
         //syntax error *here* expecting *this* because of *this* 
     }
     
-    //matchToken(Token T)
+    public void matchToken(Token T){
+        //if token == token yay
+    }
     
     private Statement parseStmt(){
+        switch(currentToken.getTokenType()){
+            case LBRACE:
+                //create new compound stmt
+                break;
+             case IF:
+                 //create new if stmt
+                 break;
+             case WHILE:
+                 //create new while stmt
+                 break;
+             case RETURN:
+                 //create new return stmt
+                 break;
+             case NUM:
+                 Token thisToken;
+                 return createNumExpr(thisToken);
+                 break;
+             case PARANOPEN_TOKEN:
+                 //create new expression
+                 break;
+             case ID:
+                 break;
+             default:
+                 parseError();
+                 return null;
+        }
         
     }
     private Statement parseIfStmt(){
-        Statement returnStmt = new IfStmt();
-        return returnStmt;
+        //match if token
+        //match ( token
+        Statement ifStmt = new IfStmt();
+        //match ) token
+        
+        //check for else
+        return ifStmt;
     }
     private Statement parseWhileStmt(){
-        
+        //match while token
+        //match ( token
+        Statement whStmt = new WhileStmt();
+        //match )
+        return whStmt;
     }
      private Statement parseReturnStmt(){
-        
+         //match return token
+        Statement returnStmt = new ReturnStmt();
+        return returnStmt;
     }
       private Statement parseCompoundStmt(){
+          //match {
+          //something for a loc-decl
+          //something for a stmt
+          //match }
         
     }
      private Expression parseFactor(){
@@ -121,6 +164,9 @@ public class CMinusParser implements Parser {
         
     }
         private Expression parseFunDecl(){
+            //match ( token
+            //new params?
+            //match ) token
         
     }
      private Expression parseTerm(){
@@ -162,6 +208,9 @@ public class CMinusParser implements Parser {
     }
      private Expression parseAdditiveE(){
          Expression lhs = parseTerm();
+         //parseFactor
+         Expression rhs = parseAdditiveEPrime(lhs);
+         return rhs;
         
     }
      private Expression parseAdditiveEPrime(Expression e){
