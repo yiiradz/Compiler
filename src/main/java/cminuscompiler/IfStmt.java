@@ -10,5 +10,11 @@ package cminuscompiler;
  * @author yiradz
  */
 public class IfStmt extends Statement {
+    public IfStmt(){
+        
+    }
+    public IfStmt (Expression e, Statement s1, Statement s2){
+        
+    }
     
 }

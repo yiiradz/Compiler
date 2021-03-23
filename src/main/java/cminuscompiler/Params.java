@@ -9,12 +9,6 @@ package cminuscompiler;
  *
  * @author yiradz
  */
-public class FunctionDecl extends Declaration {
-    public FunctionDecl(){
-        
-    }
-    public FunctionDecl(Params p, Statement cs){
-        
-    }
+public class Params {
     
 }

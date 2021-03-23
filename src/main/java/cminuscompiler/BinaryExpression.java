@@ -5,6 +5,8 @@
  */
 package cminuscompiler;
 
+import cminuscompiler.Token.TokenType;
+
 /**
  *
  * @author yiradz
@@ -12,7 +14,7 @@ package cminuscompiler;
 public class BinaryExpression extends Expression{
     //takes two expressions and an operand 
     //enums?
-    public BinaryExpression (Expression e1, Expression e2, int opType){
-        BinaryExpression be = new BinaryExpression(e1,e2,opType);
+    public BinaryExpression createBinoExpr (TokenType opType, Expression e1, Expression e2){
+        
     }
 }

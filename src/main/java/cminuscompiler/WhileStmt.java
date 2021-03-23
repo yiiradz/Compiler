@@ -10,5 +10,11 @@ package cminuscompiler;
  * @author yiradz
  */
 public class WhileStmt extends Statement{
+    public WhileStmt(){
+        
+    }
     
+    public WhileStmt(Expression e, Statement s){
+        
+    }
 }
