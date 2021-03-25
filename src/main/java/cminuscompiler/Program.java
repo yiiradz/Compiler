@@ -5,13 +5,15 @@
  */
 package cminuscompiler;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author yiradz
  */
 public class Program {
     // decl-list
-   // public ArrayList<decl> = DeclList<decl>;
+    public ArrayList<Declaration> DeclList = new ArrayList<Declaration>() ;
     public void printTree(){
         
     }

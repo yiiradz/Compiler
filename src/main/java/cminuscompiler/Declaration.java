@@ -9,6 +9,6 @@ package cminuscompiler;
  *
  * @author yiradz
  */
-public class Declaration {
+public abstract class Declaration {
     
 }

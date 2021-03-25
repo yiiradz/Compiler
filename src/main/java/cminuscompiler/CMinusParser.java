@@ -5,7 +5,10 @@
  */
 package cminuscompiler;
 
+import static cminuscompiler.CMinusScanner.CMinusScanner;
 import cminuscompiler.Token.TokenType;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 import java.io.IOException;
 
@@ -15,8 +18,14 @@ import java.io.IOException;
  */
 public class CMinusParser implements Parser {
 
-    private Scanner scan;
+    private static CMinusScanner scan = new CMinusScanner();
     private Token currentToken = new Token();
+
+    public CMinusParser(BufferedReader file) {
+        
+        //scan.CMinusScanner(file);
+
+    }
 
     // Addop
     private boolean isAddop(TokenType tt) {
@@ -52,16 +61,12 @@ public class CMinusParser implements Parser {
         }
     }
 
-    public CMinusParser(String file) {
-        scan = new Scanner(file);
-
-    }
-
     public Program parse() {
-        //is this where all the magic happens?
+        //Create a program that populates the arraylist of decls with the tokens from the scanner
+        
         return new Program();
     }
-
+/*
     public void parseError() {
         //syntax error *here* expecting *this* because of *this* 
     }
@@ -249,11 +254,11 @@ public class CMinusParser implements Parser {
 
     private Expression parseTerm() {
         Expression lhs = parseFactor();
-        
-        while (isMulop(currentToken.getTokenType())){
+
+        while (isMulop(currentToken.getTokenType())) {
             Token t = currentToken;
             Expression rhs = parseFactor();
-            lhs = createBinoExpr(t.getTokenType(),lhs, rhs);
+            lhs = createBinoExpr(t.getTokenType(), lhs, rhs);
         }
         return lhs;
     }
@@ -297,26 +302,27 @@ public class CMinusParser implements Parser {
                 return null;
         }
     }
-    
+
     private Expression parseExpressionPrime() {
         switch (currentToken.getTokenType()) {
             //First Sets
             case NUM_TOKEN:
             case PARANOPEN_TOKEN:
                 matchToken(Token.TokenType.PARANOPEN_TOKEN);
-               // new args
+                // new args
                 matchToken(Token.TokenType.PARANCLOSE_TOKEN);
-                return null; /* new args */
+                return null;
+            /* new args 
             case ID_TOKEN:
-            case BRACEOPEN_TOKEN: 
+            case BRACEOPEN_TOKEN:
                 matchToken(Token.TokenType.BRACEOPEN_TOKEN);
                 Expression e = parseExpression();
                 matchToken(Token.TokenType.BRACECLOSE_TOKEN);
                 Expression ep = parseExpressionPrime();
                 return e;
-                
+
             case MULTIPLY_TOKEN:
-            case DIVIDE_TOKEN: 
+            case DIVIDE_TOKEN:
             //From Grammar
             //Follow Sets
             case EQUAL_TOKEN:
@@ -332,9 +338,8 @@ public class CMinusParser implements Parser {
                 parseError();
                 return null;
         }
-            
-    }
 
+    }
 
     private Expression parseExpressionPrimePrime() {
         if (currentToken.getTokenType() == Token.TokenType.EQUAL_TOKEN) {
@@ -343,7 +348,7 @@ public class CMinusParser implements Parser {
             return e;
 
             /*  parseError();
-                 return null; */
+                 return null; 
         } else {
             // simple expression
         }
@@ -381,13 +386,19 @@ public class CMinusParser implements Parser {
     private Expression parseArgs(Expression e) {
         Expression lhs = parseTerm(e);
 
-    }
+    } */
 
     //main method
     public static void main(String args[]) throws IOException {
-        String fileName = "test";
-        String sourceFile = fileName + ".c";
-        Parser myParser = new CMinusParser(sourceFile);
+        BufferedReader br = null;
+        // Read c file into scanner (need to adjust this path name)
+         br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
+         scan.runScanner(br);
+        BufferedReader so = null;
+         so = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/outputfile.txt"));
+         
+        // read in scanner output to parser          
+        Parser myParser = new CMinusParser(so);
         Program myProgram = myParser.parse();
         myProgram.printTree();
 

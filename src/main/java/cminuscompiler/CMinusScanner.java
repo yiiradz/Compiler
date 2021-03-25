@@ -7,6 +7,7 @@ package cminuscompiler;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -333,16 +334,12 @@ public class CMinusScanner {
     }
 
     //main method
-    public static void main(String args[]) throws IOException {
-         BufferedReader br = null;
-        // Read input file (need to adjust this path name)
-         br = new BufferedReader(new FileReader("/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/scanner/input1.txt"));
-        
+    public static void runScanner(BufferedReader br) throws FileNotFoundException, IOException {
         //Call Scanner  
         CMinusScanner(br);
         
         Token token;
-        BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/scanner/outputfile.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/outputfile.txt"));
 
         //Loop through and print the tokens until you the end of file token
         while (true) {

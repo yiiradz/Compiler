@@ -9,7 +9,7 @@ package cminuscompiler;
  *
  * @author yiradz
  */
-public interface Parser {
+public abstract interface Parser {
     public Program parse();
     
 }
