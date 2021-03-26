@@ -23,7 +23,7 @@ public class CMinusParser implements Parser {
 
     public CMinusParser(BufferedReader file) {
         
-        //scan.CMinusScanner(file);
+        scan.CMinusScanner(file);
 
     }
 
@@ -393,12 +393,8 @@ public class CMinusParser implements Parser {
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
          br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
-         scan.runScanner(br);
-        BufferedReader so = null;
-         so = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/outputfile.txt"));
-         
         // read in scanner output to parser          
-        Parser myParser = new CMinusParser(so);
+        Parser myParser = new CMinusParser(br);
         Program myProgram = myParser.parse();
         myProgram.printTree();
 
