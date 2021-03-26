@@ -175,6 +175,10 @@ public class CMinusScanner {
                             case ';':
                                 currentToken.setTokenType(Token.TokenType.SEMICOLON_TOKEN);
                                 break;
+                            case '[':
+                                currentToken.setTokenType(Token.TokenType.BRACKETOPEN_TOKEN);
+                            case ']':
+                                currentToken.setTokenType(Token.TokenType.BRACKETCLOSE_TOKEN);
                             default:
                                 currentToken.setTokenType(Token.TokenType.ERROR_TOKEN);
                                 break;
@@ -187,7 +191,7 @@ public class CMinusScanner {
                             ungetNextChar();
                             save = false;
                             state = Token.StateType.DONE;
-                            currentToken.setTokenType(Token.TokenType.INT_TOKEN);
+                            currentToken.setTokenType(Token.TokenType.NUM_TOKEN);
                         }
                         else {
                             ungetNextChar();
@@ -334,7 +338,12 @@ public class CMinusScanner {
     }
 
     //main method
-    public static void runScanner(BufferedReader br) throws FileNotFoundException, IOException {
+    public void main() throws FileNotFoundException, IOException {
+        
+        BufferedReader br = null;
+        // Read c file into scanner (need to adjust this path name)
+        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/input1.txt"));
+        
         //Call Scanner  
         CMinusScanner(br);
         

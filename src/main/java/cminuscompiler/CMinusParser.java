@@ -68,6 +68,8 @@ public class CMinusParser implements Parser {
     }
 
     public boolean matchToken(TokenType T) {
+
+        //Add to AST?
         //if token == token yay
         if (currentToken.getTokenType() == T) {
             return true;
@@ -81,14 +83,14 @@ public class CMinusParser implements Parser {
         //Start parsing
         Declaration lhs = parseDecl();
         myProgram.DeclList.add(lhs);
-        
+
         //loop for optional rhs
         while (scan.viewNextToken().getTokenType() == TokenType.VOID_TOKEN || scan.viewNextToken().getTokenType() == TokenType.INT_TOKEN) {
             currentToken = scan.getNextToken();
             Declaration rhs = parseDecl();
+            myProgram.DeclList.add(rhs);
         }
 
-        
         return myProgram;
     }
 
@@ -98,7 +100,7 @@ public class CMinusParser implements Parser {
                 currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.ID_TOKEN);
                 Declaration funDecl = parseFunDecl();
-                return funDecl;              
+                return funDecl;
 
             case INT_TOKEN:
                 currentToken = scan.getNextToken();
@@ -116,22 +118,22 @@ public class CMinusParser implements Parser {
     private Declaration parseDeclPrime() {
         switch (currentToken.getTokenType()) {
             case SEMICOLON_TOKEN: // this is a variable declaration
-                //add to AST
+            //add to AST
 
-            case BRACEOPEN_TOKEN: // this is an array declaration
-               currentToken = scan.getNextToken();
-               matchToken(Token.TokenType.INT_TOKEN);
-               currentToken = scan.getNextToken();
-               matchToken(Token.TokenType.BRACECLOSE_TOKEN);
-               currentToken = scan.getNextToken();
-               matchToken(Token.TokenType.SEMICOLON_TOKEN);
-               // add to AST
-               
+            case BRACKETOPEN_TOKEN: // this is an array declaration
+                currentToken = scan.getNextToken();
+                matchToken(Token.TokenType.NUM_TOKEN);
+                currentToken = scan.getNextToken();
+                matchToken(Token.TokenType.BRACKETCLOSE_TOKEN);
+                currentToken = scan.getNextToken();
+                matchToken(Token.TokenType.SEMICOLON_TOKEN);
+                currentToken = scan.getNextToken();
+            // add to AST
 
             case PARANOPEN_TOKEN: // this is a function declaration 
                 currentToken = scan.getNextToken();
                 Declaration funDecl = parseFunDecl();
-                return funDecl; 
+                return funDecl;
 
             // Follow Sets
             default:
@@ -143,8 +145,9 @@ public class CMinusParser implements Parser {
     private Declaration parseFunDecl() {
         //match ( token
         matchToken(Token.TokenType.PARANOPEN_TOKEN);
+        currentToken = scan.getNextToken();
         //new params
-        Params p = parseParams();
+        Param p = parseParams();
         //match ) token
         matchToken(Token.TokenType.PARANCLOSE_TOKEN);
 
@@ -155,6 +158,90 @@ public class CMinusParser implements Parser {
         return fdecl;
     }
 
+    private Param parseParams() {
+
+        switch (currentToken.getTokenType()) {
+            case INT_TOKEN:
+                Param lhs = parseParam();
+
+                while (scan.viewNextToken().getTokenType() == TokenType.COMMA_TOKEN) {
+                    currentToken = scan.getNextToken();
+
+                    Param rhs = parseParam();
+
+                    //store param before we loop
+                }
+                
+                return lhs;
+                
+            case VOID_TOKEN:
+                //store in AST
+                
+            default:
+                parseError();
+                return null;
+        }
+    }
+
+    private Param parseParam() {
+        
+        Param p = new Param();
+        
+        matchToken(TokenType.INT_TOKEN);
+        currentToken = scan.getNextToken();
+        matchToken(TokenType.ID_TOKEN);
+        
+        if (scan.viewNextToken().getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
+            currentToken = scan.getNextToken();
+            matchToken(TokenType.BRACKETOPEN_TOKEN);
+            currentToken = scan.getNextToken();
+            matchToken(TokenType.BRACKETCLOSE_TOKEN);
+        }
+        
+        //Add it to the param before returning it
+        
+        return p;
+    }
+
+    private Statement parseCompoundStmt() {
+        
+        Statement cmpdStmt = new CompoundStmt();
+        
+        matchToken(TokenType.BRACEOPEN_TOKEN);
+        //something for a loc-decl
+        while (scan.viewNextToken().getTokenType() == TokenType.INT_TOKEN) {
+            matchToken(TokenType.INT_TOKEN);
+            currentToken = scan.getNextToken();
+            matchToken(TokenType.ID_TOKEN);
+            
+            if (scan.viewNextToken().getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
+                currentToken = scan.getNextToken();
+                matchToken(TokenType.BRACKETOPEN_TOKEN);
+                currentToken = scan.getNextToken();
+                matchToken(TokenType.NUM_TOKEN);
+                currentToken = scan.getNextToken();
+                matchToken(TokenType.BRACKETCLOSE_TOKEN);
+            }
+        }
+        
+        //something for a stmt
+        while (scan.viewNextToken().getTokenType() == TokenType.BRACEOPEN_TOKEN ||
+                scan.viewNextToken().getTokenType() == TokenType.IF_TOKEN ||
+                scan.viewNextToken().getTokenType() == TokenType.WHILE_TOKEN ||
+                scan.viewNextToken().getTokenType() == TokenType.RETURN_TOKEN ||
+                scan.viewNextToken().getTokenType() == TokenType.NUM_TOKEN ||
+                scan.viewNextToken().getTokenType() == TokenType.PARANOPEN_TOKEN ||
+                scan.viewNextToken().getTokenType() == TokenType.ID_TOKEN) {
+            Statement stmt = parseStmt();
+            
+            return stmt;
+        }
+
+        matchToken(TokenType.BRACECLOSE_TOKEN);
+        
+        return cmpdStmt;
+    }
+    
     private Statement parseStmt() {
         switch (currentToken.getTokenType()) {
             case BRACEOPEN_TOKEN:
@@ -243,20 +330,12 @@ public class CMinusParser implements Parser {
         return returnStmt;
     }
 
-    private Statement parseCompoundStmt() {
-        matchToken(Token.TokenType.BRACEOPEN_TOKEN);
-        //something for a loc-decl
-        //something for a stmt
-        matchToken(Token.TokenType.BRACECLOSE_TOKEN);
-
-    }
-
     private Expression parseFactor() {
         switch (currentToken.getTokenType()) {
             case PARANOPEN_TOKEN:
                 //nextToken
                 Expression returnE = parseExpression();
-                matchToken(Token.TokenType.PARANOPEN_TOKEN);
+                matchToken(TokenType.PARANOPEN_TOKEN);
                 return returnE;
 
             case INT_TOKEN:
@@ -274,17 +353,6 @@ public class CMinusParser implements Parser {
                 return null;
         }
 
-    }
-
-    private Params parseParams() {
-        Param p = parseParam();
-    }
-
-    private Param parseParam() {
-        //INT
-
-        //ID
-        // if [
     }
 
     private Expression parseTerm() {

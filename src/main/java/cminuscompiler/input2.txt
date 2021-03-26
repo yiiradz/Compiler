@@ -1,4 +1,4 @@
-int main {
+int main ( ) {
     if (a == 5) {
         while (true) {
             break;

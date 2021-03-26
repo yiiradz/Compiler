@@ -23,6 +23,7 @@ public class Token {
         EOF_TOKEN,
         ERROR_TOKEN,
         ID_TOKEN,
+        NUM_TOKEN,
         //2 character symbol tokens
         LESSTHANEQUAL_TOKEN,
         GREATERTHANEQUAL_TOKEN,
@@ -40,6 +41,8 @@ public class Token {
         MINUS_TOKEN,
         BRACEOPEN_TOKEN,
         BRACECLOSE_TOKEN,
+        BRACKETOPEN_TOKEN,
+        BRACKETCLOSE_TOKEN,
         PARANOPEN_TOKEN,
         PARANCLOSE_TOKEN,
         MULTIPLY_TOKEN,
