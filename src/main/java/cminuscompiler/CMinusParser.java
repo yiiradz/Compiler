@@ -5,7 +5,7 @@
  */
 package cminuscompiler;
 
-import static cminuscompiler.CMinusScanner.CMinusScanner;
+//import static cminuscompiler.CMinusScanner.CMinusScanner;
 import cminuscompiler.Token.TokenType;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -20,7 +20,8 @@ public class CMinusParser implements Parser {
 
     private static CMinusScanner scan = new CMinusScanner();
     private Token currentToken = new Token();
-    private Program myProgram = new Program();
+    private static Program myProgram = new Program();
+    TokenType errorTokenType = TokenType.ERROR_TOKEN;
 
     public CMinusParser(BufferedReader file) {
 
@@ -62,8 +63,8 @@ public class CMinusParser implements Parser {
         }
     }
 
-    public void parseError() {
-        //syntax error *here* expecting *this* because of *this* 
+    public void parseError(/*TokenType curToken, TokenType matchedToken*/) {
+        //System.out.println("ERROR: Syntax Error.  Received: " + curToken + ", expected: " + matchedToken + ".  Parsing failed.");//syntax error *here* expecting *this* because of *this* 
     }
 
     public boolean matchToken(TokenType T) {
@@ -71,7 +72,7 @@ public class CMinusParser implements Parser {
         if (currentToken.getTokenType() == T) {
             return true;
         } else {
-            parseError();
+            parseError(/*currentToken.getTokenType(), T*/);
         }
         return false;
     }
@@ -80,20 +81,27 @@ public class CMinusParser implements Parser {
         //Start parsing
         Declaration lhs = parseDecl();
         myProgram.DeclList.add(lhs);
-        scan.getNextToken();
-        //check for optional rhs
+        
+        //loop for optional rhs
+        while (scan.viewNextToken().getTokenType() == TokenType.VOID_TOKEN || scan.viewNextToken().getTokenType() == TokenType.INT_TOKEN) {
+            currentToken = scan.getNextToken();
+            Declaration rhs = parseDecl();
+        }
+
+        
+        return myProgram;
     }
 
     private Declaration parseDecl() {
         switch (currentToken.getTokenType()) {
             case VOID_TOKEN:
-                scan.getNextToken();
+                currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.ID_TOKEN);
                 Declaration funDecl = parseFunDecl();
                 return funDecl;              
 
             case INT_TOKEN:
-                scan.getNextToken();
+                currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.ID_TOKEN);
                 Declaration declPrime = parseDeclPrime();
                 return declPrime;
@@ -111,17 +119,17 @@ public class CMinusParser implements Parser {
                 //add to AST
 
             case BRACEOPEN_TOKEN: // this is an array declaration
-                scan.getNextToken();
+               currentToken = scan.getNextToken();
                matchToken(Token.TokenType.INT_TOKEN);
-               scan.getNextToken();
+               currentToken = scan.getNextToken();
                matchToken(Token.TokenType.BRACECLOSE_TOKEN);
-               scan.getNextToken();
+               currentToken = scan.getNextToken();
                matchToken(Token.TokenType.SEMICOLON_TOKEN);
                // add to AST
                
 
             case PARANOPEN_TOKEN: // this is a function declaration 
-                scan.getNextToken();
+                currentToken = scan.getNextToken();
                 Declaration funDecl = parseFunDecl();
                 return funDecl; 
 

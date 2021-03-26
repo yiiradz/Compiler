@@ -1,0 +1,236 @@
+// JFlex example from the user Manual
+
+//Yayira Dzamesi & Matthew Oh
+/** Lexer of the C- programming language. */
+
+// User code (package declarations/imports)
+
+package scanner;
+
+import java.io.IOException;  
+
+// Options & Declarations
+
+%%
+
+%public
+%class CMinusJFScanner
+%type Token
+%init{
+
+     this.zzReader = in;
+     nextToken = yylex();
+
+%init}
+
+%initthrow{
+     IOException
+%initthrow}
+
+%{
+
+    Token nextToken;
+
+
+
+    Token getNextToken() throws IOException  {
+
+        Token returnToken = nextToken;
+        if (nextToken.getTokenType() != Token.TokenType.EOF_TOKEN) {
+            nextToken = yylex();
+        }
+        return returnToken;
+    }
+
+    Token viewNextToken() {
+        return nextToken;
+    }
+
+%}
+
+Number = [:digit:]+
+
+Identifier = [:letter:]+
+
+ErrorIdent = {Identifier}[:digit:]+
+
+ErrorNum = {Number}[:letter:]+
+
+LineTerminator = \r|\n|\r\n
+
+WhiteSpace = {LineTerminator} | [ \t\f]
+
+TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+
+/* comments */
+Comment = {TraditionalComment} 
+
+%%
+
+<YYINITIAL> {
+
+// Lexical Rules
+
+ /* keywords */
+ "if"           { return new Token(Token.TokenType.IF_TOKEN, yytext()); }
+ "else"            { return new Token(Token.TokenType.ELSE_TOKEN, yytext()); }
+ "int"              { return new Token(Token.TokenType.INT_TOKEN, yytext()); }
+ "void"              { return new Token(Token.TokenType.VOID_TOKEN, yytext()); }
+ "while"              { return new Token(Token.TokenType.WHILE_TOKEN, yytext()); }
+ "return"              { return new Token(Token.TokenType.RETURN_TOKEN, yytext()); }
+
+  /* separators */
+  "("                            { return new Token(Token.TokenType.PARANOPEN_TOKEN, yytext()); }
+  ")"                            { return new Token(Token.TokenType.PARANCLOSE_TOKEN, yytext()); }
+  "{"                            { return new Token(Token.TokenType.BRACEOPEN_TOKEN, yytext()); }
+  "}"                            { return new Token(Token.TokenType.BRACECLOSE_TOKEN, yytext()); }
+  ";"                            { return new Token(Token.TokenType.SEMICOLON_TOKEN, yytext()); }
+  "."                            { return new Token(Token.TokenType.PERIOD_TOKEN, yytext()); }
+
+ /* operators */
+  "="                            { return new Token(Token.TokenType.EQUAL_TOKEN, yytext()); }
+  ">"                            { return new Token(Token.TokenType.GREATERTHAN_TOKEN, yytext()); }
+  "<"                            { return new Token(Token.TokenType.LESSTHAN_TOKEN, yytext()); }
+  "+"                            { return new Token(Token.TokenType.PLUS_TOKEN, yytext()); }
+  "-"                            { return new Token(Token.TokenType.MINUS_TOKEN, yytext()); }
+  "*"                            { return new Token(Token.TokenType.MULTIPLY_TOKEN, yytext()); }
+  "/"                            { return new Token(Token.TokenType.DIVIDE_TOKEN, yytext()); }
+  "<="                            { return new Token(Token.TokenType.LESSTHANEQUAL_TOKEN, yytext()); }
+  ">="                            { return new Token(Token.TokenType.GREATERTHANEQUAL_TOKEN, yytext()); }
+  "=="                            { return new Token(Token.TokenType.EQUALEQUAL_TOKEN, yytext()); }
+  "+="                            { return new Token(Token.TokenType.PLUSEQUAL_TOKEN, yytext()); }
+  "++"                            { return new Token(Token.TokenType.PLUSPLUS_TOKEN, yytext()); }
+  "-="                            { return new Token(Token.TokenType.MINUSEQUAL_TOKEN, yytext()); }
+  "--"                            { return new Token(Token.TokenType.MINUSMINUS_TOKEN, yytext()); }
+  "!="                            { return new Token(Token.TokenType.NOTEQUAL_TOKEN, yytext()); }
+
+
+
+
+  /* comments */
+  {Comment}                      { /* ignore */ }
+
+  /* whitespace */
+  {WhiteSpace}                   { /* ignore */ }
+
+  /*Digit*/
+  {Number}			 { return new Token(Token.TokenType.INT_TOKEN, yytext()); }
+
+  /*Identifier*/
+  {Identifier}			 { return new Token(Token.TokenType.ID_TOKEN, yytext()); }
+
+  /*Potential Lexical Errors*/
+  {ErrorIdent}			 { return new Token(Token.TokenType.ERROR_TOKEN, yytext()); }
+  {ErrorNum}			 { return new Token(Token.TokenType.ERROR_TOKEN, yytext()); }
+
+}
+
+<<EOF>>                         { return new Token(Token.TokenType.EOF_TOKEN, yytext()); }
+
+
+
+
+
+
+
+Input & Ouput Files:
+
+input1.txt
+
+int main { int 123anc > 1 ; int a != 2; return }
+
+
+INT_TOKEN int
+ID_TOKEN main
+BRACEOPEN_TOKEN {
+INT_TOKEN int
+ERROR_TOKEN 123anc
+GREATERTHAN_TOKEN >
+INT_TOKEN 1
+SEMICOLON_TOKEN ;
+INT_TOKEN int
+ID_TOKEN a
+NOTEQUAL_TOKEN !=
+INT_TOKEN 2
+SEMICOLON_TOKEN ;
+RETURN_TOKEN return
+BRACECLOSE_TOKEN }
+EOF_TOKEN 
+
+
+input2.txt
+
+int main {
+    if (a == 5) {
+        while (true) {
+            break;
+        }
+    }
+    return 0;
+}
+
+
+INT_TOKEN int
+ID_TOKEN main
+BRACEOPEN_TOKEN {
+IF_TOKEN if
+PARANOPEN_TOKEN (
+ID_TOKEN a
+EQUALEQUAL_TOKEN ==
+INT_TOKEN 5
+PARANCLOSE_TOKEN )
+BRACEOPEN_TOKEN {
+WHILE_TOKEN while
+PARANOPEN_TOKEN (
+ID_TOKEN true
+PARANCLOSE_TOKEN )
+BRACEOPEN_TOKEN {
+ID_TOKEN break
+SEMICOLON_TOKEN ;
+BRACECLOSE_TOKEN }
+BRACECLOSE_TOKEN }
+RETURN_TOKEN return
+INT_TOKEN 0
+SEMICOLON_TOKEN ;
+BRACECLOSE_TOKEN }
+EOF_TOKEN 
+
+
+input3.txt
+
+int main { int a = 1 + 2; return }
+
+
+INT_TOKEN int
+ID_TOKEN main
+BRACEOPEN_TOKEN {
+INT_TOKEN int
+ID_TOKEN a
+EQUAL_TOKEN =
+INT_TOKEN 1
+PLUS_TOKEN +
+INT_TOKEN 2
+SEMICOLON_TOKEN ;
+RETURN_TOKEN return
+BRACECLOSE_TOKEN }
+EOF_TOKEN 
+
+
+input4.txt
+
+int main { int 123anc = 1 + 2; return }
+
+
+INT_TOKEN int
+ID_TOKEN main
+BRACEOPEN_TOKEN {
+INT_TOKEN int
+ERROR_TOKEN 123anc
+EQUAL_TOKEN =
+INT_TOKEN 1
+PLUS_TOKEN +
+INT_TOKEN 2
+SEMICOLON_TOKEN ;
+RETURN_TOKEN return
+BRACECLOSE_TOKEN }
+EOF_TOKEN 

@@ -36,7 +36,7 @@ public class CMinusScanner {
         nextToken = scanToken();
     }
 
-    static Token getNextToken() {
+    Token getNextToken() {
 
         Token returnToken = nextToken;
         if (nextToken.getTokenType() != Token.TokenType.EOF_TOKEN) {
@@ -45,7 +45,7 @@ public class CMinusScanner {
         return returnToken;
     }
 
-    static Token viewNextToken() {
+    Token viewNextToken() {
         return nextToken;
     }
 
