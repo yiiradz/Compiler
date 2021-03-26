@@ -20,9 +20,10 @@ public class CMinusParser implements Parser {
 
     private static CMinusScanner scan = new CMinusScanner();
     private Token currentToken = new Token();
+    private Program myProgram = new Program();
 
     public CMinusParser(BufferedReader file) {
-        
+
         scan.CMinusScanner(file);
 
     }
@@ -61,18 +62,89 @@ public class CMinusParser implements Parser {
         }
     }
 
-    public Program parse() {
-        //Create a program that populates the arraylist of decls with the tokens from the scanner
-        
-        return new Program();
-    }
-/*
     public void parseError() {
         //syntax error *here* expecting *this* because of *this* 
     }
 
-    public void matchToken(TokenType T) {
+    public boolean matchToken(TokenType T) {
         //if token == token yay
+        if (currentToken.getTokenType() == T) {
+            return true;
+        } else {
+            parseError();
+        }
+        return false;
+    }
+
+    public Program parse() {
+        //Start parsing
+        Declaration lhs = parseDecl();
+        myProgram.DeclList.add(lhs);
+        scan.getNextToken();
+        //check for optional rhs
+    }
+
+    private Declaration parseDecl() {
+        switch (currentToken.getTokenType()) {
+            case VOID_TOKEN:
+                scan.getNextToken();
+                matchToken(Token.TokenType.ID_TOKEN);
+                Declaration funDecl = parseFunDecl();
+                return funDecl;              
+
+            case INT_TOKEN:
+                scan.getNextToken();
+                matchToken(Token.TokenType.ID_TOKEN);
+                Declaration declPrime = parseDeclPrime();
+                return declPrime;
+
+            default:
+                parseError();
+                return null;
+        }
+
+    }
+
+    private Declaration parseDeclPrime() {
+        switch (currentToken.getTokenType()) {
+            case SEMICOLON_TOKEN: // this is a variable declaration
+                //add to AST
+
+            case BRACEOPEN_TOKEN: // this is an array declaration
+                scan.getNextToken();
+               matchToken(Token.TokenType.INT_TOKEN);
+               scan.getNextToken();
+               matchToken(Token.TokenType.BRACECLOSE_TOKEN);
+               scan.getNextToken();
+               matchToken(Token.TokenType.SEMICOLON_TOKEN);
+               // add to AST
+               
+
+            case PARANOPEN_TOKEN: // this is a function declaration 
+                scan.getNextToken();
+                Declaration funDecl = parseFunDecl();
+                return funDecl; 
+
+            // Follow Sets
+            default:
+                parseError();
+                return null;
+        }
+    }
+
+    private Declaration parseFunDecl() {
+        //match ( token
+        matchToken(Token.TokenType.PARANOPEN_TOKEN);
+        //new params
+        Params p = parseParams();
+        //match ) token
+        matchToken(Token.TokenType.PARANCLOSE_TOKEN);
+
+        Statement cmpStmt = parseCompoundStmt();
+
+        Declaration fdecl = new FunctionDecl(p, cmpStmt);
+
+        return fdecl;
     }
 
     private Statement parseStmt() {
@@ -97,7 +169,7 @@ public class CMinusParser implements Parser {
                 Statement returnStmt = new ReturnStmt();
                 return returnStmt;
 
-            case NUM_TOKEN:
+            case INT_TOKEN:
                 //create new num expr
                 Token thisToken = currentToken;
                 return createNumExpr(thisToken);
@@ -179,12 +251,12 @@ public class CMinusParser implements Parser {
                 matchToken(Token.TokenType.PARANOPEN_TOKEN);
                 return returnE;
 
-            case NUM_TOKEN:
+            case INT_TOKEN:
                 Token thisToken = currentToken;
                 NumExpression n = new NumExpression();
                 return n.createNumExpr(thisToken);
 
-            case VARCALL_TOKEN:
+            case 0:
                 Expression varE = parseVarCall();
                 return varE;
 
@@ -194,51 +266,6 @@ public class CMinusParser implements Parser {
                 return null;
         }
 
-    }
-
-    private Declaration parseDecl() {
-
-    }
-
-    private Declaration parseDeclPrime() {
-        switch (currentToken.getTokenType()) {
-            case SEMICOLON_TOKEN: // this is a variable declaration
-                //match semicolon
-                matchToken(Token.TokenType.SEMICOLON_TOKEN);
-            // parse var decl?
-
-            case BRACEOPEN_TOKEN: // this is an array declaration
-                // match open brace
-                matchToken(Token.TokenType.BRACEOPEN_TOKEN);
-            //parse arraydecl
-
-            case PARANOPEN_TOKEN: // this is a function declaration 
-                // match open paran 
-                matchToken(Token.TokenType.PARANOPEN_TOKEN);
-                // parse fundecl
-                Declaration fdecl = parseFunDecl();
-                return fdecl;
-
-            // Follow Sets
-            default:
-                parseError();
-                return null;
-        }
-    }
-
-    private Declaration parseFunDecl() {
-        //match ( token
-        matchToken(Token.TokenType.PARANOPEN_TOKEN);
-        //new params
-        Params p = parseParams();
-        //match ) token
-        matchToken(Token.TokenType.PARANCLOSE_TOKEN);
-
-        Statement cmpStmt = parseCompoundStmt();
-
-        Declaration fdecl = new FunctionDecl(p, cmpStmt);
-
-        return fdecl;
     }
 
     private Params parseParams() {
@@ -273,9 +300,9 @@ public class CMinusParser implements Parser {
 
     private Expression parseExpression() {
         switch (currentToken.getTokenType()) {
-            case NUM_TOKEN:
+            case INT_TOKEN:
                 Token thisToken = currentToken;
-                matchToken(Token.TokenType.NUM_TOKEN);
+                matchToken(Token.TokenType.INT_TOKEN);
                 NumExpression n = new NumExpression();
                 Expression se = parseSimpleExpressionPrime(); // or should this be create new se?
                 return n.createNumExpr(thisToken);
@@ -306,13 +333,13 @@ public class CMinusParser implements Parser {
     private Expression parseExpressionPrime() {
         switch (currentToken.getTokenType()) {
             //First Sets
-            case NUM_TOKEN:
+            case INT_TOKEN:
             case PARANOPEN_TOKEN:
                 matchToken(Token.TokenType.PARANOPEN_TOKEN);
                 // new args
                 matchToken(Token.TokenType.PARANCLOSE_TOKEN);
                 return null;
-            /* new args 
+            // new args 
             case ID_TOKEN:
             case BRACEOPEN_TOKEN:
                 matchToken(Token.TokenType.BRACEOPEN_TOKEN);
@@ -345,10 +372,10 @@ public class CMinusParser implements Parser {
         if (currentToken.getTokenType() == Token.TokenType.EQUAL_TOKEN) {
             matchToken(Token.TokenType.EQUAL_TOKEN);
             Expression e = parseExpression();
-            return e;
+            //return e;
 
-            /*  parseError();
-                 return null; 
+            parseError();
+            return null;
         } else {
             // simple expression
         }
@@ -386,16 +413,16 @@ public class CMinusParser implements Parser {
     private Expression parseArgs(Expression e) {
         Expression lhs = parseTerm(e);
 
-    } */
+    }
 
     //main method
     public static void main(String args[]) throws IOException {
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
-         br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
+        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
         // read in scanner output to parser          
         Parser myParser = new CMinusParser(br);
-        Program myProgram = myParser.parse();
+        myProgram = myParser.parse();
         myProgram.printTree();
 
     }

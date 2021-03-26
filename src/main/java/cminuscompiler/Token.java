@@ -23,8 +23,6 @@ public class Token {
         EOF_TOKEN,
         ERROR_TOKEN,
         ID_TOKEN,
-        NUM_TOKEN,
-        VARCALL_TOKEN,
         //2 character symbol tokens
         LESSTHANEQUAL_TOKEN,
         GREATERTHANEQUAL_TOKEN,

@@ -13,7 +13,8 @@ import java.util.ArrayList;
  */
 public class Program {
     // decl-list
-    public ArrayList<Declaration> DeclList = new ArrayList<Declaration>() ;
+    public ArrayList<Declaration> DeclList = new ArrayList<>();
+    
     public void printTree(){
         
     }

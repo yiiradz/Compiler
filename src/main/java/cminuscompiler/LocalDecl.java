@@ -5,13 +5,10 @@
  */
 package cminuscompiler;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author yiradz
  */
-public class CompoundStmt extends Statement{
-    // compound stmt is arraylist of local decls and statements
-    public ArrayList<LocalDecl> cmpd = new ArrayList<>();
+public class LocalDecl extends Declaration{
+    
 }

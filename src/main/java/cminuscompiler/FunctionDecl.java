@@ -5,11 +5,15 @@
  */
 package cminuscompiler;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author yiradz
  */
 public class FunctionDecl extends Declaration {
+    // name + return type
+    public ArrayList<Params> parameters = new ArrayList<>();
     public FunctionDecl(){
         
     }

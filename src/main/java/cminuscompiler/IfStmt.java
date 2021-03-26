@@ -10,6 +10,7 @@ package cminuscompiler;
  * @author yiradz
  */
 public class IfStmt extends Statement {
+    // children + instance variables? abstract pointers to abstract classes
     public IfStmt(){
         
     }
