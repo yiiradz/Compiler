@@ -13,11 +13,11 @@ import java.util.ArrayList;
  */
 public class FunctionDecl extends Declaration {
     // name + return type
-    public ArrayList<Params> parameters = new ArrayList<>();
+    public ArrayList<Param> parameters = new ArrayList<>();
     public FunctionDecl(){
         
     }
-    public FunctionDecl(Params p, Statement cs){
+    public FunctionDecl(Param p, Statement cs){
         
     }
     

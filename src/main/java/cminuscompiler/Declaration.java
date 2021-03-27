@@ -10,5 +10,25 @@ package cminuscompiler;
  * @author yiradz
  */
 public abstract class Declaration {
+    private Object ID;
+    private Object NUM;
+      //Getter
+    public Object getID() {
+        return ID;
+    }
     
+    //Setter
+    public void setID(Object i) {
+        this.ID = i;
+    }
+    
+    //Getter
+    public Object getNUM() {
+        return NUM;
+    }
+    
+    //Setter
+    public void setNUM(Object n) {
+        this.NUM = n;
+    }
 }

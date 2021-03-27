@@ -11,4 +11,9 @@ package cminuscompiler;
  */
 public class LocalDecl extends Declaration{
     
+    public LocalDecl(){
+        
+    }
+    
+    
 }
