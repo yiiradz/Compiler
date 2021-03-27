@@ -408,26 +408,24 @@ public class CMinusParser implements Parser {
 
     private Expression parseExpressionPrime() {
         switch (currentToken.getTokenType()) {
-            //First Sets
-            case NUM_TOKEN:
-                matchToken(Token.TokenType.NUM_TOKEN);
+            case EQUAL_TOKEN:
+
+            case BRACKETOPEN_TOKEN:
+                currentToken = scan.getNextToken();
+                matchToken(Token.TokenType.BRACKETOPEN_TOKEN);
+                Expression e = parseExpression();
+                currentToken = scan.getNextToken();
+                matchToken(Token.TokenType.BRACKETCLOSE_TOKEN);
+                Expression ep = parseExpressionPrimePrime();
+                return e;
 
             case PARANOPEN_TOKEN:
                 matchToken(Token.TokenType.PARANOPEN_TOKEN);
                 // new args
+                Expression args = parseArgs();
                 matchToken(Token.TokenType.PARANCLOSE_TOKEN);
                 return null;
             // new args 
-
-            case ID_TOKEN:
-                matchToken(Token.TokenType.ID_TOKEN);
-
-            case BRACKETOPEN_TOKEN:
-                matchToken(Token.TokenType.BRACKETOPEN_TOKEN);
-                Expression e = parseExpression();
-                matchToken(Token.TokenType.BRACKETCLOSE_TOKEN);
-                Expression ep = parseExpressionPrime();
-                return e;
 
             case MULTIPLY_TOKEN:
                 matchToken(Token.TokenType.MULTIPLY_TOKEN);

@@ -11,5 +11,10 @@ package cminuscompiler;
  */
 public class NumExpression extends Expression {
     
+    SimpleE splExpr;
+    
+    public NumExpression(SimpleE se) {
+        SplExpr = se;
+    }
 
 }

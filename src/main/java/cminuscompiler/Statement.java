@@ -5,10 +5,12 @@
  */
 package cminuscompiler;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author yiradz
  */
 public abstract class Statement {
-    
+    public ArrayList<Statement> stmtList = new ArrayList<Statement>();
 }

@@ -14,4 +14,22 @@ import java.util.ArrayList;
 public class CompoundStmt extends Statement{
     // compound stmt is arraylist of local decls and statements
     public ArrayList<LocalDecl> cmpd = new ArrayList<>();
+    
+    LocalDecl localDecl;
+    Statement stmt;
+    
+    public CompoundStmt(LocalDecl ld, Statement s) {
+        localDecl = ld;
+        stmt = s;
+    }
+    
+    public CompoundStmt(LocalDecl ld) {
+        localDecl = ld;
+        stmt = null;
+    }
+    
+    public CompoundStmt(Statement s) {
+        localDecl = null;
+        stmt = s;
+    }
 }
