@@ -9,15 +9,6 @@ package cminuscompiler;
  *
  * @author yiradz
  */
-public abstract class Expression {
-    public Expression createNumExpr(Token t){
-        Expression n = null;
-        return n;
-    }
+public class SimpleE extends Expression{
     
-    public Expression createIDExpr(Token t){
-       Expression n = null;
-        return n; 
-    }
-  
 }

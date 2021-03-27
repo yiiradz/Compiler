@@ -333,9 +333,9 @@ public class CMinusParser implements Parser {
         matchToken(Token.TokenType.IF_TOKEN);
         currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANOPEN_TOKEN);
-        
+
         Expression ifExpr = parseExpression();
-        
+
         currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANCLOSE_TOKEN);
 
@@ -345,6 +345,7 @@ public class CMinusParser implements Parser {
         //check for else
         if (scan.viewNextToken().getTokenType() == Token.TokenType.ELSE_TOKEN) {
             //nextToken
+            currentToken = scan.getNextToken();
             elseStmt = parseStmt();
         }
         Statement ifStmt = new IfStmt(ifExpr, thenStmt, elseStmt);
@@ -355,9 +356,9 @@ public class CMinusParser implements Parser {
         matchToken(Token.TokenType.WHILE_TOKEN);
         currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANOPEN_TOKEN);
-        
+
         Expression whExpr = parseExpression();
-        
+
         currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANCLOSE_TOKEN);
 
@@ -373,25 +374,25 @@ public class CMinusParser implements Parser {
         Statement returnStmt = new ReturnStmt();
         return returnStmt;
     }
-    
+
     private Expression parseExpression() {
         switch (currentToken.getTokenType()) {
             case NUM_TOKEN:
                 Token thisToken = currentToken;
                 matchToken(Token.TokenType.NUM_TOKEN);
                 NumExpression n = new NumExpression();
-                Expression se = parseSimpleExpressionPrime(); 
+                Expression se = parseSimpleExpressionPrime();
                 return n.createNumExpr(thisToken);
 
             case PARANOPEN_TOKEN:
                 matchToken(Token.TokenType.PARANOPEN_TOKEN);
-                //create Expr or parse recursively?
-                Expression e = null;
+                //create Expr
+                Expression e = new BinaryExpression();
                 currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.PARANCLOSE_TOKEN);
-                
-                se = parseSimpleExpressionPrime(); // or should this be create new se?
-                
+
+                se = parseSimpleExpressionPrime();
+
                 return e; // e needs to be a combination expr of e and se
 
             case ID_TOKEN:
@@ -408,34 +409,32 @@ public class CMinusParser implements Parser {
     private Expression parseExpressionPrime() {
         switch (currentToken.getTokenType()) {
             //First Sets
-            case INT_TOKEN:
+            case NUM_TOKEN:
+                matchToken(Token.TokenType.NUM_TOKEN);
+
             case PARANOPEN_TOKEN:
                 matchToken(Token.TokenType.PARANOPEN_TOKEN);
                 // new args
                 matchToken(Token.TokenType.PARANCLOSE_TOKEN);
                 return null;
             // new args 
+
             case ID_TOKEN:
-            case BRACEOPEN_TOKEN:
-                matchToken(Token.TokenType.BRACEOPEN_TOKEN);
+                matchToken(Token.TokenType.ID_TOKEN);
+
+            case BRACKETOPEN_TOKEN:
+                matchToken(Token.TokenType.BRACKETOPEN_TOKEN);
                 Expression e = parseExpression();
-                matchToken(Token.TokenType.BRACECLOSE_TOKEN);
+                matchToken(Token.TokenType.BRACKETCLOSE_TOKEN);
                 Expression ep = parseExpressionPrime();
                 return e;
 
             case MULTIPLY_TOKEN:
+                matchToken(Token.TokenType.MULTIPLY_TOKEN);
+
             case DIVIDE_TOKEN:
-            //From Grammar
-            //Follow Sets
-            case EQUAL_TOKEN:
-                matchToken(Token.TokenType.EQUAL_TOKEN);
-                e = parseExpression();
-                return e;
-            //Follow Sets
-            case SEMICOLON_TOKEN:
-            case PARANCLOSE_TOKEN:
-            case BRACECLOSE_TOKEN:
-            case COMMA_TOKEN:
+                matchToken(Token.TokenType.DIVIDE_TOKEN);
+
             default:
                 parseError();
                 return null;
@@ -444,21 +443,51 @@ public class CMinusParser implements Parser {
     }
 
     private Expression parseExpressionPrimePrime() {
-        if (currentToken.getTokenType() == Token.TokenType.EQUAL_TOKEN) {
+        if (scan.viewNextToken().getTokenType() == Token.TokenType.EQUAL_TOKEN) {
             matchToken(Token.TokenType.EQUAL_TOKEN);
             Expression e = parseExpression();
-            //return e;
-
-            parseError();
-            return null;
+            return e;
         } else {
-            // simple expression
+            Expression se = parseSimpleExpressionPrime();
+            return se;
         }
-        // First + Follow Sets
 
     }
 
     private Expression parseSimpleExpressionPrime() {
+
+        Expression aepExpr = parseAdditiveEPrime();
+
+        currentToken = scan.getNextToken();
+        //check for AE
+        if (isRelop(scan.viewNextToken().getTokenType())) {
+            currentToken = scan.getNextToken();
+            Expression aeExpr = parseAdditiveE();
+        }
+        Expression se = new SimpleE(); // this probably isn't right..
+        return se;
+
+    }
+
+    private Expression parseAdditiveE() {
+        Expression lhs = parseFactor();
+        while(isMulop((scan.viewNextToken().getTokenType()))){
+            Token t = scan.getNextToken();
+            Expression rhs = parseFactor();
+            lhs = createBinoExpr(t.getTokenType(), lhs, rhs);
+            
+        }
+        return lhs;
+
+    }
+
+    private Expression parseAdditiveEPrime() {
+        Expression lhs = parseTerm();
+
+    }
+
+    private Expression parseAdditiveEPrime(Expression e) {
+        Expression lhs = parseTerm(e);
 
     }
 
@@ -504,19 +533,6 @@ public class CMinusParser implements Parser {
     }
 
     private Expression parseTermPrime() {
-
-    }
-
-    private Expression parseAdditiveE() {
-        Expression lhs = parseTerm();
-        //parseFactor
-        Expression rhs = parseAdditiveEPrime(lhs);
-        return rhs;
-
-    }
-
-    private Expression parseAdditiveEPrime(Expression e) {
-        Expression lhs = parseTerm(e);
 
     }
 
