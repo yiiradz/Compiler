@@ -97,14 +97,18 @@ public class CMinusParser implements Parser {
     private Declaration parseDecl() {
         switch (currentToken.getTokenType()) {
             case VOID_TOKEN:
+                matchToken(Token.TokenType.VOID_TOKEN);
                 currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.ID_TOKEN);
+                currentToken = scan.getNextToken();
                 Declaration funDecl = parseFunDecl();
                 return funDecl;
 
             case INT_TOKEN:
+                matchToken(Token.TokenType.INT_TOKEN);
                 currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.ID_TOKEN);
+                currentToken = scan.getNextToken();
                 Declaration declPrime = parseDeclPrime();
                 return declPrime;
 
@@ -121,6 +125,7 @@ public class CMinusParser implements Parser {
             //add to AST
 
             case BRACKETOPEN_TOKEN: // this is an array declaration
+                matchToken(Token.TokenType.BRACKETOPEN_TOKEN);
                 currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.NUM_TOKEN);
                 currentToken = scan.getNextToken();
@@ -131,7 +136,8 @@ public class CMinusParser implements Parser {
             // add to AST
 
             case PARANOPEN_TOKEN: // this is a function declaration 
-                currentToken = scan.getNextToken();
+                matchToken(Token.TokenType.PARANOPEN_TOKEN);
+                currentToken = scan.getNextToken(); // TODO: IS THIS LINE NEEDED?! Do we need the next token before we parse? And do we need to parse on smthg?
                 Declaration funDecl = parseFunDecl();
                 return funDecl;
 
@@ -147,11 +153,12 @@ public class CMinusParser implements Parser {
         currentToken = scan.getNextToken();
         //new params
         Param p = parseParams();
+        currentToken = scan.getNextToken();
         //match ) token
         matchToken(Token.TokenType.PARANCLOSE_TOKEN);
-
+        currentToken = scan.getNextToken();
         Statement cmpStmt = parseCompoundStmt();
-
+        
         Declaration fdecl = new FunctionDecl(p, cmpStmt);
 
         return fdecl;
@@ -161,8 +168,10 @@ public class CMinusParser implements Parser {
 
         switch (currentToken.getTokenType()) {
             case INT_TOKEN:
+                matchToken(TokenType.INT_TOKEN);
+                currentToken = scan.getNextToken();
                 Param lhs = parseParam();
-
+                
                 while (scan.viewNextToken().getTokenType() == TokenType.COMMA_TOKEN) {
                     currentToken = scan.getNextToken();
 
@@ -174,6 +183,7 @@ public class CMinusParser implements Parser {
                 return lhs;
 
             case VOID_TOKEN:
+                 matchToken(TokenType.VOID_TOKEN);
             //store in AST
 
             default:
@@ -185,7 +195,7 @@ public class CMinusParser implements Parser {
     private Param parseParam() {
 
         Param p = new Param();
-
+        currentToken = scan.getNextToken();
         matchToken(TokenType.INT_TOKEN);
         currentToken = scan.getNextToken();
         matchToken(TokenType.ID_TOKEN);
@@ -204,8 +214,9 @@ public class CMinusParser implements Parser {
     private Statement parseCompoundStmt() {
 
         Statement cmpdStmt = new CompoundStmt();
-
+        currentToken = scan.getNextToken();
         matchToken(TokenType.BRACEOPEN_TOKEN);
+        
         //something for a loc-decl
         while (scan.viewNextToken().getTokenType() == TokenType.INT_TOKEN) {
             matchToken(TokenType.INT_TOKEN);
@@ -230,6 +241,7 @@ public class CMinusParser implements Parser {
                 || scan.viewNextToken().getTokenType() == TokenType.NUM_TOKEN
                 || scan.viewNextToken().getTokenType() == TokenType.PARANOPEN_TOKEN
                 || scan.viewNextToken().getTokenType() == TokenType.ID_TOKEN) {
+            currentToken = scan.getNextToken();
             Statement stmt = parseStmt();
 
             return stmt;
@@ -243,7 +255,7 @@ public class CMinusParser implements Parser {
 
     private Declaration parseLocalDecl() {
         Declaration ld = new LocalDecl();
-
+        currentToken = scan.getNextToken();
         matchToken(TokenType.INT_TOKEN);
         currentToken = scan.getNextToken();
         //Add ID to the local decl
@@ -267,38 +279,51 @@ public class CMinusParser implements Parser {
     private Statement parseStmt() {
         switch (currentToken.getTokenType()) {
             case BRACEOPEN_TOKEN:
+                matchToken(Token.TokenType.BRACEOPEN_TOKEN);
+                currentToken = scan.getNextToken();
                 //create new compound stmt
                 Statement cmpStmt = new CompoundStmt();
                 return cmpStmt;
 
             case IF_TOKEN:
+                matchToken(Token.TokenType.IF_TOKEN);
+                currentToken = scan.getNextToken();
                 //create new if stmt
                 Statement ifStmt = new IfStmt();
                 return ifStmt;
 
             case WHILE_TOKEN:
+                matchToken(Token.TokenType.WHILE_TOKEN);
+                currentToken = scan.getNextToken();
                 //create new while stmt
                 Statement whileStmt = new WhileStmt();
                 return whileStmt;
 
             case RETURN_TOKEN:
+                matchToken(Token.TokenType.RETURN_TOKEN);
+                currentToken = scan.getNextToken();
                 //create new return stmt
                 Statement returnStmt = new ReturnStmt();
                 return returnStmt;
 
             case NUM_TOKEN:
+                matchToken(Token.TokenType.NUM_TOKEN);
+                currentToken = scan.getNextToken();
                 //create new num expr
                 Token thisToken = currentToken;
                 Expression n = null;
-                n.createNumExpr(thisToken);
-                return null;
+                return /*n.createNumExpr(thisToken)*/ null;
 
             case PARANOPEN_TOKEN:
+                matchToken(Token.TokenType.PARANOPEN_TOKEN);
+                currentToken = scan.getNextToken();
                 //create new expression
                 Expression e = parseExpression();
                 return null;
 
             case ID_TOKEN:
+                matchToken(Token.TokenType.ID_TOKEN);
+                currentToken = scan.getNextToken();
                 //create new expression
                 e = parseExpression();
                 return null;
@@ -333,12 +358,12 @@ public class CMinusParser implements Parser {
         matchToken(Token.TokenType.IF_TOKEN);
         currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANOPEN_TOKEN);
-
+        
         Expression ifExpr = parseExpression();
 
         currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANCLOSE_TOKEN);
-
+        
         Statement thenStmt = parseStmt();
 
         Statement elseStmt = null;
@@ -462,56 +487,32 @@ public class CMinusParser implements Parser {
             currentToken = scan.getNextToken();
             Expression aeExpr = parseAdditiveE();
         }
-        Expression se = new SimpleE(); // this probably isn't right..
+        Expression se = new SimpleExpression(); // this probably isn't right..
         return se;
 
     }
 
     private Expression parseAdditiveE() {
-        Expression lhs = parseFactor();
-        while(isMulop((scan.viewNextToken().getTokenType()))){
+        Expression lhs = parseTerm();
+        while (isAddop((scan.viewNextToken().getTokenType()))) {
             Token t = scan.getNextToken();
-            Expression rhs = parseFactor();
-            lhs = createBinoExpr(t.getTokenType(), lhs, rhs);
-            
+            Expression rhs = parseTerm();
+            lhs.createBinoExpr(t.getTokenType(), lhs, rhs);
+
         }
         return lhs;
 
     }
 
-    private Expression parseAdditiveEPrime() {
-        Expression lhs = parseTerm();
+    private Expression parseAdditiveEPrime() { // thought: do we need to be passing expressions to all these parse functions for the sake of the tree?
+        Expression lhs = parseTermPrime();
+        while (isAddop((scan.viewNextToken().getTokenType()))) {
+            Token t = scan.getNextToken();
+            Expression rhs = parseTerm();
+            lhs.createBinoExpr(t.getTokenType(), lhs, rhs);
 
-    }
-
-    private Expression parseAdditiveEPrime(Expression e) {
-        Expression lhs = parseTerm(e);
-
-    }
-
-    private Expression parseFactor() {
-        switch (currentToken.getTokenType()) {
-            case PARANOPEN_TOKEN:
-                currentToken = scan.getNextToken();
-                Expression returnE = parseExpression();
-                matchToken(TokenType.PARANOPEN_TOKEN);
-                return returnE;
-
-            case INT_TOKEN:
-                currentToken = scan.getNextToken();
-                Token thisToken = currentToken;
-                NumExpression n = new NumExpression();
-                return n.createNumExpr(thisToken);
-
-            case 0:
-                Expression varE = parseVarCall();
-                return varE;
-
-            // First + Follow Sets
-            default:
-                parseError();
-                return null;
         }
+        return lhs;
 
     }
 
@@ -521,32 +522,100 @@ public class CMinusParser implements Parser {
         while (isMulop(currentToken.getTokenType())) {
             Token t = currentToken;
             Expression rhs = parseFactor();
-            lhs = createBinoExpr(t.getTokenType(), lhs, rhs);
+            lhs.createBinoExpr(t.getTokenType(), lhs, rhs);
         }
         return lhs;
     }
 
-    private Expression parseTerm(Expression e) {
+    private Expression parseTermPrime() {
+        Expression lhs = null; // epsilon
+        if (isMulop(currentToken.getTokenType())) {
+            Token t = currentToken;
+            Expression rhs = parseFactor();
+            lhs.createBinoExpr(t.getTokenType(), lhs, rhs);
+        }
+        return lhs;
 
     }
 
-    private Expression parseTermPrime() {
+    private Expression parseFactor() {
+        switch (currentToken.getTokenType()) {
+            case PARANOPEN_TOKEN:
+                matchToken(Token.TokenType.PARANOPEN_TOKEN);
+                currentToken = scan.getNextToken();
+                Expression returnE = parseExpression();
+                matchToken(TokenType.PARANCLOSE_TOKEN);
+                return returnE;
+
+            case NUM_TOKEN:
+                matchToken(Token.TokenType.NUM_TOKEN);
+                currentToken = scan.getNextToken();
+                Token thisToken = currentToken;
+                Expression n = null;
+                return n.createNumExpr(thisToken);
+
+            case BRACKETOPEN_TOKEN:
+                matchToken(Token.TokenType.BRACKETOPEN_TOKEN);
+                currentToken = scan.getNextToken();
+                Expression varE = parseVarCall();
+                return varE;
+
+            default:
+                parseError();
+                return null;
+        }
 
     }
 
     private Expression parseVarCall() {
-        Expression lhs = parseTerm();
+        switch (currentToken.getTokenType()) {
+            case BRACKETOPEN_TOKEN:
+                matchToken(Token.TokenType.BRACKETOPEN_TOKEN);
+                currentToken = scan.getNextToken();
+                Expression e = parseExpression();
+
+                currentToken = scan.getNextToken();
+                matchToken(Token.TokenType.BRACKETCLOSE_TOKEN);
+                return e;
+            case PARANOPEN_TOKEN:
+                matchToken(Token.TokenType.PARANOPEN_TOKEN);
+                currentToken = scan.getNextToken();
+                Expression arg = parseArgs();
+                return arg;
+            // Check for Follow Sets due to Epsilon
+            //TODO: set up follow set enums for varcall, or structure this as a big if statement
+            default:
+                parseError();
+                return null;
+        }
 
     }
 
-    private Expression parseVarCall(Expression e) {
-        Expression lhs = parseTerm(e);
+    private Expression parseArgs() {
+        Expression arg = new ArgExpression();
 
-    }
+        if (scan.viewNextToken().getTokenType() == Token.TokenType.NUM_TOKEN
+                || scan.viewNextToken().getTokenType() == Token.TokenType.PARANOPEN_TOKEN
+                || scan.viewNextToken().getTokenType() == Token.TokenType.ID_TOKEN //|| or epsilon?
+                ) {
+            Expression e = parseExpression();
+            // add to AST/ argE
+            while (scan.viewNextToken().getTokenType() == Token.TokenType.COMMA_TOKEN) {
+                currentToken = scan.getNextToken();
+                e = parseExpression();
+                // add to AST/argE
+            }
 
-    private Expression parseArgs(Expression e) {
-        Expression lhs = parseTerm(e);
-
+        }
+        //Follow Set
+        else if (scan.viewNextToken().getTokenType() == Token.TokenType.PARANCLOSE_TOKEN){
+            //add to ast/argE
+        }
+        else {
+            parseError();
+            return null;
+        }
+        return arg;
     }
 
     //main method

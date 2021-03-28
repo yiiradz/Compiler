@@ -11,7 +11,9 @@ package cminuscompiler;
  */
 public class ReturnStmt extends Statement {
     Expression expr;
-    
+    public ReturnStmt(){
+        
+    }
     public ReturnStmt(Expression e) {
         expr = e;
     }

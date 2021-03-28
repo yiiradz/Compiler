@@ -17,7 +17,9 @@ public class CompoundStmt extends Statement{
     
     LocalDecl localDecl;
     Statement stmt;
-    
+     public CompoundStmt(){
+         
+     }
     public CompoundStmt(LocalDecl ld, Statement s) {
         localDecl = ld;
         stmt = s;

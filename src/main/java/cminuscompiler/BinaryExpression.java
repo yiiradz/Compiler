@@ -15,7 +15,5 @@ public class BinaryExpression extends Expression{
     //takes two expressions
     Expression expr1;
     Expression expr2;
-     public static BinaryExpression createBinoExpr (TokenType opType, Expression e1, Expression e2){
-        
-    }
+     
 }

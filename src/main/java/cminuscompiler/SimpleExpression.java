@@ -9,6 +9,6 @@ package cminuscompiler;
  *
  * @author yiradz
  */
-public class SimpleE extends Expression{
+public class SimpleExpression extends Expression{
     
 }

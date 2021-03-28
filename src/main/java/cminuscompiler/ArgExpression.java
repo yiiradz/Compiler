@@ -9,6 +9,6 @@ package cminuscompiler;
  *
  * @author yiradz
  */
-public class VarCallExpression extends Expression {
+public class ArgExpression extends Expression {
     
 }

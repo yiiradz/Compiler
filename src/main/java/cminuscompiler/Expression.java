@@ -25,5 +25,10 @@ public abstract class Expression {
        Expression n = null;
         return n; 
     }
+    
+    public Expression createBinoExpr (Token.TokenType opType, Expression e1, Expression e2){
+        Expression n = null;
+        return n;
+    }
   
 }
