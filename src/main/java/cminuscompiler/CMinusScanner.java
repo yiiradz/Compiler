@@ -36,12 +36,13 @@ public class CMinusScanner {
         nextToken = scanToken();
     }
 
-    Token getNextToken() {
+  Token getNextToken() {
 
-        Token returnToken = nextToken;
+        Token returnToken;
         if (nextToken.getTokenType() != Token.TokenType.EOF_TOKEN) {
             nextToken = scanToken();
         }
+        returnToken = nextToken;
         return returnToken;
     }
 
@@ -338,11 +339,11 @@ public class CMinusScanner {
     }
 
     //main method
-    public void main() throws FileNotFoundException, IOException {
+    public void main(String args[]) throws FileNotFoundException, IOException {
         
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
-        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/input1.txt"));
+        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
         
         //Call Scanner  
         CMinusScanner(br);

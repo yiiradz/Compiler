@@ -5,7 +5,8 @@
  */
 package cminuscompiler;
 
-import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 /**
  *
@@ -13,11 +14,18 @@ import java.util.ArrayList;
  */
 public class FunctionDecl extends Declaration {
     // name + return type
-    public ArrayList<Param> parameters = new ArrayList<>();
-    public FunctionDecl(){
-        
+    Params params;
+    Statement cmpdStmt;
+    
+    public FunctionDecl(Params p, Statement cs){
+        params = p;
+        cmpdStmt = cs;
+             
     }
-    public FunctionDecl(Param p, Statement cs){
+    
+    public void printFunDecl(BufferedWriter w, FunctionDecl fd) throws IOException{
+        // print ( params ) cmpdStmt
+        w.write("(" + fd.params + ")" + fd.cmpdStmt);
         
     }
     

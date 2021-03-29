@@ -10,10 +10,17 @@ package cminuscompiler;
  * @author yiradz
  */
 public class LocalDecl extends Declaration{
-    
+    int num;
     public LocalDecl(){
         
     }
+    public LocalDecl(int num){
+        
+    }
     
+    public void printLocalDecl(){
+        // if num is empty, print semicolon
+        //otherwise print [ num ]
+    }
     
 }

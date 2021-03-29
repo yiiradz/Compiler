@@ -5,11 +5,16 @@
  */
 package cminuscompiler;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 /**
  *
  * @author yiradz
  */
 public abstract class Declaration {
+    FunctionDecl fd;
+    LocalDecl ld;
     private Object ID;
     private Object NUM;
       //Getter
@@ -30,5 +35,11 @@ public abstract class Declaration {
     //Setter
     public void setNUM(Object n) {
         this.NUM = n;
+    }
+
+    public void printDecl(BufferedWriter w, FunctionDecl f) throws IOException{
+        w.write("int" + getID());
+        fd.printFunDecl(w, f);
+        
     }
 }
