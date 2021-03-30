@@ -9,6 +9,6 @@ package cminuscompiler;
  *
  * @author yiradz
  */
-public class SimpleExpression extends Expression{
-    
+public class CallExpression {
+    // where the fundecl is called
 }

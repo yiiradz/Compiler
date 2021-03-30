@@ -5,16 +5,28 @@
  */
 package cminuscompiler;
 
+import java.io.BufferedWriter;
+
 /**
  *
  * @author yiradz
  */
 public class IfStmt extends Statement {
     // children + instance variables? abstract pointers to abstract classes
+    Expression myExpr;
+    Statement s1;
+    Statement s2;
+    
     public IfStmt(){
         
     }
-    public IfStmt (Expression e, Statement s1, Statement s2){
+    public IfStmt (Expression e, Statement st1, Statement st2){
+        myExpr = e;
+        s1 = st1;
+        s2 = st2;
+    }
+    
+    public void print(BufferedWriter w, int indent){
         
     }
     

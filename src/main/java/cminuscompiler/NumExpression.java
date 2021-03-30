@@ -10,15 +10,10 @@ package cminuscompiler;
  * @author yiradz
  */
 public class NumExpression extends Expression {
-    
-    SimpleExpression splExpr;
+   
     
     public NumExpression() {
         
     }
     
-    public NumExpression(SimpleExpression se) {
-        splExpr = se;
-    }
-
 }

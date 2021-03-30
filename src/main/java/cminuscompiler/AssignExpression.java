@@ -9,6 +9,6 @@ package cminuscompiler;
  *
  * @author yiradz
  */
-public class ArgExpression extends Expression {
-    
+public class AssignExpression extends Expression {
+    //var on the left side 
 }

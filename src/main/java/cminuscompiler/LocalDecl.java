@@ -5,22 +5,37 @@
  */
 package cminuscompiler;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 /**
  *
  * @author yiradz
  */
+// this is functionally a var decl | int x or int x [10]
 public class LocalDecl extends Declaration{
-    int num;
+    Object name;
+    Object size = 0;
     public LocalDecl(){
         
     }
-    public LocalDecl(int num){
-        
+    public LocalDecl(Object n, Object s){
+        name = n;
+        size = s;
     }
     
-    public void printLocalDecl(){
+
+    @Override
+    public void print(BufferedWriter w, int indent) throws IOException {
+       w.write("VarDecl INT" + name);
         // if num is empty, print semicolon
+        if (size.equals(0)){
+             w.write(";");
+        }
         //otherwise print [ num ]
+        else {
+             w.write("[" + size + "] ;");
+        }
     }
     
 }

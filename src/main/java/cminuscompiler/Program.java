@@ -5,7 +5,6 @@
  */
 package cminuscompiler;
 
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,15 +14,25 @@ import java.util.ArrayList;
  * @author yiradz
  */
 public class Program {
-    Declaration d;
+
+    int indent = 0;
     // decl-list
     public ArrayList<Declaration> DeclList = new ArrayList<>();
-    
-    public void printTree(BufferedWriter w) throws IOException{
+
+    public void printTree(BufferedWriter w) throws IOException {
         // Print "Program { 
-        for (int i = 0; i < DeclList.size(); i++){
-          d.printDecl(w, DeclList.get(i).fd);
+        w.write("Program { ");
+        indent = 1;
+        // Start recursive print
+        for (int i = 0; i < DeclList.size(); i++) {
+            for (int j = 0; j < indent; j++) {
+                w.write(" ");
+                DeclList.get(i).print(w, indent);
+            }
         }
+
+        // Print closing bracket
+        w.write(" }");
     }
-    
+
 }

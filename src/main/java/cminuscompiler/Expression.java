@@ -13,9 +13,6 @@ import java.util.ArrayList;
  */
 public abstract class Expression {
     
-    //ArrayList of Expressions
-    public ArrayList<Expression> exprList = new ArrayList<Expression>();
-    
     public Expression createNumExpr(Token t){
         Expression n = null;
         return n;

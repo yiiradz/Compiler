@@ -34,7 +34,7 @@ public class Params {
          params.add(p);
      }
      
-     public void printParams(BufferedWriter w){
+     public void print(BufferedWriter w){
         
      }
 }

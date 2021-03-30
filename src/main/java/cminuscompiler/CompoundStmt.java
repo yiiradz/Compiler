@@ -5,6 +5,7 @@
  */
 package cminuscompiler;
 
+import java.io.BufferedWriter;
 import java.util.ArrayList;
 
 /**
@@ -33,5 +34,9 @@ public class CompoundStmt extends Statement{
     public CompoundStmt(Statement s) {
         localDecl = null;
         stmt = s;
+    }
+    @Override
+    public void print(BufferedWriter w){
+        
     }
 }
