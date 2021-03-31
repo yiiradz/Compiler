@@ -10,10 +10,13 @@ package cminuscompiler;
  * @author yiradz
  */
 public class NumExpression extends Expression {
-   
-    
+
     public NumExpression() {
-        
+
     }
-    
+
+    public Expression createNumExpr(Token t) {
+        Expression n = null;
+        return n;
+    }
 }

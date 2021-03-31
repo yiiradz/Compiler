@@ -265,7 +265,7 @@ public class CMinusParser implements Parser {
                 || scan.viewNextToken().getTokenType() == TokenType.NUM_TOKEN
                 || scan.viewNextToken().getTokenType() == TokenType.PARANOPEN_TOKEN
                 || scan.viewNextToken().getTokenType() == TokenType.ID_TOKEN) {
-            //currentToken = scan.getNextToken();
+
                  stmt = parseStmt();
 
         }
@@ -446,10 +446,14 @@ public class CMinusParser implements Parser {
     private Expression parseExpressionPrime() {
         switch (currentToken.getTokenType()) {
             case EQUAL_TOKEN:
+                // is this an expr stmt, a assign expr or...
+                currentToken = scan.getNextToken();
+                 Expression e = parseExpression();
+                 return e;
 
             case BRACKETOPEN_TOKEN:
                 currentToken = scan.getNextToken();
-                Expression e = parseExpression();
+                e = parseExpression();
                 currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.BRACKETCLOSE_TOKEN);
                 Expression ep = parseExpressionPrimePrime();

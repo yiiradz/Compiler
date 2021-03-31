@@ -9,6 +9,12 @@ package cminuscompiler;
  *
  * @author yiradz
  */
-public class CallExpression {
+public class CallExpression extends Expression {
     // where the fundecl is called
+    //funct(x);
+
+    public Expression createCallExpr(Token t) {
+        Expression n = null;
+        return n;
+    }
 }

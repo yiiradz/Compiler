@@ -11,9 +11,15 @@ import cminuscompiler.Token.TokenType;
  *
  * @author yiradz
  */
-public class BinaryExpression extends Expression{
+public class BinaryExpression extends Expression {
+
     //takes two expressions
     Expression expr1;
     Expression expr2;
-     
+
+    public Expression createBinoExpr(Token.TokenType opType, Expression e1, Expression e2) {
+        Expression n = null;
+        return n;
+    }
+
 }
