@@ -369,15 +369,15 @@ public class CMinusParser implements Parser {
     private Statement parseIfStmt() {
 
         matchToken(Token.TokenType.IF_TOKEN);
-        currentToken = scan.getNextToken();
+        //currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANOPEN_TOKEN);
-        currentToken = scan.getNextToken();
+        //currentToken = scan.getNextToken();
         Expression ifExpr = parseExpression();
 
         //currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANCLOSE_TOKEN);
 
-        currentToken = scan.getNextToken();
+        //currentToken = scan.getNextToken();
         Statement thenStmt = parseStmt();
 
         Statement elseStmt = null;
@@ -393,7 +393,7 @@ public class CMinusParser implements Parser {
 
     private Statement parseWhileStmt() {
         matchToken(Token.TokenType.WHILE_TOKEN);
-        currentToken = scan.getNextToken();
+        //currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANOPEN_TOKEN);
 
         Expression whExpr = parseExpression();
