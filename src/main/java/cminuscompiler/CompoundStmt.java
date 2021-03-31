@@ -17,6 +17,7 @@ public class CompoundStmt extends Statement{
     
     Declaration localDecl;
     Statement stmt;
+    
      public CompoundStmt(){
          
      }
@@ -35,6 +36,7 @@ public class CompoundStmt extends Statement{
         stmt = s;
     }
     
+ 
     @Override
     public void print(BufferedWriter w, int indent) throws IOException{
         w.write("\n");

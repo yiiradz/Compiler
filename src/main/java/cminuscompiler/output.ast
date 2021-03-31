@@ -1,10 +1,13 @@
 Program { 
      Function main { 
           Returns VOID
-          Params
-               void
-          Statements
-               IF STMT 
-VarDecl INT null;
+          ( void )
+          {
+               IF (
+                    =
+                         x
+                         0
+                    )
+           }
       }
  }

@@ -14,16 +14,14 @@ import java.io.IOException;
  */
 public class ReturnStmt extends Statement {
     Expression expr;
-    public ReturnStmt(){
-        
-    }
+    
     public ReturnStmt(Expression e) {
         expr = e;
     }
     
     @Override
     public void print (BufferedWriter w, int indent) throws IOException{
-         w.write("RETURN STMT ");
+         w.write("RETURN ");
             w.write("\n");
             indent += 1;
             

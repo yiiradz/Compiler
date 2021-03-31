@@ -27,7 +27,7 @@ public class LocalDecl extends Declaration{
 
     @Override
     public void print(BufferedWriter w, int indent) throws IOException {
-    
+    if (name != null){
        w.write("VarDecl INT " + name);
         // if num is empty, print semicolon
         if (size.equals(0)){
@@ -37,6 +37,7 @@ public class LocalDecl extends Declaration{
         else {
              w.write("[" + size + "] ;");
         }
+    }
     }
     
 }

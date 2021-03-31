@@ -5,18 +5,36 @@
  */
 package cminuscompiler;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author yiradz
  */
 public class NumExpression extends Expression {
+// hold ints
+    Object num;
 
-    public NumExpression() {
-
+    public NumExpression (Object n) {
+        num = n;
     }
+    
+    
+    @Override
+    public void print(BufferedWriter w, int indent){
+        
+        try {
 
-    public Expression createNumExpr(Token t) {
-        Expression n = null;
-        return n;
+            for (int j = 0; j < indent; j++) {
+                w.write("     ");
+            }
+            w.write(num.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

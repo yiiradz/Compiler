@@ -6,6 +6,10 @@
 package cminuscompiler;
 
 import cminuscompiler.Token.TokenType;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,13 +17,51 @@ import cminuscompiler.Token.TokenType;
  */
 public class BinaryExpression extends Expression {
 
+    // op type
+    Object operator;
+    /*
+    0 - none
+    1 - =
+    2 - *
+    3 - /
+     */
     //takes two expressions
     Expression expr1;
     Expression expr2;
 
-    public Expression createBinoExpr(Token.TokenType opType, Expression e1, Expression e2) {
-        Expression n = null;
-        return n;
+    public BinaryExpression(Object op, Expression e1, Expression e2) {
+        operator = op;
+        expr1 = e1;
+        expr2 = e2;
+    }
+
+    @Override
+    public void print(BufferedWriter w, int indent) {
+
+        try {
+            if (operator.equals(0)) {
+
+                w.write("");
+
+            } else if (operator.equals(1)) {
+
+                w.write("=");
+
+            } else if (operator.equals(2)) {
+
+                w.write("*");
+
+            }
+            
+            w.write("\n");
+            expr1.print(w, indent + 1);
+            w.write("\n");
+            expr2.print(w, indent + 1);
+
+        } catch (IOException ex) {
+            Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }

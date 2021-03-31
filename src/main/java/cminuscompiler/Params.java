@@ -45,10 +45,6 @@ public class Params {
 
     public void print(BufferedWriter w, int indent) throws IOException {
 
-        w.write("\n");
-        for (int j = 0; j < indent; j++) {
-            w.write("     ");
-        }
         w.write(v);
 
     }

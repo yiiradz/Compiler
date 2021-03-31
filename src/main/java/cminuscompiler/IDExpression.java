@@ -6,15 +6,36 @@
 package cminuscompiler;
 
 import cminuscompiler.Token;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author yiradz
  */
 public class IDExpression extends Expression {
+    // hold IDs
+    Object id;
 
-    public Expression createIDExpr(Token t) {
-        Expression n = null;
-        return n;
+    public IDExpression (Object i) {
+        id = i;
+    }
+    
+    
+    @Override
+    public void print(BufferedWriter w, int indent){
+        
+        try {
+
+            for (int j = 0; j < indent; j++) {
+                w.write("     ");
+            }
+            w.write(id.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

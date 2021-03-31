@@ -24,6 +24,7 @@ public class CMinusParser implements Parser {
     private Token currentToken = new Token();
     private String name;
      private Object size;
+     private Object operator;
     private static Program myProgram = new Program();
     TokenType errorTokenType = TokenType.ERROR_TOKEN;
 
@@ -78,6 +79,7 @@ public class CMinusParser implements Parser {
         //if token == token yay
         if (currentToken.getTokenType() == T) {
             // save T to AL?
+            //currentToken = scan.getNextToken();
             return true;
         } else {
             parseError(/*currentToken.getTokenType(), T*/);
@@ -258,7 +260,7 @@ public class CMinusParser implements Parser {
         }
 
         //something for a stmt
-        else if (scan.viewNextToken().getTokenType() == TokenType.BRACEOPEN_TOKEN
+        while (scan.viewNextToken().getTokenType() == TokenType.BRACEOPEN_TOKEN
                 || scan.viewNextToken().getTokenType() == TokenType.IF_TOKEN
                 || scan.viewNextToken().getTokenType() == TokenType.WHILE_TOKEN
                 || scan.viewNextToken().getTokenType() == TokenType.RETURN_TOKEN
@@ -267,6 +269,7 @@ public class CMinusParser implements Parser {
                 || scan.viewNextToken().getTokenType() == TokenType.ID_TOKEN) {
 
                  stmt = parseStmt();
+                 
 
         }
 
@@ -306,8 +309,7 @@ public class CMinusParser implements Parser {
                 Statement cmpStmt = parseCompoundStmt();
                 return cmpStmt;
 
-            case IF_TOKEN:
-                currentToken = scan.getNextToken();
+            case IF_TOKEN:              
                 //create new if stmt
                 Statement ifStmt = parseIfStmt();
                 return ifStmt;
@@ -373,12 +375,13 @@ public class CMinusParser implements Parser {
         matchToken(Token.TokenType.IF_TOKEN);
         currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANOPEN_TOKEN);
-
+        currentToken = scan.getNextToken();
         Expression ifExpr = parseExpression();
 
         //currentToken = scan.getNextToken();
         matchToken(Token.TokenType.PARANCLOSE_TOKEN);
-
+        
+        currentToken = scan.getNextToken();
         Statement thenStmt = parseStmt();
 
         Statement elseStmt = null;
@@ -411,7 +414,8 @@ public class CMinusParser implements Parser {
 
     private Statement parseReturnStmt() {
         matchToken(Token.TokenType.RETURN_TOKEN);
-        Statement returnStmt = new ReturnStmt();
+        Expression rExpr = parseExpression();
+        Statement returnStmt = new ReturnStmt(rExpr);
         return returnStmt;
     }
 
@@ -419,23 +423,29 @@ public class CMinusParser implements Parser {
         switch (currentToken.getTokenType()) {
             case NUM_TOKEN:
                 Token thisToken = currentToken;
-                NumExpression n = new NumExpression();
+                NumExpression n = new NumExpression(thisToken.getTokenData());
                 Expression se = parseSimpleExpressionPrime();
-                return n.createNumExpr(thisToken);
+                return n;
 
-            case PARANOPEN_TOKEN:
-                //create Expr
-                Expression e = new BinaryExpression();
+            case PARANOPEN_TOKEN:             
+                currentToken = scan.getNextToken();               
+                Expression e = parseExpression();
                 currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.PARANCLOSE_TOKEN);
-
                 se = parseSimpleExpressionPrime();
+                 //create Expr
+              
 
-                return e; // e needs to be a combination expr of e and se
+                return se; // e needs to be a combination expr of e and se
 
             case ID_TOKEN:
+                IDExpression i = new IDExpression(currentToken.getTokenData());
+                currentToken = scan.getNextToken();
                 Expression ep = parseExpressionPrime();
-                return ep;
+                // need to return both i and ep
+                // how do we get a localdecl here instead of an iDexpr..?
+                AssignExpression a = new AssignExpression(i,ep);
+                return a;
 
             default:
                 parseError();
@@ -448,6 +458,8 @@ public class CMinusParser implements Parser {
             case EQUAL_TOKEN:
                 // is this an expr stmt, a assign expr or...
                 currentToken = scan.getNextToken();
+                //need to save this operator
+                operator = 1;
                  Expression e = parseExpression();
                  return e;
 

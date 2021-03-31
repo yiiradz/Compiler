@@ -52,18 +52,23 @@ public class FunctionDecl extends Declaration {
             for (int j = 0; j < indent; j++) {
                 w.write("     ");
             }
-            w.write("Params");
+            w.write("( ");
             params.print(w, indent + 1);
-            
+            w.write(" )");
             w.write("\n");
             for (int j = 0; j < indent; j++) {
                 w.write("     ");
             }
-            w.write("Statements");
+            w.write("{");
             cmpdStmt.print(w, indent + 1);
 
-            // Print closing bracket
+            // Print closing brackets
              w.write("\n");
+            for (int j = 0; j < indent; j++) {
+                w.write("     ");
+            }
+            w.write(" }");
+            w.write("\n");
             for (int j = 0; j < indent - 1; j++) {
                 w.write("     ");
             }
