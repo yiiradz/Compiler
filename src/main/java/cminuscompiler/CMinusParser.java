@@ -79,7 +79,7 @@ public class CMinusParser implements Parser {
         //if token == token yay
         if (currentToken.getTokenType() == T) {
             // save T to AL?
-            //currentToken = scan.getNextToken();
+            currentToken = scan.getNextToken();
             return true;
         } else {
             parseError(/*currentToken.getTokenType(), T*/);
@@ -108,10 +108,10 @@ public class CMinusParser implements Parser {
         switch (currentToken.getTokenType()) {
             case VOID_TOKEN:
                 matchToken(Token.TokenType.VOID_TOKEN);
-                currentToken = scan.getNextToken();
+                //currentToken = scan.getNextToken();
                 name = currentToken.getTokenData().toString();
                 matchToken(Token.TokenType.ID_TOKEN);
-                currentToken = scan.getNextToken();
+                //currentToken = scan.getNextToken();
                 Declaration funDecl = parseFunDecl(0, name);
 
                 return funDecl;
@@ -121,7 +121,7 @@ public class CMinusParser implements Parser {
                 currentToken = scan.getNextToken();
                 name = currentToken.getTokenData().toString();
                 matchToken(Token.TokenType.ID_TOKEN);               
-                currentToken = scan.getNextToken();
+                //currentToken = scan.getNextToken();
                 declPrime = parseDeclPrime(name);
                 return declPrime;
 
@@ -142,13 +142,13 @@ public class CMinusParser implements Parser {
             case BRACKETOPEN_TOKEN: // this is an array declaration
                 currentToken = scan.getNextToken();
                 // pull and save size variable here
-                matchToken(Token.TokenType.NUM_TOKEN);
                 size = currentToken.getTokenData().toString();
-                currentToken = scan.getNextToken();
+                matchToken(Token.TokenType.NUM_TOKEN);
+                //currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.BRACKETCLOSE_TOKEN);
-                currentToken = scan.getNextToken();
+                //currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.SEMICOLON_TOKEN);
-                currentToken = scan.getNextToken();
+                //currentToken = scan.getNextToken();
                 Declaration dec = new LocalDecl(name, size);
                 return dec;
 
@@ -166,13 +166,13 @@ public class CMinusParser implements Parser {
     private Declaration parseFunDecl(int type, String name) {
         //match ( token
         matchToken(Token.TokenType.PARANOPEN_TOKEN);
-        currentToken = scan.getNextToken();
+        //currentToken = scan.getNextToken();
         //new params
         Params p = parseParams();
         currentToken = scan.getNextToken();
         //match ) token
         matchToken(Token.TokenType.PARANCLOSE_TOKEN);
-        currentToken = scan.getNextToken();
+        //currentToken = scan.getNextToken();
         Statement cmpStmt = parseCompoundStmt();
 
         Declaration fdecl = new FunctionDecl(name, type, p, cmpStmt);
@@ -185,7 +185,7 @@ public class CMinusParser implements Parser {
         switch (currentToken.getTokenType()) {
             case INT_TOKEN:
                 matchToken(TokenType.INT_TOKEN);
-                currentToken = scan.getNextToken();
+                //currentToken = scan.getNextToken();
                 Param lhs = parseParam();
                 Params params = new Params(lhs);
 
@@ -218,13 +218,13 @@ public class CMinusParser implements Parser {
         Param p = new Param();
         currentToken = scan.getNextToken();
         matchToken(TokenType.INT_TOKEN);
-        currentToken = scan.getNextToken();
+        //currentToken = scan.getNextToken();
         matchToken(TokenType.ID_TOKEN);
 
-        if (scan.viewNextToken().getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
-            currentToken = scan.getNextToken();
+        if (/*scan.viewNextToken()*/currentToken.getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
+            //currentToken = scan.getNextToken();
             matchToken(TokenType.BRACKETOPEN_TOKEN);
-            currentToken = scan.getNextToken();
+            //currentToken = scan.getNextToken();
             matchToken(TokenType.BRACKETCLOSE_TOKEN);
         }
 
@@ -235,24 +235,23 @@ public class CMinusParser implements Parser {
     private Statement parseCompoundStmt() {
         Declaration dec = new LocalDecl();
         Statement stmt = null;
-        currentToken = scan.getNextToken();
+        //currentToken = scan.getNextToken();
         matchToken(TokenType.BRACEOPEN_TOKEN);
         size = 0;
         //something for a loc-decl
-        if (scan.viewNextToken().getTokenType() == TokenType.INT_TOKEN) {
+        if (/*scan.viewNextToken()*/currentToken.getTokenType() == TokenType.INT_TOKEN) {
             currentToken = scan.getNextToken();
+            name = currentToken.getTokenData().toString();
             matchToken(TokenType.ID_TOKEN);
              //currentToken = scan.getNextToken();
-            name = currentToken.getTokenData().toString();
-
-            if (scan.viewNextToken().getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
-                currentToken = scan.getNextToken();
+             
+            if (/*scan.viewNextToken()*/currentToken.getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
+                //currentToken = scan.getNextToken();
                 matchToken(TokenType.BRACKETOPEN_TOKEN);
-                currentToken = scan.getNextToken();
-                matchToken(TokenType.NUM_TOKEN);
+                //currentToken = scan.getNextToken();
                 size = currentToken.getTokenData().toString();
-                
-                currentToken = scan.getNextToken();
+                matchToken(TokenType.NUM_TOKEN);
+                //currentToken = scan.getNextToken();
                 matchToken(TokenType.BRACKETCLOSE_TOKEN);
             }
             dec = new LocalDecl(name, size);
@@ -284,7 +283,7 @@ public class CMinusParser implements Parser {
         Declaration ld = new LocalDecl();
         currentToken = scan.getNextToken();
         matchToken(TokenType.INT_TOKEN);
-        currentToken = scan.getNextToken();
+        //currentToken = scan.getNextToken();
         //Add ID to the local decl
         matchToken(TokenType.ID_TOKEN);
 
@@ -639,8 +638,8 @@ public class CMinusParser implements Parser {
     public static void main(String args[]) throws IOException {
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
-        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
-        String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
+        br = new BufferedReader(new FileReader("/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
+        String filename = "/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
         BufferedWriter w = new BufferedWriter(new FileWriter(filename));
 
         // read in scanner output to parser          
