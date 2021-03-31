@@ -23,16 +23,17 @@ public class Program {
         // Print "Program { 
         w.write("Program { ");
         indent = 1;
-        // Start recursive print
+        // Start recursive indented print
         for (int i = 0; i < DeclList.size(); i++) {
-            for (int j = 0; j < indent; j++) {
-                w.write(" ");
-                DeclList.get(i).print(w, indent);
+            w.write("\n");
+           for (int j = 0; j < indent; j++) {             
+                w.write("     ");
             }
+           DeclList.get(i).print(w, indent);
         }
 
         // Print closing bracket
-        w.write(" }");
+        w.write("\n }");
     }
 
 }

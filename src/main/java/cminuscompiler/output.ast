@@ -1,0 +1,10 @@
+Program { 
+     Function main { 
+          Returns VOID
+          Params
+               void
+          Statements
+               IF STMT 
+VarDecl INT null;
+      }
+ }

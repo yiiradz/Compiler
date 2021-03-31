@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public abstract class Statement {
     public ArrayList<Statement> stmtList = new ArrayList<Statement>();
-    public void print(BufferedWriter w) throws IOException{
+    public void print(BufferedWriter w, int indent) throws IOException{
 
         
     }

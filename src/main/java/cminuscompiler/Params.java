@@ -6,6 +6,7 @@
 package cminuscompiler;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -13,28 +14,42 @@ import java.util.ArrayList;
  * @author yiradz
  */
 public class Params {
+
     Param param;
-     public ArrayList<Param> params = new ArrayList<>();
-     
-    public Params(){
-        
+    String v;
+    public ArrayList<Param> params = new ArrayList<>();
+
+    public Params() {
+
     }
-     public Params(Param p){
+
+    public Params(Param p) {
         param = p;
     }
-      public Params(Param p, ArrayList<Param> alp){
-          param = p;
-          for (int i = 0; i < alp.size(); i++){
-             params.add(alp.get(i));
-          }       
-        
+
+    public Params(String s) {
+        v = s;
     }
-      
-     public void add (Param p){
-         params.add(p);
-     }
-     
-     public void print(BufferedWriter w){
-        
-     }
+
+    public Params(Param p, ArrayList<Param> alp) {
+        param = p;
+        for (int i = 0; i < alp.size(); i++) {
+            params.add(alp.get(i));
+        }
+
+    }
+
+    public void add(Param p) {
+        params.add(p);
+    }
+
+    public void print(BufferedWriter w, int indent) throws IOException {
+
+        w.write("\n");
+        for (int j = 0; j < indent; j++) {
+            w.write("     ");
+        }
+        w.write(v);
+
+    }
 }

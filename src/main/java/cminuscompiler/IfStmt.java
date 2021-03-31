@@ -6,6 +6,7 @@
 package cminuscompiler;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 
 /**
  *
@@ -26,8 +27,30 @@ public class IfStmt extends Statement {
         s2 = st2;
     }
     
-    public void print(BufferedWriter w, int indent){
-        
+    @Override
+    public void print(BufferedWriter w, int indent) throws IOException{
+         w.write("IF STMT ");
+            w.write("\n");
+            indent += 1;
+            
+            if (myExpr != null){
+             w.write("\n");
+            for (int j = 0; j < indent; j++) {
+                w.write("     ");
+            }
+            w.write("Expression");
+            myExpr.print(w, indent + 1);
+            }
+            
+            else if (s1 != null || s2 != null){
+            w.write("\n");
+            for (int j = 0; j < indent; j++) {
+                w.write("     ");
+            }
+            w.write("Statements");
+            s1.print(w, indent + 1);
+            s2.print(w, indent + 1);
+            }
     }
     
 }

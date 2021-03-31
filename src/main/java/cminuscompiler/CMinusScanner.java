@@ -105,6 +105,7 @@ public class CMinusScanner {
         Token currentToken = new Token();
         //Flag to indicate save to tokenString
         boolean save;
+
         while (state != Token.StateType.DONE) {
             
           try {
@@ -178,8 +179,10 @@ public class CMinusScanner {
                                 break;
                             case '[':
                                 currentToken.setTokenType(Token.TokenType.BRACKETOPEN_TOKEN);
+                                break;
                             case ']':
                                 currentToken.setTokenType(Token.TokenType.BRACKETCLOSE_TOKEN);
+                                break;
                             default:
                                 currentToken.setTokenType(Token.TokenType.ERROR_TOKEN);
                                 break;
@@ -333,8 +336,9 @@ public class CMinusScanner {
         });
         String dataString = sb.toString();
         currentToken.setTokenData(dataString);
-
+        
         //return object of the class token with data filled in
+        tokenString.clear();
         return currentToken;
     }
 

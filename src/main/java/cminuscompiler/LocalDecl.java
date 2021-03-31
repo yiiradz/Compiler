@@ -14,12 +14,12 @@ import java.io.IOException;
  */
 // this is functionally a var decl | int x or int x [10]
 public class LocalDecl extends Declaration{
-    Object name;
+    String name;
     Object size = 0;
     public LocalDecl(){
         
     }
-    public LocalDecl(Object n, Object s){
+    public LocalDecl(String n, Object s){
         name = n;
         size = s;
     }
@@ -27,7 +27,8 @@ public class LocalDecl extends Declaration{
 
     @Override
     public void print(BufferedWriter w, int indent) throws IOException {
-       w.write("VarDecl INT" + name);
+    
+       w.write("VarDecl INT " + name);
         // if num is empty, print semicolon
         if (size.equals(0)){
              w.write(";");

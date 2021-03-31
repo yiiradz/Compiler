@@ -6,6 +6,7 @@
 package cminuscompiler;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -13,20 +14,18 @@ import java.util.ArrayList;
  * @author yiradz
  */
 public class CompoundStmt extends Statement{
-    // compound stmt is arraylist of local decls and statements
-    public ArrayList<LocalDecl> cmpd = new ArrayList<>();
     
-    LocalDecl localDecl;
+    Declaration localDecl;
     Statement stmt;
      public CompoundStmt(){
          
      }
-    public CompoundStmt(LocalDecl ld, Statement s) {
+    public CompoundStmt(Declaration ld, Statement s) {
         localDecl = ld;
         stmt = s;
     }
     
-    public CompoundStmt(LocalDecl ld) {
+    public CompoundStmt(Declaration ld) {
         localDecl = ld;
         stmt = null;
     }
@@ -35,8 +34,24 @@ public class CompoundStmt extends Statement{
         localDecl = null;
         stmt = s;
     }
+    
     @Override
-    public void print(BufferedWriter w){
+    public void print(BufferedWriter w, int indent) throws IOException{
+        w.write("\n");
+        for (int j = 0; j < indent; j++) {
+            w.write("     ");
+        }
+        if (localDecl == null){
+            stmt.print(w, indent);
+        }
+        else if (stmt == null){
+            localDecl.print(w, indent);
+        }
+        else {
+             stmt.print(w, indent);
+             localDecl.print(w, indent);
+        }
+        
         
     }
 }
