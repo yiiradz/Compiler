@@ -13,47 +13,46 @@ import java.util.ArrayList;
  *
  * @author yiradz
  */
-public class CompoundStmt extends Statement{
-    
+public class CompoundStmt extends Statement {
+
     Declaration localDecl;
+    public ArrayList<Declaration> ldList = new ArrayList<>();
     Statement stmt;
-    
-     public CompoundStmt(){
-         
-     }
+    public ArrayList<Statement> stList = new ArrayList<>();
+
     public CompoundStmt(Declaration ld, Statement s) {
         localDecl = ld;
         stmt = s;
     }
-    
-    public CompoundStmt(Declaration ld) {
-        localDecl = ld;
-        stmt = null;
+
+    public void add(Declaration d) {
+        ldList.add(d);
     }
-    
-    public CompoundStmt(Statement s) {
-        localDecl = null;
-        stmt = s;
+
+    public void add(Statement s) {
+        stList.add(s);
     }
-    
- 
+
     @Override
-    public void print(BufferedWriter w, int indent) throws IOException{
+    public void print(BufferedWriter w, int indent) throws IOException {
         w.write("\n");
         for (int j = 0; j < indent; j++) {
             w.write("     ");
         }
-        if (localDecl == null){
-            stmt.print(w, indent);
+        for (int i = 0; i < stList.size(); i++) {
+            w.write("\n");
+            for (int j = 0; j < indent; j++) {
+                w.write("     ");
+            }
+            stList.get(i).print(w, indent);
         }
-        else if (stmt == null){
-            localDecl.print(w, indent);
+        for (int i = 0; i < ldList.size(); i++) {
+            w.write("\n");
+            for (int j = 0; j < indent; j++) {
+                w.write("     ");
+            }
+            ldList.get(i).print(w, indent);
         }
-        else {
-             stmt.print(w, indent);
-             localDecl.print(w, indent);
-        }
-        
-        
     }
+
 }

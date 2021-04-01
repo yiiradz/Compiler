@@ -31,18 +31,18 @@ public class CMinusScanner {
     static String[] Keywords = new String[]{"if", "else", "int", "void", "while", "return"};
     static StringBuffer sb = new StringBuffer();
     
-    static void CMinusScanner(BufferedReader file) {
+     void CMinusScanner(BufferedReader file) {
         inFile = file;
         nextToken = scanToken();
     }
 
   Token getNextToken() {
 
-        Token returnToken;
+        Token returnToken = nextToken;
         if (nextToken.getTokenType() != Token.TokenType.EOF_TOKEN) {
             nextToken = scanToken();
         }
-        returnToken = nextToken;
+        //returnToken = nextToken;
         return returnToken;
     }
 

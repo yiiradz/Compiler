@@ -1,0 +1,13 @@
+Program { 
+     Function main { 
+          Returns VOID
+          ( void )
+          {
+               
+               IF (
+                    x
+                    0
+                    )
+           }
+      }
+ }

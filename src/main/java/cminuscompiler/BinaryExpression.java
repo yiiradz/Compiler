@@ -43,16 +43,14 @@ public class BinaryExpression extends Expression {
 
                 w.write("");
 
-            } else if (operator.equals(1)) {
-
-                w.write("=");
-
-            } else if (operator.equals(2)) {
-
-                w.write("*");
-
+            } else {
+                w.write("\n");
+                for (int j = 0; j < indent; j++) {
+                    w.write("     ");
+                }
+                w.write(operator.toString());
             }
-            
+
             w.write("\n");
             expr1.print(w, indent + 1);
             w.write("\n");

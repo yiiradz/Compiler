@@ -2,6 +2,6 @@ void main ( void )
 {
 
 if ( x = 0 ) 
-return x;
+if ( y = 0 ) 
 
 }

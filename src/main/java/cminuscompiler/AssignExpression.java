@@ -19,11 +19,11 @@ public class AssignExpression extends Expression {
     //var on the left side
     // expr on right side
     //x = x + 1;
-    Declaration ld;
+    Expression ld;
     Expression expr1;
 
-    public AssignExpression(Declaration locdec, Expression e1) {
-        ld = locdec;
+    public AssignExpression(Expression var, Expression e1) {
+        ld = var;
         expr1 = e1;
         
     }
@@ -32,19 +32,13 @@ public class AssignExpression extends Expression {
     public void print(BufferedWriter w, int indent) {
 
         try {
-            w.write("(");
+            
+            ld.print(w, indent);
             w.write("\n");
-            indent += 1;
-
             for (int j = 0; j < indent; j++) {
                 w.write("     ");
             }
-            w.write("\n");
-            indent += 1;
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
-           w.write(")");
+            expr1.print(w, indent); // this contains two versions of itself?
 
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);

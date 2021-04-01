@@ -34,9 +34,6 @@ public class IfStmt extends Statement {
             indent += 1;
             
             if (myExpr != null){
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
             myExpr.print(w, indent);
             }
             

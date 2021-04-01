@@ -16,9 +16,7 @@ import java.io.IOException;
 public class LocalDecl extends Declaration{
     String name;
     Object size = 0;
-    public LocalDecl(){
-        
-    }
+
     public LocalDecl(String n, Object s){
         name = n;
         size = s;

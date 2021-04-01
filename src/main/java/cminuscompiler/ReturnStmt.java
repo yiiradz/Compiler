@@ -26,11 +26,9 @@ public class ReturnStmt extends Statement {
             indent += 1;
             
             if (expr != null){
-             w.write("\n");
             for (int j = 0; j < indent; j++) {
                 w.write("     ");
             }
-            w.write("Expression");
             expr.print(w, indent + 1);
             }
     }

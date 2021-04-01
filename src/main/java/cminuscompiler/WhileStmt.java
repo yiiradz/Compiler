@@ -26,26 +26,18 @@ public class WhileStmt extends Statement{
     
     @Override
     public void print (BufferedWriter w, int indent) throws IOException{
-         w.write("WHILE STMT ");
+         w.write("WHILE ");
             w.write("\n");
             indent += 1;
             
             if (myExpr != null){
-             w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
-            w.write("Expression");
-            myExpr.print(w, indent + 1);
+             
+            myExpr.print(w, indent);
             }
             
             else if (stmt != null){
-            w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
-            w.write("Statements");
-            stmt.print(w, indent + 1);
+           
+            stmt.print(w, indent);
             }
     }
 }
