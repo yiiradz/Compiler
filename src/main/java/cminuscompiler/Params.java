@@ -16,26 +16,11 @@ import java.util.ArrayList;
 public class Params {
 
     Param param;
-    String v;
     public ArrayList<Param> params = new ArrayList<>();
 
-    public Params() {
-
-    }
 
     public Params(Param p) {
         param = p;
-    }
-
-    public Params(String s) {
-        v = s;
-    }
-
-    public Params(Param p, ArrayList<Param> alp) {
-        param = p;
-        for (int i = 0; i < alp.size(); i++) {
-            params.add(alp.get(i));
-        }
 
     }
 
@@ -44,8 +29,19 @@ public class Params {
     }
 
     public void print(BufferedWriter w, int indent) throws IOException {
-
-        w.write(v);
+        
+        if (!params.isEmpty()){
+         for (int i = 0; i < params.size(); i++) {
+            params.get(i).print(w, indent);
+            w.write("\n");
+            for (int j = 0; j < indent; j++) {
+            w.write("     ");
+            }
+        }
+        }
+        else if (param != null){
+            param.print(w, indent);
+        }
 
     }
 }

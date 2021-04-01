@@ -25,11 +25,15 @@ public class LocalDecl extends Declaration{
 
     @Override
     public void print(BufferedWriter w, int indent) throws IOException {
+          w.write("\n");
+            for (int j = 0; j < indent; j++) {
+                w.write("     ");
+            }
     if (name != null){
-       w.write("VarDecl INT " + name);
+       w.write("INT " + name);
         // if num is empty, print semicolon
         if (size.equals(0)){
-             w.write(";");
+             w.write(" ;");
         }
         //otherwise print [ num ]
         else {

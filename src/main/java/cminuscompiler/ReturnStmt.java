@@ -26,10 +26,8 @@ public class ReturnStmt extends Statement {
             indent += 1;
             
             if (expr != null){
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
-            expr.print(w, indent + 1);
+            
+            expr.print(w, indent);
             }
     }
 }

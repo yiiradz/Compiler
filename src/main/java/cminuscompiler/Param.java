@@ -5,10 +5,19 @@
  */
 package cminuscompiler;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 /**
  *
  * @author yiradz
  */
 public class Param {
-    
+    Object id;
+    public Param (Object i){
+        id = i;
+    }
+    public void print(BufferedWriter w, int indent) throws IOException{
+        w.write((String) id);
+    }
 }

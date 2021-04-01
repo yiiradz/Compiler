@@ -22,13 +22,9 @@ public class ExpressionStmt extends Statement {
     }
     @Override
     public void print (BufferedWriter w, int indent) throws IOException{
-         w.write("EXPR STMT ");
-            w.write("\n");
-            indent += 1;
             
             if (expr != null){
-            
-            expr.print(w, indent + 1);
+            expr.print(w, indent);
             }
     }
 }

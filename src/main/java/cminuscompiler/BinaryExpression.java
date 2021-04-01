@@ -21,7 +21,7 @@ public class BinaryExpression extends Expression {
     Object operator;
     /*
     0 - none
-    1 - =
+    1 - ==
     2 - *
     3 - /
      */
@@ -49,12 +49,16 @@ public class BinaryExpression extends Expression {
                     w.write("     ");
                 }
                 w.write(operator.toString());
+                
             }
 
             w.write("\n");
             expr1.print(w, indent + 1);
             w.write("\n");
-            expr2.print(w, indent + 1);
+            for (int j = 0; j < indent; j++) {
+                    w.write("     ");
+                }
+            expr2.print(w, 1);
 
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);

@@ -3,11 +3,13 @@ Program {
           Returns VOID
           ( void )
           {
-               
-               IF (
-                    x
-                    0
-                    )
+               01
+               =
+                    y
+                    1
+               output (
+                                   y
+               )
            }
       }
  }

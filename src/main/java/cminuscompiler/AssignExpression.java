@@ -32,13 +32,18 @@ public class AssignExpression extends Expression {
     public void print(BufferedWriter w, int indent) {
 
         try {
-            
-            ld.print(w, indent);
-            w.write("\n");
+             w.write("\n");
             for (int j = 0; j < indent; j++) {
                 w.write("     ");
             }
-            expr1.print(w, indent); // this contains two versions of itself?
+            w.write("=");
+            w.write("\n");
+            ld.print(w, indent + 1);
+            w.write("\n");
+            for (int j = 0; j < indent + 1; j++) {
+                w.write("     ");
+            }
+            expr1.print(w, indent); 
 
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);

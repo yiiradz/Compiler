@@ -39,20 +39,23 @@ public class CompoundStmt extends Statement {
         for (int j = 0; j < indent; j++) {
             w.write("     ");
         }
-        for (int i = 0; i < stList.size(); i++) {
-            w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
-            stList.get(i).print(w, indent);
-        }
         for (int i = 0; i < ldList.size(); i++) {
-            w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
+            
+            if (ldList.get(i) != null){
             ldList.get(i).print(w, indent);
+            
         }
-    }
+            }
+        
+        
+        for (int i = 0; i < stList.size(); i++) {
+            
+            if (stList.get(i) != null){
+            stList.get(i).print(w, indent);
+           
+        }
+            }
+        }
+    
 
 }
