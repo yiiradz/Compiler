@@ -78,15 +78,12 @@ public class CMinusParser implements Parser {
     public boolean matchToken(TokenType T) {
 
         //Add to AST?
-        //if token == token yay
         if (currentToken.getTokenType() == T) {
-            // save T to AL?
             currentToken = scan.getNextToken();
             return true;
         } else {
             parseError(/*currentToken.getTokenType(), T*/);
         }
-        // match token should increment
         return false;
     }
 
@@ -110,10 +107,8 @@ public class CMinusParser implements Parser {
         switch (currentToken.getTokenType()) {
             case VOID_TOKEN:
                 matchToken(Token.TokenType.VOID_TOKEN);
-                //currentToken = scan.getNextToken();
                 name = currentToken.getTokenData().toString();
                 matchToken(Token.TokenType.ID_TOKEN);
-                //currentToken = scan.getNextToken();
                 Declaration funDecl = parseFunDecl(0, name);
 
                 return funDecl;
@@ -123,7 +118,6 @@ public class CMinusParser implements Parser {
                 matchToken(Token.TokenType.INT_TOKEN);
                 name = currentToken.getTokenData().toString();
                 matchToken(Token.TokenType.ID_TOKEN);
-                //currentToken = scan.getNextToken();
                 Declaration declPrime = parseDeclPrime(name);
                 return declPrime;
 
@@ -159,13 +153,11 @@ public class CMinusParser implements Parser {
     private Declaration parseFunDecl(int type, String name) {
         //match ( token
         matchToken(Token.TokenType.PARANOPEN_TOKEN);
-        //currentToken = scan.getNextToken();
         //new params
         Params p = parseParams();
         currentToken = scan.getNextToken();
         //match ) token
         matchToken(Token.TokenType.PARANCLOSE_TOKEN);
-        //currentToken = scan.getNextToken();
         Statement cmpStmt = parseCompoundStmt();
 
         Declaration fdecl = new FunctionDecl(name, type, p, cmpStmt);
@@ -223,7 +215,6 @@ public class CMinusParser implements Parser {
         Declaration dec = null;
         Statement stmt = null;
         CompoundStmt c = new CompoundStmt(dec, stmt);
-        //currentToken = scan.getNextToken();
         matchToken(TokenType.BRACEOPEN_TOKEN);
         size = 0;
         //something for a loc-decl
@@ -256,7 +247,6 @@ public class CMinusParser implements Parser {
     private Declaration parseLocalDecl() {
         Declaration ld = null;
         matchToken(TokenType.INT_TOKEN);
-        //currentToken = scan.getNextToken();
         //Add ID to the local decl
         name = currentToken.getTokenData().toString();
         matchToken(TokenType.ID_TOKEN);
@@ -312,7 +302,6 @@ public class CMinusParser implements Parser {
                 return null;
 
             case ID_TOKEN:
-                //currentToken = scan.getNextToken();
                 //create new expression stmt
                 stmt = parseEStmt();
                 return stmt;
@@ -658,8 +647,8 @@ public class CMinusParser implements Parser {
     public static void main(String args[]) throws IOException {
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
-        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
-        String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
+        br = new BufferedReader(new FileReader("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
+        String filename = "C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
         BufferedWriter w = new BufferedWriter(new FileWriter(filename));
 
         // read in scanner output to parser          

@@ -3,13 +3,7 @@ Program {
           Returns VOID
           ( void )
           {
-               01
-               =
-                    y
-                    1
-               output (
-                                   y
-               )
+               
            }
       }
  }
