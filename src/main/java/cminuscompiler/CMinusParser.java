@@ -612,6 +612,48 @@ public class CMinusParser implements Parser {
             return ex;
         } // Check for Follow Sets due to Epsilon
         //TODO: set up follow set enums for varcall, or structure this as a big if statement
+        else if (currentToken.getTokenType() == Token.TokenType.MULTIPLY_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.DIVIDE_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.PLUS_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.MINUS_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.SEMICOLON_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.PARANCLOSE_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.LESSTHANEQUAL_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.LESSTHAN_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.GREATERTHAN_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.GREATERTHANEQUAL_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.EQUALEQUAL_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.NOTEQUAL_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.BRACKETCLOSE_TOKEN) {
+            
+        }
+        else if (currentToken.getTokenType() == Token.TokenType.COMMA_TOKEN) {
+            
+        }
         else {
             parseError();
             return null;
@@ -636,12 +678,12 @@ public class CMinusParser implements Parser {
         return arg;
 
         } //Follow Set
-       /* else if (scan.viewNextToken().getTokenType() == Token.TokenType.PARANCLOSE_TOKEN) {
+        else if (scan.viewNextToken().getTokenType() == Token.TokenType.PARANCLOSE_TOKEN) {
             //add to ast/argE
         } else {
             parseError();
             return null;
-        }*/
+        }
         return ex;
     }
 
