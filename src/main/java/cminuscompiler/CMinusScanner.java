@@ -31,12 +31,12 @@ public class CMinusScanner {
     static String[] Keywords = new String[]{"if", "else", "int", "void", "while", "return"};
     static StringBuffer sb = new StringBuffer();
     
-     void CMinusScanner(BufferedReader file) {
+    void CMinusScanner(BufferedReader file) {
         inFile = file;
         nextToken = scanToken();
     }
 
-  Token getNextToken() {
+    Token getNextToken() {
 
         Token returnToken = nextToken;
         if (nextToken.getTokenType() != Token.TokenType.EOF_TOKEN) {
@@ -128,7 +128,7 @@ public class CMinusScanner {
                         state = Token.StateType.DONE;
                       }
                     // Check for white space
-                    else if (c == ' ' || c == '\t' || c == '\n') {
+                    else if (c == ' ' || c == '\t' || c == '\n' || c == '\r') {
                         save = false;
                     }
                     //Check if character is a digit
@@ -347,13 +347,13 @@ public class CMinusScanner {
         
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
-        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
+        br = new BufferedReader(new FileReader("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
         
         //Call Scanner  
         CMinusScanner(br);
         
         Token token;
-        BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/outputfile.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/outputfile.txt"));
 
         //Loop through and print the tokens until you the end of file token
         while (true) {

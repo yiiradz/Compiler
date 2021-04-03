@@ -246,11 +246,11 @@ public class CMinusParser implements Parser {
         Declaration ld = null;
         size = 0;
         if (name == null){
-        matchToken(TokenType.INT_TOKEN);
-        //Add ID to the local decl
-        
-        name = currentToken.getTokenData().toString();
-        matchToken(TokenType.ID_TOKEN);
+            matchToken(TokenType.INT_TOKEN);
+            //Add ID to the local decl
+
+            name = currentToken.getTokenData().toString();
+            matchToken(TokenType.ID_TOKEN);
         }
         if (currentToken.getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
             matchToken(TokenType.BRACKETOPEN_TOKEN);
@@ -649,8 +649,8 @@ public class CMinusParser implements Parser {
     public static void main(String args[]) throws IOException {
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
-        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
-        String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
+        br = new BufferedReader(new FileReader("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
+        String filename = "C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
         BufferedWriter w = new BufferedWriter(new FileWriter(filename));
 
         // read in scanner output to parser          
