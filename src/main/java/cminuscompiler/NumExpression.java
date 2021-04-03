@@ -24,7 +24,7 @@ public class NumExpression extends Expression {
     
     
     @Override
-    public void print(BufferedWriter w, int indent){
+    public void print(BufferedWriter w){
         
         try {
 

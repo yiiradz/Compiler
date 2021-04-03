@@ -28,23 +28,17 @@ public class CallExpression extends Expression {
     }
 
     @Override
-    public void print(BufferedWriter w, int indent) {
+    public void print(BufferedWriter w) {
         try {
               w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
-            funct.print(w, 0);
+             w.write("     ");
+            funct.print(w);
             w.write(" (");
             w.write("\n");
-             for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
-            expr.print(w, indent + 1); 
+             w.write("     ");
+            expr.print(w); 
             w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
+             w.write("     ");
             w.write(")");
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);

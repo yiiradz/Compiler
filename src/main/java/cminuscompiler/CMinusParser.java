@@ -92,10 +92,9 @@ public class CMinusParser implements Parser {
         //Start parsing
         Declaration lhs = parseDecl();
         myProgram.DeclList.add(lhs);
-
+        
         //loop for optional rhs
-        while (scan.viewNextToken().getTokenType() == TokenType.VOID_TOKEN || scan.viewNextToken().getTokenType() == TokenType.INT_TOKEN) {
-            currentToken = scan.getNextToken();
+        while (currentToken.getTokenType() == TokenType.VOID_TOKEN || currentToken.getTokenType() == TokenType.INT_TOKEN) {
             Declaration rhs = parseDecl();
             myProgram.DeclList.add(rhs);
         }
@@ -114,7 +113,6 @@ public class CMinusParser implements Parser {
                 return funDecl;
 
             case INT_TOKEN:
-
                 matchToken(Token.TokenType.INT_TOKEN);
                 name = currentToken.getTokenData().toString();
                 matchToken(Token.TokenType.ID_TOKEN);
@@ -132,11 +130,11 @@ public class CMinusParser implements Parser {
 
         switch (currentToken.getTokenType()) {
             case SEMICOLON_TOKEN: // this is a variable declaration
+                currentToken = scan.getNextToken();
                 Declaration decl = new LocalDecl(name, 0);// size = 0
                 return decl;
 
             case BRACKETOPEN_TOKEN: // this is an array declaration
-
                 Declaration dec = parseLocalDecl();
                 return dec;
 
@@ -246,19 +244,22 @@ public class CMinusParser implements Parser {
 
     private Declaration parseLocalDecl() {
         Declaration ld = null;
+        size = 0;
+        if (name == null){
         matchToken(TokenType.INT_TOKEN);
         //Add ID to the local decl
+        
         name = currentToken.getTokenData().toString();
         matchToken(TokenType.ID_TOKEN);
-
+        }
         if (currentToken.getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
-            currentToken = scan.getNextToken();
             matchToken(TokenType.BRACKETOPEN_TOKEN);
             //Add NUM to the local decl
             size = currentToken.getTokenData().toString();
             matchToken(Token.TokenType.NUM_TOKEN);
             matchToken(TokenType.BRACKETCLOSE_TOKEN);
             matchToken(TokenType.SEMICOLON_TOKEN);
+            
         } else if (currentToken.getTokenType() == TokenType.SEMICOLON_TOKEN) {
             matchToken(TokenType.SEMICOLON_TOKEN);
         }
@@ -425,8 +426,9 @@ public class CMinusParser implements Parser {
                 currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.BRACKETCLOSE_TOKEN);
                 Expression ep = parseExpressionPrimePrime(e);
-                //combine ep and ee
-                return ep;
+                //combine ep and ex
+                a = new AssignExpression(ex, ep);
+                return a;
 
             case PARANOPEN_TOKEN:
                 Expression args = parseArgs(ex);
@@ -474,14 +476,14 @@ public class CMinusParser implements Parser {
 
     }
 
-    private Expression parseExpressionPrimePrime(Expression ee) {
-        if (scan.viewNextToken().getTokenType() == Token.TokenType.EQUAL_TOKEN) {
+    private Expression parseExpressionPrimePrime(Expression ex) {
+        if (currentToken.getTokenType() == Token.TokenType.EQUAL_TOKEN) {
             matchToken(Token.TokenType.EQUAL_TOKEN);
             Expression e = parseExpression();
-            //combine ee and e
-            return e;
+            BinaryExpression a = new BinaryExpression(0,ex, e);
+            return a;
         } else {
-            Expression se = parseSimpleExpressionPrime(ee);
+            Expression se = parseSimpleExpressionPrime(ex);
             return se;
         }
 
@@ -647,8 +649,8 @@ public class CMinusParser implements Parser {
     public static void main(String args[]) throws IOException {
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
-        br = new BufferedReader(new FileReader("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
-        String filename = "C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
+        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
+        String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
         BufferedWriter w = new BufferedWriter(new FileWriter(filename));
 
         // read in scanner output to parser          

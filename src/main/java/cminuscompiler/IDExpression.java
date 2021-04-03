@@ -25,13 +25,12 @@ public class IDExpression extends Expression {
     
     
     @Override
-    public void print(BufferedWriter w, int indent){
+    public void print(BufferedWriter w){
         
         try {
             
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
+           
+            w.write("     ");
             w.write(id.toString());
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);

@@ -31,16 +31,13 @@ public class FunctionDecl extends Declaration {
     }
 
     @Override
-    public void print(BufferedWriter w, int indent) {
+    public void print(BufferedWriter w) {
         try {
             w.write("Function " + name + " { ");
             w.write("\n");
-            indent += 1;
+            
 
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
-
+             w.write("          ");
             if (returnType.equals(0)) {
 
                 w.write("Returns VOID");
@@ -49,29 +46,19 @@ public class FunctionDecl extends Declaration {
                 w.write("Returns INT");
             }
             w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
+             w.write("               ");
             w.write("( ");
-            params.print(w, indent + 1);
+            params.print(w);
             w.write(" )");
-            w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
             w.write("{");
-            cmpdStmt.print(w, indent + 1);
+            cmpdStmt.print(w);
 
             // Print closing brackets
              w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
+             w.write("               ");
             w.write(" }");
             w.write("\n");
-            for (int j = 0; j < indent - 1; j++) {
-                w.write("     ");
-            }
+             w.write("     ");
             w.write(" }");
         } catch (IOException ex) {
             Logger.getLogger(FunctionDecl.class.getName()).log(Level.SEVERE, null, ex);

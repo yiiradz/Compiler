@@ -17,7 +17,7 @@ public class Param {
     public Param (Object i){
         id = i;
     }
-    public void print(BufferedWriter w, int indent) throws IOException{
+    public void print(BufferedWriter w) throws IOException{
         w.write((String) id);
     }
 }

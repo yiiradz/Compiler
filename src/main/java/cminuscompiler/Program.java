@@ -15,21 +15,17 @@ import java.util.ArrayList;
  */
 public class Program {
 
-    int indent = 0;
     // decl-list
     public ArrayList<Declaration> DeclList = new ArrayList<>();
 
     public void printTree(BufferedWriter w) throws IOException {
         // Print "Program { 
         w.write("Program { ");
-        indent = 1;
         // Start recursive indented print
         for (int i = 0; i < DeclList.size(); i++) {
             w.write("\n");
-           for (int j = 0; j < indent; j++) {             
-                w.write("     ");
-            }
-           DeclList.get(i).print(w, indent);
+            w.write("     ");
+           DeclList.get(i).print(w);
         }
 
         // Print closing bracket

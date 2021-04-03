@@ -29,21 +29,17 @@ public class AssignExpression extends Expression {
     }
     
     @Override
-    public void print(BufferedWriter w, int indent) {
+    public void print(BufferedWriter w) {
 
         try {
              w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
+             w.write("     ");
             w.write("=");
             w.write("\n");
-            ld.print(w, indent + 1);
+            ld.print(w);
             w.write("\n");
-            for (int j = 0; j < indent + 1; j++) {
-                w.write("     ");
-            }
-            expr1.print(w, indent); 
+             w.write("     ");
+            expr1.print(w); 
 
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,9 +1,31 @@
 Program { 
+     
+     INT x[2] ;
+     
+     INT y ;
      Function main { 
           Returns VOID
-          ( void )
-          {
-               
-           }
+               ( void ){
+     
+     =
+     x
+     
+0
+     1
+     =
+     x
+     
+1
+     2
+     =
+     y
+     
+     =
+     x
+     1
+          output (
+          y
+     )
+                }
       }
  }

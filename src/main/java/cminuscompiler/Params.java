@@ -28,19 +28,17 @@ public class Params {
         params.add(p);
     }
 
-    public void print(BufferedWriter w, int indent) throws IOException {
+    public void print(BufferedWriter w) throws IOException {
         
         if (!params.isEmpty()){
          for (int i = 0; i < params.size(); i++) {
-            params.get(i).print(w, indent);
+            params.get(i).print(w);
             w.write("\n");
-            for (int j = 0; j < indent; j++) {
-            w.write("     ");
-            }
+             w.write("     ");
         }
         }
         else if (param != null){
-            param.print(w, indent);
+            param.print(w);
         }
 
     }

@@ -25,26 +25,22 @@ public class WhileStmt extends Statement{
     }
     
     @Override
-    public void print (BufferedWriter w, int indent) throws IOException{
+    public void print (BufferedWriter w) throws IOException{
          w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
+             w.write("     ");
          w.write("WHILE (");
-            indent += 1;
+            
             
             if (myExpr != null){
              
-            myExpr.print(w, indent);
+            myExpr.print(w);
             }
             
             w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
+             w.write("     ");
             w.write(")");
 
-            stmt.print(w, indent);
+            stmt.print(w);
             
     }
 }

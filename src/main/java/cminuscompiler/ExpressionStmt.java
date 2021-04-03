@@ -21,10 +21,11 @@ public class ExpressionStmt extends Statement {
         expr = e;
     }
     @Override
-    public void print (BufferedWriter w, int indent) throws IOException{
+    public void print (BufferedWriter w) throws IOException{
             
             if (expr != null){
-            expr.print(w, indent);
+            
+            expr.print(w);
             }
     }
 }

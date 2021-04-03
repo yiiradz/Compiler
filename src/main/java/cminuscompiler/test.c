@@ -1,4 +1,11 @@
-void main(void)
+int x [ 2 ] ;
+int y ;
+
+void main( void )
 {
-   int x = 1 ;
+   x [ 0 ] = 1 ;
+   x [ 1 ] = 2 ;
+   y = x [ 1 ] ;
+   output ( y ) ;
+
 }

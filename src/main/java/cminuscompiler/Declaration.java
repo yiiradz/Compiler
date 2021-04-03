@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public abstract class Declaration {
    
-    public void print(BufferedWriter w, int indent) throws IOException{
+    public void print(BufferedWriter w) throws IOException{
 
         
     }

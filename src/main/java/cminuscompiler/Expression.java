@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public abstract class Expression {  
     
-    public void print(BufferedWriter w, int indent){
+    public void print(BufferedWriter w){
         
     }
   

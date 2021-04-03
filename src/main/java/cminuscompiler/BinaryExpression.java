@@ -29,14 +29,21 @@ public class BinaryExpression extends Expression {
     Expression expr1;
     Expression expr2;
 
+    
     public BinaryExpression(Object op, Expression e1, Expression e2) {
+        operator = op;
+        expr1 = e1;
+        expr2 = e2;
+    }
+    
+       public BinaryExpression(Object op, int i, Expression e1, Expression e2) {
         operator = op;
         expr1 = e1;
         expr2 = e2;
     }
 
     @Override
-    public void print(BufferedWriter w, int indent) {
+    public void print(BufferedWriter w) {
 
         try {
             if (operator.equals(0)) {
@@ -45,20 +52,16 @@ public class BinaryExpression extends Expression {
 
             } else {
                 w.write("\n");
-                for (int j = 0; j < indent; j++) {
-                    w.write("     ");
-                }
+                 w.write("     ");
                 w.write(operator.toString());
                 
             }
 
             w.write("\n");
-            expr1.print(w, indent + 1);
+            expr1.print(w);
             w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                    w.write("     ");
-                }
-            expr2.print(w, 1);
+             w.write("     ");
+            expr2.print(w);
 
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);

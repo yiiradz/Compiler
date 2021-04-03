@@ -30,32 +30,25 @@ public class IfStmt extends Statement {
     }
 
     @Override
-    public void print(BufferedWriter w, int indent) throws IOException {
+    public void print(BufferedWriter w) throws IOException {
         w.write("IF (");
-        indent += 1;
+       
 
-        myExpr.print(w, indent);
+        myExpr.print(w);
         w.write("\n");
-        for (int j = 0; j < indent; j++) {
-            w.write("     ");
-        }
+        w.write("     ");
         w.write(")");
 
         w.write("\n");
-        for (int j = 0; j < indent; j++) {
-            w.write("     ");
-        }
+         w.write("     ");
         w.write("THEN ");
-        s1.print(w, indent + 1);
+        s1.print(w);
 
         if (s2 != null) {
             w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
-
+             w.write("     ");
             w.write("ELSE ");
-            s2.print(w, indent + 1);
+            s2.print(w);
         }
 
     }

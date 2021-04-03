@@ -24,11 +24,9 @@ public class LocalDecl extends Declaration{
     
 
     @Override
-    public void print(BufferedWriter w, int indent) throws IOException {
+    public void print(BufferedWriter w) throws IOException {
           w.write("\n");
-            for (int j = 0; j < indent; j++) {
-                w.write("     ");
-            }
+             w.write("     ");
     if (name != null){
        w.write("INT " + name);
         // if num is empty, print semicolon
