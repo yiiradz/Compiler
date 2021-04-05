@@ -1,6 +1,3 @@
-int x [ 2 ] ;
-int y ;
-
 void main( void )
 {
    x [ 0 ] = 1 ;

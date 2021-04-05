@@ -29,14 +29,13 @@ public class BinaryExpression extends Expression {
     Expression expr1;
     Expression expr2;
 
-    
     public BinaryExpression(Object op, Expression e1, Expression e2) {
         operator = op;
         expr1 = e1;
         expr2 = e2;
     }
-    
-       public BinaryExpression(Object op, int i, Expression e1, Expression e2) {
+
+    public BinaryExpression(Object op, int i, Expression e1, Expression e2) {
         operator = op;
         expr1 = e1;
         expr2 = e2;
@@ -52,15 +51,15 @@ public class BinaryExpression extends Expression {
 
             } else {
                 w.write("\n");
-                 w.write("     ");
+                w.write("     ");
                 w.write(operator.toString());
-                
-            }
 
+            }
             w.write("\n");
+            w.write("     ");
             expr1.print(w);
             w.write("\n");
-             w.write("     ");
+            w.write("     ");
             expr2.print(w);
 
         } catch (IOException ex) {

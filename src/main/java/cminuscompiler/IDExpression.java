@@ -30,7 +30,7 @@ public class IDExpression extends Expression {
         try {
             
            
-            w.write("     ");
+           
             w.write(id.toString());
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);

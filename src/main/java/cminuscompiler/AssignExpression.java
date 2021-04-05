@@ -32,13 +32,11 @@ public class AssignExpression extends Expression {
     public void print(BufferedWriter w) {
 
         try {
-             w.write("\n");
-             w.write("     ");
+           
             w.write("=");
-            w.write("\n");
+           
             ld.print(w);
-            w.write("\n");
-             w.write("     ");
+            
             expr1.print(w); 
 
         } catch (IOException ex) {

@@ -245,13 +245,13 @@ public class CMinusParser implements Parser {
     private Declaration parseLocalDecl() {
         Declaration ld = null;
         size = 0;
-        if (name == null){
+        
             matchToken(TokenType.INT_TOKEN);
             //Add ID to the local decl
 
             name = currentToken.getTokenData().toString();
             matchToken(TokenType.ID_TOKEN);
-        }
+        
         if (currentToken.getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
             matchToken(TokenType.BRACKETOPEN_TOKEN);
             //Add NUM to the local decl
@@ -526,17 +526,17 @@ public class CMinusParser implements Parser {
 
     private Expression parseAdditiveEPrime(Expression ex) {
         Expression lhs = parseTermPrime(ex);
-        if (isAddop(scan.viewNextToken().getTokenType())) {
-            currentToken = scan.viewNextToken();
+
             while (isAddop((currentToken.getTokenType()))) {
                 operator = currentToken.getTokenData();
                 currentToken = scan.getNextToken();
                 Expression rhs = parseTerm(ex);
 
                 lhs = new BinaryExpression(operator, lhs, rhs);
+                currentToken = scan.getNextToken();
 
             }
-        }
+        
         return lhs;
 
     }
@@ -610,9 +610,9 @@ public class CMinusParser implements Parser {
         } else if (currentToken.getTokenType() != Token.TokenType.BRACKETOPEN_TOKEN
                 || currentToken.getTokenType() != Token.TokenType.PARANOPEN_TOKEN) {
             return ex;
-        } // Check for Follow Sets due to Epsilon
+        } // Check for Follow Sets due to Epsilon 
         //TODO: set up follow set enums for varcall, or structure this as a big if statement
-        else if (currentToken.getTokenType() == Token.TokenType.MULTIPLY_TOKEN) {
+       /* else if (currentToken.getTokenType() == Token.TokenType.MULTIPLY_TOKEN) {
             
         }
         else if (currentToken.getTokenType() == Token.TokenType.DIVIDE_TOKEN) {
@@ -653,7 +653,7 @@ public class CMinusParser implements Parser {
         }
         else if (currentToken.getTokenType() == Token.TokenType.COMMA_TOKEN) {
             
-        }
+        } */
         else {
             parseError();
             return null;
@@ -691,8 +691,8 @@ public class CMinusParser implements Parser {
     public static void main(String args[]) throws IOException {
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
-        br = new BufferedReader(new FileReader("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
-        String filename = "C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
+        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
+        String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
         BufferedWriter w = new BufferedWriter(new FileWriter(filename));
 
         // read in scanner output to parser          

@@ -36,10 +36,11 @@ public class CompoundStmt extends Statement {
     @Override
     public void print(BufferedWriter w) throws IOException {
         w.write("\n");
-         w.write("     ");
         for (int i = 0; i < ldList.size(); i++) {
             
             if (ldList.get(i) != null){
+                w.write("\n");
+                w.write("               ");
             ldList.get(i).print(w);
             
         }
@@ -49,6 +50,8 @@ public class CompoundStmt extends Statement {
         for (int i = 0; i < stList.size(); i++) {
             
             if (stList.get(i) != null){
+                w.write("\n");
+                w.write("               ");
             stList.get(i).print(w);
            
         }

@@ -1,30 +1,18 @@
 Program { 
-     
-     INT x[2] ;
-     
-     INT y ;
      Function main { 
           Returns VOID
                ( void ){
-     
-     =
-     x
-     
-0
+
+               =x
+     0
      1
-     =
-     y
-     
-1
+               =y
+     1
      2
-     =
-     z
-     
-     =
-     x
-     1
-          output (
-          y
+               =z=x1
+               
+     output (
+     y
      )
                 }
       }
