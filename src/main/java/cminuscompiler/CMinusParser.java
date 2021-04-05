@@ -70,8 +70,8 @@ public class CMinusParser implements Parser {
         }
     }
 
-    public void parseError(/*TokenType curToken, TokenType matchedToken*/) {
-        //System.out.println("ERROR: Syntax Error.  Received: " + curToken + ", expected: " + matchedToken + ".  Parsing failed.");
+    public void parseError(TokenType curToken, String matchedToken) {
+        System.out.println("ERROR: Syntax Error.  Received: " + curToken + ", expected: " + matchedToken + ".  Parsing failed.");
         //syntax error *here* expecting *this* because of *this* 
     }
 
@@ -82,7 +82,8 @@ public class CMinusParser implements Parser {
             currentToken = scan.getNextToken();
             return true;
         } else {
-            parseError(/*currentToken.getTokenType(), T*/);
+            String parseString = T.toString();
+            parseError(currentToken.getTokenType(), parseString);
         }
         return false;
     }
@@ -120,7 +121,7 @@ public class CMinusParser implements Parser {
                 return declPrime;
 
             default:
-                parseError();
+                parseError(currentToken.getTokenType(), "a Decl Token");
                 return null;
         }
 
@@ -143,7 +144,7 @@ public class CMinusParser implements Parser {
                 return funDecl;
 
             default:
-                parseError();
+                parseError(currentToken.getTokenType(), "a DeclPrime Token");
                 return null;
         }
     }
@@ -188,7 +189,7 @@ public class CMinusParser implements Parser {
                 return p;
 
             default:
-                parseError();
+                parseError(currentToken.getTokenType(), "a Params Token");
                 return null;
         }
     }
@@ -308,7 +309,7 @@ public class CMinusParser implements Parser {
                 return stmt;
 
             default:
-                parseError();
+                parseError(currentToken.getTokenType(), "a Stmt Token");
                 return null;
         }
 
@@ -403,7 +404,7 @@ public class CMinusParser implements Parser {
                 return ep;
 
             default:
-                parseError();
+                parseError(currentToken.getTokenType(), "an Expresion Token");
                 return null;
         }
     }
@@ -470,7 +471,7 @@ public class CMinusParser implements Parser {
             case PARANCLOSE_TOKEN:
                 return ex;
             default:
-                parseError();
+                parseError(currentToken.getTokenType(), "an ExpressionPrime Token");
                 return null;
         }
 
@@ -589,7 +590,7 @@ public class CMinusParser implements Parser {
                 return vc;
 
             default:
-                parseError();
+                parseError(currentToken.getTokenType(), "a Factor Token");
                 return null;
         }
 
@@ -655,7 +656,7 @@ public class CMinusParser implements Parser {
             
         } */
         else {
-            parseError();
+            parseError(currentToken.getTokenType(), "a Varcall Token");
             return null;
         }
 
@@ -681,7 +682,7 @@ public class CMinusParser implements Parser {
         else if (scan.viewNextToken().getTokenType() == Token.TokenType.PARANCLOSE_TOKEN) {
             //add to ast/argE
         } else {
-            parseError();
+            parseError(currentToken.getTokenType(), "an Args Token");
             return null;
         }
         return ex;
@@ -694,9 +695,15 @@ public class CMinusParser implements Parser {
         //Yayira class path
         //br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
         //String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
-        //Matthew class path
-        br = new BufferedReader(new FileReader("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
-        String filename = "C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
+        
+        //Matthew PC class path
+        //br = new BufferedReader(new FileReader("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
+        //String filename = "C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
+        
+        //Matthew MAC class path
+        br = new BufferedReader(new FileReader("/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
+        String filename = "/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
+        
         BufferedWriter w = new BufferedWriter(new FileWriter(filename));
 
         // read in scanner output to parser          
