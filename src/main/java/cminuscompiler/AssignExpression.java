@@ -34,9 +34,15 @@ public class AssignExpression extends Expression {
         try {
            
             w.write("=");
-           
+            w.write("\n");
+              w.write("     ");
+              w.write("     ");
+              w.write("     ");
             ld.print(w);
-            
+             w.write("\n");
+             w.write("     ");
+             w.write("     ");
+             w.write("     ");
             expr1.print(w); 
 
         } catch (IOException ex) {

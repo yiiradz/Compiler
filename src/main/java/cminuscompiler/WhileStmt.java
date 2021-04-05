@@ -26,8 +26,7 @@ public class WhileStmt extends Statement{
     
     @Override
     public void print (BufferedWriter w) throws IOException{
-         w.write("\n");
-             w.write("     ");
+
          w.write("WHILE (");
             
             
@@ -38,6 +37,8 @@ public class WhileStmt extends Statement{
             
             w.write("\n");
              w.write("     ");
+              w.write("     ");
+               w.write("     ");
             w.write(")");
 
             stmt.print(w);

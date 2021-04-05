@@ -3,17 +3,11 @@ Program {
           Returns VOID
                ( void ){
 
-               =x
-     0
-     1
-               =y
-     1
-     2
-               =z=x1
+               =
+                    x
                
-     output (
-     y
-     )
+                         0
+                         1
                 }
       }
  }

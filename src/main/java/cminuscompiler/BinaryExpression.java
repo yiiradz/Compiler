@@ -52,14 +52,23 @@ public class BinaryExpression extends Expression {
             } else {
                 w.write("\n");
                 w.write("     ");
+                 w.write("     ");
+                  w.write("     ");
+                   w.write("     ");
                 w.write(operator.toString());
 
             }
             w.write("\n");
             w.write("     ");
+             w.write("     ");
+             w.write("     ");
+             w.write("     ");
             expr1.print(w);
             w.write("\n");
             w.write("     ");
+             w.write("     ");
+             w.write("     ");
+             w.write("     ");
             expr2.print(w);
 
         } catch (IOException ex) {

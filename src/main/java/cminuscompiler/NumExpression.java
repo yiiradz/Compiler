@@ -29,6 +29,7 @@ public class NumExpression extends Expression {
         try {
 
             
+              w.write("     ");
             w.write(num.toString());
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);

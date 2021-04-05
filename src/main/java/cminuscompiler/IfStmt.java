@@ -37,16 +37,22 @@ public class IfStmt extends Statement {
         myExpr.print(w);
         w.write("\n");
         w.write("     ");
+         w.write("     ");
+          w.write("     ");
         w.write(")");
 
         w.write("\n");
          w.write("     ");
+          w.write("     ");
+           w.write("     ");
         w.write("THEN ");
         s1.print(w);
 
         if (s2 != null) {
             w.write("\n");
              w.write("     ");
+              w.write("     ");
+               w.write("     ");
             w.write("ELSE ");
             s2.print(w);
         }
