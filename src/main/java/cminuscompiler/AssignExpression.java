@@ -19,10 +19,12 @@ public class AssignExpression extends Expression {
     //var on the left side
     // expr on right side
     //x = x + 1;
+    boolean isBracket;
     Expression ld;
     Expression expr1;
 
-    public AssignExpression(Expression var, Expression e1) {
+    public AssignExpression(boolean b, Expression var, Expression e1) {
+        isBracket = b;
         ld = var;
         expr1 = e1;
         
@@ -38,7 +40,14 @@ public class AssignExpression extends Expression {
               w.write("     ");
               w.write("     ");
               w.write("     ");
+            if (isBracket == true) {
+                w.write("[");
+                ld.print(w);
+                w.write("]");
+            }
+            else {
             ld.print(w);
+            }
              w.write("\n");
              w.write("     ");
              w.write("     ");

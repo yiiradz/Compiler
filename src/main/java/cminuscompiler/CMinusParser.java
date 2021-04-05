@@ -417,7 +417,7 @@ public class CMinusParser implements Parser {
                 //need to save this operator
                 operator = 1;
                 Expression e = parseExpression();
-                AssignExpression a = new AssignExpression(ex, e);
+                AssignExpression a = new AssignExpression(false, ex, e);
                 return a;
 
             case BRACKETOPEN_TOKEN:
@@ -427,7 +427,7 @@ public class CMinusParser implements Parser {
                 matchToken(Token.TokenType.BRACKETCLOSE_TOKEN);
                 Expression ep = parseExpressionPrimePrime(e);
                 //combine ep and ex
-                a = new AssignExpression(ex, ep);
+                a = new AssignExpression(true, ex, ep);
                 return a;
 
             case PARANOPEN_TOKEN:
@@ -690,9 +690,13 @@ public class CMinusParser implements Parser {
     //main method
     public static void main(String args[]) throws IOException {
         BufferedReader br = null;
-        // Read c file into scanner (need to adjust this path name)
-        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
-        String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
+        // Read c file into scanner
+        //Yayira class path
+        //br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
+        //String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
+        //Matthew class path
+        br = new BufferedReader(new FileReader("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
+        String filename = "C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
         BufferedWriter w = new BufferedWriter(new FileWriter(filename));
 
         // read in scanner output to parser          

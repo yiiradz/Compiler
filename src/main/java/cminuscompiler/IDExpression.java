@@ -28,9 +28,7 @@ public class IDExpression extends Expression {
     public void print(BufferedWriter w){
         
         try {
-            
-           
-             w.write("     ");
+            w.write("     ");
             w.write(id.toString());
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);
