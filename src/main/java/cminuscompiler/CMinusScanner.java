@@ -31,12 +31,12 @@ public class CMinusScanner {
     static String[] Keywords = new String[]{"if", "else", "int", "void", "while", "return"};
     static StringBuffer sb = new StringBuffer();
     
-    void CMinusScanner(BufferedReader file) {
+    static void CMinusScanner(BufferedReader file) {
         inFile = file;
         nextToken = scanToken();
     }
 
-    Token getNextToken() {
+    static Token getNextToken() {
 
         Token returnToken = nextToken;
         if (nextToken.getTokenType() != Token.TokenType.EOF_TOKEN) {
@@ -171,9 +171,6 @@ public class CMinusScanner {
                             case '*':
                                 currentToken.setTokenType(Token.TokenType.MULTIPLY_TOKEN);
                                 break;
-                            case '/':
-                                currentToken.setTokenType(Token.TokenType.DIVIDE_TOKEN);
-                                break;
                             case ';':
                                 currentToken.setTokenType(Token.TokenType.SEMICOLON_TOKEN);
                                 break;
@@ -223,9 +220,12 @@ public class CMinusScanner {
                     break;
                 case ISDIVIDE:
                     if (c == '*') {
+                        save = false;
                         state = Token.StateType.ISCOMMENT;
                     } else {
                         save = true;
+                        c = '/';
+                        currentToken.setTokenType(Token.TokenType.DIVIDE_TOKEN);
                         ungetNextChar();
                         state = Token.StateType.DONE;
                     }
@@ -343,17 +343,17 @@ public class CMinusScanner {
     }
 
     //main method
-    public void main(String args[]) throws FileNotFoundException, IOException {
+    public static void main(String args[]) throws FileNotFoundException, IOException {
         
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
-        br = new BufferedReader(new FileReader("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
+        br = new BufferedReader(new FileReader("/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
         
         //Call Scanner  
         CMinusScanner(br);
         
         Token token;
-        BufferedWriter writer = new BufferedWriter(new FileWriter("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/outputfile.txt"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/outputfile.txt"));
 
         //Loop through and print the tokens until you the end of file token
         while (true) {
