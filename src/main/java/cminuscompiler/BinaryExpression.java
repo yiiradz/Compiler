@@ -63,13 +63,17 @@ public class BinaryExpression extends Expression {
              w.write("     ");
              w.write("     ");
              w.write("     ");
+             w.write("     ");
             expr1.print(w);
+            if (expr2 != null){
             w.write("\n");
             w.write("     ");
              w.write("     ");
              w.write("     ");
              w.write("     ");
+             w.write("     ");
             expr2.print(w);
+            }
 
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);

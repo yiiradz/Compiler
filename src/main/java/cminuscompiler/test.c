@@ -1,2 +1,5 @@
-/* test test */
-a = 1 / 3 ;
+void main ( void )
+{
+   x [ 0 ] = 1 
+
+}

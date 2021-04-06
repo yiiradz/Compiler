@@ -93,7 +93,7 @@ public class CMinusParser implements Parser {
         //Start parsing
         Declaration lhs = parseDecl();
         myProgram.DeclList.add(lhs);
-        
+
         //loop for optional rhs
         while (currentToken.getTokenType() == TokenType.VOID_TOKEN || currentToken.getTokenType() == TokenType.INT_TOKEN) {
             Declaration rhs = parseDecl();
@@ -184,7 +184,7 @@ public class CMinusParser implements Parser {
 
             case VOID_TOKEN:
                 // Save Void
-                Param v = parseParam();
+                Param v = new Param(name);
                 Params p = new Params(v);
                 return p;
 
@@ -196,11 +196,10 @@ public class CMinusParser implements Parser {
 
     private Param parseParam() {
 
-       
         matchToken(TokenType.INT_TOKEN);
         Param p = new Param(currentToken.getTokenData());
         matchToken(TokenType.ID_TOKEN);
-        
+
         if (currentToken.getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
             matchToken(TokenType.BRACKETOPEN_TOKEN);
             matchToken(TokenType.BRACKETCLOSE_TOKEN);
@@ -236,7 +235,6 @@ public class CMinusParser implements Parser {
 
         }
 
-        currentToken = scan.getNextToken();
         matchToken(TokenType.BRACECLOSE_TOKEN);
         Statement cmpdStmt = new CompoundStmt(dec, stmt);
 
@@ -246,13 +244,13 @@ public class CMinusParser implements Parser {
     private Declaration parseLocalDecl() {
         Declaration ld = null;
         size = 0;
-        
+        if (name == null || currentToken.getTokenType() == TokenType.INT_TOKEN) {
             matchToken(TokenType.INT_TOKEN);
             //Add ID to the local decl
 
             name = currentToken.getTokenData().toString();
             matchToken(TokenType.ID_TOKEN);
-        
+        }
         if (currentToken.getTokenType() == TokenType.BRACKETOPEN_TOKEN) {
             matchToken(TokenType.BRACKETOPEN_TOKEN);
             //Add NUM to the local decl
@@ -260,11 +258,12 @@ public class CMinusParser implements Parser {
             matchToken(Token.TokenType.NUM_TOKEN);
             matchToken(TokenType.BRACKETCLOSE_TOKEN);
             matchToken(TokenType.SEMICOLON_TOKEN);
-            
+
         } else if (currentToken.getTokenType() == TokenType.SEMICOLON_TOKEN) {
             matchToken(TokenType.SEMICOLON_TOKEN);
         }
         ld = new LocalDecl(name, size);
+        name = null;
         return ld;
     }
 
@@ -294,7 +293,7 @@ public class CMinusParser implements Parser {
             case NUM_TOKEN:
                 currentToken = scan.getNextToken();
                 //create new num expr
-                 Statement stmt = parseEStmt();
+                Statement stmt = parseEStmt();
                 return stmt;
 
             case PARANOPEN_TOKEN:
@@ -323,10 +322,9 @@ public class CMinusParser implements Parser {
                 || currentToken.getTokenType() == Token.TokenType.PARANOPEN_TOKEN
                 || currentToken.getTokenType() == Token.TokenType.ID_TOKEN) {
             Expression e = parseExpression();
-            eStmt = new ExpressionStmt(e);           
+            eStmt = new ExpressionStmt(e);
         }
 
-        currentToken = scan.getNextToken();
         matchToken(TokenType.SEMICOLON_TOKEN);
 
         return eStmt;
@@ -390,7 +388,6 @@ public class CMinusParser implements Parser {
             case PARANOPEN_TOKEN:
                 currentToken = scan.getNextToken();
                 Expression e = parseExpression();
-                currentToken = scan.getNextToken();
                 matchToken(Token.TokenType.PARANCLOSE_TOKEN);
                 se = parseSimpleExpressionPrime(e);
 
@@ -429,11 +426,11 @@ public class CMinusParser implements Parser {
                 Expression ep = parseExpressionPrimePrime(e);
                 //combine ep and ex
                 a = new AssignExpression(true, ex, ep);
+                currentToken = scan.getNextToken();
                 return a;
 
             case PARANOPEN_TOKEN:
                 Expression args = parseArgs(ex);
-                matchToken(Token.TokenType.PARANCLOSE_TOKEN);
                 return args;
 
             case PLUS_TOKEN:
@@ -481,7 +478,7 @@ public class CMinusParser implements Parser {
         if (currentToken.getTokenType() == Token.TokenType.EQUAL_TOKEN) {
             matchToken(Token.TokenType.EQUAL_TOKEN);
             Expression e = parseExpression();
-            BinaryExpression a = new BinaryExpression(0,ex, e);
+            BinaryExpression a = new BinaryExpression(0, ex, e);
             return a;
         } else {
             Expression se = parseSimpleExpressionPrime(ex);
@@ -493,17 +490,17 @@ public class CMinusParser implements Parser {
     private Expression parseSimpleExpressionPrime(Expression ex) {
 
         Expression aepExpr = parseAdditiveEPrime(ex);
-       
-            //check for AE
-            if (isRelop(currentToken.getTokenType())
-                    || isAddop(currentToken.getTokenType())
-                    || isMulop(currentToken.getTokenType())) {
-                operator = currentToken.getTokenData();
-                currentToken = scan.getNextToken();
-                Expression aeExpr = parseAdditiveE(ex);
 
-                aepExpr = new BinaryExpression(operator, aepExpr, aeExpr);
-            
+        //check for AE
+        if (isRelop(currentToken.getTokenType())
+                || isAddop(currentToken.getTokenType())
+                || isMulop(currentToken.getTokenType())) {
+            operator = currentToken.getTokenData();
+            currentToken = scan.getNextToken();
+            Expression aeExpr = parseAdditiveE(ex);
+
+            aepExpr = new BinaryExpression(operator, aepExpr, aeExpr);
+
         }
         //SimpleExpressionPrime
         return aepExpr;
@@ -528,16 +525,15 @@ public class CMinusParser implements Parser {
     private Expression parseAdditiveEPrime(Expression ex) {
         Expression lhs = parseTermPrime(ex);
 
-            while (isAddop((currentToken.getTokenType()))) {
-                operator = currentToken.getTokenData();
-                currentToken = scan.getNextToken();
-                Expression rhs = parseTerm(ex);
+        while (isAddop((currentToken.getTokenType()))) {
+            operator = currentToken.getTokenData();
+            currentToken = scan.getNextToken();
+            Expression rhs = parseTerm(ex);
 
-                lhs = new BinaryExpression(operator, lhs, rhs);
-                currentToken = scan.getNextToken();
+            lhs = new BinaryExpression(operator, lhs, rhs);
 
-            }
-        
+        }
+
         return lhs;
 
     }
@@ -546,9 +542,10 @@ public class CMinusParser implements Parser {
         Expression lhs = parseFactor(ex);
 
         while (isMulop(currentToken.getTokenType())) {
-            operator = currentToken.getTokenData();
+            Object operator2 = currentToken.getTokenData();
+            currentToken = scan.getNextToken();
             Expression rhs = parseFactor(ex);
-            lhs = new BinaryExpression(operator, lhs, rhs);
+            lhs = new BinaryExpression(operator2, lhs, rhs);
         }
 
         return lhs;
@@ -556,10 +553,10 @@ public class CMinusParser implements Parser {
 
     private Expression parseTermPrime(Expression ex) {
         while (isMulop(currentToken.getTokenType())) {
-            operator = currentToken.getTokenData();
+            Object operator2 = currentToken.getTokenData();
             currentToken = scan.getNextToken();
             Expression rhs = parseFactor(ex); // parse factor is returning a instead of finding b
-            BinaryExpression b = new BinaryExpression(operator, ex, rhs);
+            BinaryExpression b = new BinaryExpression(operator2, ex, rhs);
             return b;
         }
 
@@ -577,7 +574,7 @@ public class CMinusParser implements Parser {
 
             case NUM_TOKEN:
                 Token thisToken = currentToken;
-                 NumExpression n = new NumExpression(thisToken.getTokenData());
+                NumExpression n = new NumExpression(thisToken.getTokenData());
                 return n;
 
             case BRACKETOPEN_TOKEN:
@@ -610,56 +607,43 @@ public class CMinusParser implements Parser {
             return arg;
         } else if (currentToken.getTokenType() != Token.TokenType.BRACKETOPEN_TOKEN
                 || currentToken.getTokenType() != Token.TokenType.PARANOPEN_TOKEN) {
+            currentToken = scan.getNextToken();
             return ex;
         } // Check for Follow Sets due to Epsilon 
-        //TODO: set up follow set enums for varcall, or structure this as a big if statement
-       /* else if (currentToken.getTokenType() == Token.TokenType.MULTIPLY_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.DIVIDE_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.PLUS_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.MINUS_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.SEMICOLON_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.PARANCLOSE_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.LESSTHANEQUAL_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.LESSTHAN_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.GREATERTHAN_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.GREATERTHANEQUAL_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.EQUALEQUAL_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.NOTEQUAL_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.BRACKETCLOSE_TOKEN) {
-            
-        }
-        else if (currentToken.getTokenType() == Token.TokenType.COMMA_TOKEN) {
-            
-        } */
-        else {
+        //set up follow set enums for varcall, or structure this as a big if statement
+        else if (currentToken.getTokenType() == Token.TokenType.MULTIPLY_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.DIVIDE_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.PLUS_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.MINUS_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.SEMICOLON_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.PARANCLOSE_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.LESSTHANEQUAL_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.LESSTHAN_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.GREATERTHAN_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.GREATERTHANEQUAL_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.EQUALEQUAL_TOKEN) {
+
+        } else if (currentToken.getTokenType() == Token.TokenType.NOTEQUAL_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.BRACKETCLOSE_TOKEN) {
+            return ex;
+        } else if (currentToken.getTokenType() == Token.TokenType.COMMA_TOKEN) {
+            return ex;
+        } else {
             parseError(currentToken.getTokenType(), "a Varcall Token");
             return null;
         }
-
+        return ex;
     }
 
     private Expression parseArgs(Expression ex) {
@@ -675,17 +659,17 @@ public class CMinusParser implements Parser {
                 e = parseExpression();
                 // add to AST/argE
             }
-            Expression arg = new CallExpression(ex,e);
-        return arg;
+            Expression arg = new CallExpression(ex, e);
+            return arg;
 
         } //Follow Set
-        else if (scan.viewNextToken().getTokenType() == Token.TokenType.PARANCLOSE_TOKEN) {
-            //add to ast/argE
+        else if (currentToken.getTokenType() == Token.TokenType.PARANCLOSE_TOKEN) {
+            return ex;
         } else {
             parseError(currentToken.getTokenType(), "an Args Token");
             return null;
         }
-        return ex;
+
     }
 
     //main method
@@ -693,17 +677,15 @@ public class CMinusParser implements Parser {
         BufferedReader br = null;
         // Read c file into scanner
         //Yayira class path
-        //br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
-        //String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
-        
+        br = new BufferedReader(new FileReader("/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test.c"));
+        String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
+
         //Matthew PC class path
         //br = new BufferedReader(new FileReader("C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
         //String filename = "C:/Users/mpoh9/OneDrive/Documents/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
-        
         //Matthew MAC class path
-        br = new BufferedReader(new FileReader("/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
-        String filename = "/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
-        
+        /* br = new BufferedReader(new FileReader("/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
+        String filename = "/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";*/
         BufferedWriter w = new BufferedWriter(new FileWriter(filename));
 
         // read in scanner output to parser          

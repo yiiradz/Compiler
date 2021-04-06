@@ -40,6 +40,8 @@ public class AssignExpression extends Expression {
               w.write("     ");
               w.write("     ");
               w.write("     ");
+              w.write("     ");
+
             if (isBracket == true) {
                 w.write("[");
                 ld.print(w);
