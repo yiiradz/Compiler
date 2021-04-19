@@ -31,5 +31,12 @@ public class Program {
         // Print closing bracket
         w.write("\n }");
     }
+    
+    public void genLLCode () {
+        // need to build a list of Code Items
+         for (int i = 0; i < DeclList.size(); i++) {
+           DeclList.get(i).genLLCode();
+        }
+    }
 
 }

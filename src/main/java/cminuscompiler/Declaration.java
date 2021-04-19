@@ -18,6 +18,8 @@ public abstract class Declaration {
 
         
     }
+    public void genLLCode () {
     
+    }
     
 }
