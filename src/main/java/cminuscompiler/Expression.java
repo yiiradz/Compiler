@@ -7,6 +7,7 @@ package cminuscompiler;
 
 import java.io.BufferedWriter;
 import java.util.ArrayList;
+import lowlevel.CodeItem;
 
 /**
  *
@@ -16,6 +17,11 @@ public abstract class Expression {
     
     public void print(BufferedWriter w){
         
+    }
+    
+    public void genLLCode () {
+        
+    
     }
   
 }

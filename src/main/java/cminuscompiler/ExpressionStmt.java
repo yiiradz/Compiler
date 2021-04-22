@@ -28,4 +28,8 @@ public class ExpressionStmt extends Statement {
             expr.print(w);
             }
     }
+    
+    public void genLLCode () {
+        expr.genLLCode();
+    }
 }

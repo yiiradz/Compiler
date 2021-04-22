@@ -29,12 +29,14 @@ public class CMinusCompiler implements Compiler {
 
         String fileName = filePrefix + ".c";
         BufferedReader br = new BufferedReader(new FileReader (fileName));
+        String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
+        BufferedWriter w = new BufferedWriter(new FileWriter(filename));
         try {
             Parser myParser = new CMinusParser(br); //TODO: adapt this line to make our parser and scanner
 
             Program parseTree = myParser.parse(); // this calls p2
-           // myParser.printTree(w); // TODO: we use a bufferedreader in our print and that might be an issue
-
+            parseTree.printTree(w); // TODO: we use a bufferedreader in our print and that might be an issue
+            w.close();
             CodeItem lowLevelCode = parseTree.genLLCode(); // this is p3 this should call program genllcode
             //program llcode for everyy decl call gencode
             
@@ -128,7 +130,7 @@ public class CMinusCompiler implements Compiler {
     }
 
     public static void main(String[] args) throws IOException {
-        String filePrefix = "test5";
+        String filePrefix = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test";
         CMinusCompiler myCompiler = new CMinusCompiler();
         myCompiler.setGenX64Code(true);
         myCompiler.compile(filePrefix);

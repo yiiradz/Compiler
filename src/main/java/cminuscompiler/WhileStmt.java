@@ -7,6 +7,7 @@ package cminuscompiler;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import lowlevel.Function;
 
 /**
  *
@@ -43,5 +44,12 @@ public class WhileStmt extends Statement{
 
             stmt.print(w);
             
+    }
+    
+    @Override
+    public void genLLCode(Function f){
+        
+        f.createBlock0();
+       
     }
 }

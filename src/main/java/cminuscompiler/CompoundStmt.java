@@ -8,6 +8,9 @@ package cminuscompiler;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import lowlevel.CodeItem;
+import lowlevel.Data;
+import lowlevel.Function;
 
 /**
  *
@@ -58,5 +61,9 @@ public class CompoundStmt extends Statement {
             }
         }
     
+    @Override
+    public void genLLCode(Function f){
+       
+    }
 
 }

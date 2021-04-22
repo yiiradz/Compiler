@@ -7,6 +7,9 @@ package cminuscompiler;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import lowlevel.CodeItem;
+import lowlevel.Data;
+import lowlevel.Function;
 
 /**
  *
@@ -40,4 +43,15 @@ public class LocalDecl extends Declaration{
     }
     }
     
+    @Override
+     public CodeItem genLLCode(){
+        Data d = new Data((int)size, name);
+        return d;
+    }
+    
+     // Within CmpdStmt
+     public CodeItem genLLCode(Function f){
+        Data d = new Data((int)size, name);
+        return d;
+    }
 }

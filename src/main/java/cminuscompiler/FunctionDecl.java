@@ -9,6 +9,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lowlevel.CodeItem;
+import lowlevel.FuncParam;
+import lowlevel.Function;
 
 /**
  *
@@ -63,6 +66,32 @@ public class FunctionDecl extends Declaration {
         } catch (IOException ex) {
             Logger.getLogger(FunctionDecl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public CodeItem genLLCode(){
+        Function func = new Function((int)returnType, name);
+        // Set Block
+        func.createBlock0();
+        
+        cmpdStmt.genLLCode(func);
+        
+        // Appending params
+        for (int i = 0; i < params.params.size(); i++){
+            if(func.getTable().containsValue(params.params.indexOf(i))){
+                //error
+            }
+            else {
+                func.getTable().put(i,params.params.indexOf(i));
+            }
+            FuncParam firstParam = new FuncParam();
+            //need to fill first param with param info from params.(i)
+            
+            //Set param as head of LL 
+            func.setFirstParam(firstParam);
+        }
+        
+        func.appendBlock(newBlock);
+        return func;
     }
 
 }

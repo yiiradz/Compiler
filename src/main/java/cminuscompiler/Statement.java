@@ -8,6 +8,7 @@ package cminuscompiler;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import lowlevel.Function;
 
 /**
  *
@@ -18,5 +19,10 @@ public abstract class Statement {
     public void print(BufferedWriter w) throws IOException{
 
         
+    }
+    
+    public void genLLCode (Function f) {
+        
+    
     }
 }

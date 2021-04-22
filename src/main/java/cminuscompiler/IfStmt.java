@@ -7,6 +7,7 @@ package cminuscompiler;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import lowlevel.Function;
 
 /**
  *
@@ -57,5 +58,16 @@ public class IfStmt extends Statement {
             s2.print(w);
         }
 
+    }
+    
+    @Override
+    public void genLLCode(Function f){
+        
+        f.createBlock0();
+        
+        myExpr.genLLCode();
+        
+        
+       
     }
 }

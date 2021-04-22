@@ -20,7 +20,8 @@ public abstract class Declaration {
         
     }
     public CodeItem genLLCode () {
-    return null;
+        
+    return this.genLLCode();
     }
     
 }
