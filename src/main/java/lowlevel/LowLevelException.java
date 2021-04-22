@@ -1,4 +1,4 @@
-package cminuscompiler;
+package lowlevel;
 
 /**
  * This is a general-purpose exception for use by low-level code methods.

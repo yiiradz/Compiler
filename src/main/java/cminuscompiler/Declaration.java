@@ -7,6 +7,7 @@ package cminuscompiler;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import lowlevel.CodeItem;
 
 /**
  *
@@ -18,8 +19,8 @@ public abstract class Declaration {
 
         
     }
-    public void genLLCode () {
-    
+    public CodeItem genLLCode () {
+    return null;
     }
     
 }

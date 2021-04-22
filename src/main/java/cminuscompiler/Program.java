@@ -8,6 +8,7 @@ package cminuscompiler;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import lowlevel.CodeItem;
 
 /**
  *
@@ -17,6 +18,8 @@ public class Program {
 
     // decl-list
     public ArrayList<Declaration> DeclList = new ArrayList<>();
+    // list of CodeItems
+    public ArrayList<CodeItem> cIList = new ArrayList<>();
 
     public void printTree(BufferedWriter w) throws IOException {
         // Print "Program { 
@@ -25,18 +28,21 @@ public class Program {
         for (int i = 0; i < DeclList.size(); i++) {
             w.write("\n");
             w.write("     ");
-           DeclList.get(i).print(w);
+            DeclList.get(i).print(w);
         }
 
         // Print closing bracket
         w.write("\n }");
     }
-    
-    public void genLLCode () {
-        // need to build a list of Code Items
-         for (int i = 0; i < DeclList.size(); i++) {
-           DeclList.get(i).genLLCode();
-        }
-    }
 
+    public CodeItem genLLCode() {
+        int i;
+        // need to build a list of Code Items
+        for (i = 0; i < DeclList.size(); i++) {
+            CodeItem c = DeclList.get(i).genLLCode();
+            cIList.add(i, c);
+        }
+            
+        return cIList.get(i); // TODO: This is not returning the right thing
+    }
 }
