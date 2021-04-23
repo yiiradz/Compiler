@@ -36,4 +36,9 @@ public class NumExpression extends Expression {
         }
 
     }
+    
+        public void genLLCode () {
+        // move num into register and annotate yourself
+        
+        }
 }

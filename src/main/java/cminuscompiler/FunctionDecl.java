@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lowlevel.BasicBlock;
 import lowlevel.CodeItem;
 import lowlevel.FuncParam;
 import lowlevel.Function;
@@ -68,29 +69,55 @@ public class FunctionDecl extends Declaration {
         }
     }
     
+    @Override
     public CodeItem genLLCode(){
         Function func = new Function((int)returnType, name);
-        // Set Block
-        func.createBlock0();
         
-        cmpdStmt.genLLCode(func);
-        
-        // Appending params
+         // Appending params
         for (int i = 0; i < params.params.size(); i++){
-            if(func.getTable().containsValue(params.params.indexOf(i))){
+            //create local var for Param
+            Param currentParam = params.params.get(i);
+            if(func.getTable().containsValue(currentParam.id)){
                 //error
             }
             else {
-                func.getTable().put(i,params.params.indexOf(i));
+                // Put param in table and call a new register num for it
+                func.getTable().put(func.getNewRegNum(),currentParam.id);
             }
-            FuncParam firstParam = new FuncParam();
-            //need to fill first param with param info from params.(i)
             
+            //need to fill first param with param info from params.(i)
+            FuncParam firstParam = new FuncParam( /* here we need to pass the param type (but we don't pass that... ) and param id value (name) */);
+            //tail param
+            if (i == 0 ){
+                //first param == tail == new func
+            }
+            else {
+                //tail.next = new funcparam
+                //tail = new funcparam
+            }
             //Set param as head of LL 
             func.setFirstParam(firstParam);
         }
         
-        func.appendBlock(newBlock);
+        // Set Block
+        func.createBlock0();
+        //Create new Block
+        BasicBlock b2 = new BasicBlock(func);
+        
+        func.appendBlock(b2);
+        
+        // Set current Block pointer
+        func.setCurrBlock(b2);
+        
+        // Call genCode on compound stmt
+        cmpdStmt.genLLCode(func);
+        
+        func.appendBlock(func.getReturnBlock());
+        // append the unconnect chain
+       
+        
+        
+        // genreturnBlock?
         return func;
     }
 

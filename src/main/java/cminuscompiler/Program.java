@@ -42,7 +42,7 @@ public class Program {
             CodeItem c = DeclList.get(i).genLLCode();
             cIList.add(i, c);
         }
-            
-        return cIList.get(i); // TODO: This is not returning the right thing
+            //head and tail pointer for ll to return
+        return cIList.get(i); // TODO: This needs to return the whole list?
     }
 }

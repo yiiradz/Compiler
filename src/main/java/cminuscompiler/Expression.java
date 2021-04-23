@@ -14,7 +14,7 @@ import lowlevel.CodeItem;
  * @author yiradz
  */
 public abstract class Expression {  
-    
+    int regNum;
     public void print(BufferedWriter w){
         
     }
@@ -22,6 +22,14 @@ public abstract class Expression {
     public void genLLCode () {
         
     
+    }
+    
+    public void setRegNum(int i){
+        regNum = i;
+    }
+    
+    public int getRegNum(){
+        return regNum;
     }
   
 }

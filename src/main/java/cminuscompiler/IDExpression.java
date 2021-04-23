@@ -10,6 +10,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lowlevel.Function;
+import lowlevel.Operation;
 
 /**
  *
@@ -35,4 +37,23 @@ public class IDExpression extends Expression {
         }
 
     }
+    
+     public void genLLCode(Function f) {
+         // is it a local var? check in the table
+         if (f.getTable().containsValue(id)){
+             //If inside table
+             // Set RegNum 
+             this.setRegNum(f.getNewRegNum());
+         }
+         else {
+             //search global table
+             if(CMinusCompiler.globalHash.containsValue(id)){
+             //if its in global
+             //make load oper. set src and dest oper for the load 
+             Operation load = new Operation(/*type??*/, f.getCurrBlock());
+             // set regNum
+             }
+         }
+        
+     }
 }
