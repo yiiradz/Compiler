@@ -184,7 +184,7 @@ public class CMinusParser implements Parser {
 
             case VOID_TOKEN:
                 // Save Void
-                Param v = new Param(name);
+                Param v = new Param(name, 0);
                 Params p = new Params(v);
                 return p;
 
@@ -197,7 +197,7 @@ public class CMinusParser implements Parser {
     private Param parseParam() {
 
         matchToken(TokenType.INT_TOKEN);
-        Param p = new Param(currentToken.getTokenData());
+        Param p = new Param(currentToken.getTokenData(), 1);
         matchToken(TokenType.ID_TOKEN);
 
         if (currentToken.getTokenType() == TokenType.BRACKETOPEN_TOKEN) {

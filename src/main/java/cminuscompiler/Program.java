@@ -41,6 +41,7 @@ public class Program {
         for (i = 0; i < DeclList.size(); i++) {
             CodeItem c = DeclList.get(i).genLLCode();
             cIList.add(i, c);
+            
         }
             //head and tail pointer for ll to return
         return cIList.get(i); // TODO: This needs to return the whole list?

@@ -85,15 +85,17 @@ public class FunctionDecl extends Declaration {
                 func.getTable().put(func.getNewRegNum(),currentParam.id);
             }
             
-            //need to fill first param with param info from params.(i)
-            FuncParam firstParam = new FuncParam( /* here we need to pass the param type (but we don't pass that... ) and param id value (name) */);
+            //Fill first param with param info from params.(i)
+            FuncParam firstParam = new FuncParam(currentParam.type, (String)currentParam.id);
+            FuncParam tailParam = new FuncParam();
             //tail param
             if (i == 0 ){
-                //first param == tail == new func
+                firstParam = tailParam;
+               // = new func
             }
             else {
-                //tail.next = new funcparam
-                //tail = new funcparam
+               tailParam.setNextParam(firstParam);
+              // tailParam = new funcparam
             }
             //Set param as head of LL 
             func.setFirstParam(firstParam);
@@ -113,6 +115,7 @@ public class FunctionDecl extends Declaration {
         cmpdStmt.genLLCode(func);
         
         func.appendBlock(func.getReturnBlock());
+        
         // append the unconnect chain
        
         

@@ -14,8 +14,10 @@ import java.io.IOException;
  */
 public class Param {
     Object id;
-    public Param (Object i){
+    int type;
+    public Param (Object i, int t){
         id = i;
+        type = t;
     }
     public void print(BufferedWriter w) throws IOException{
         w.write((String) id);
