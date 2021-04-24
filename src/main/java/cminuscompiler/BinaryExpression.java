@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lowlevel.BasicBlock;
 import lowlevel.Function;
+import lowlevel.Operand;
 import lowlevel.Operation;
 
 /**
@@ -84,26 +85,60 @@ public class BinaryExpression extends Expression {
 
     }
 
+    @Override
     public void genLLCode(Function f) {
 
         //genCode the rhs
-        expr1.genLLCode();
-        // Make new Block
-        BasicBlock b = new BasicBlock(f);
+        expr1.genLLCode(f);
+        // genCode the lhs
+        expr2.genLLCode(f);
+        
         //Make new operationn
-        //conversion routine for my oper type
+        //convert binary oper type into oper type
         Operation oper1 = new Operation(Operation.OperationType.ADD_I, f.getCurrBlock());
 
+        //set pointer?
+        
         //Append new Operation to Block
-        b.appendOper(oper1);
-
+        f.getCurrBlock().appendOper(oper1);
+        
+        // if lhs is num, 
         if (expr2 instanceof ExprType) {
-            //??
-            //get and set regnum as new destination oper
-            int destReg = f.getNewRegNum();
-            expr2.setRegNum(destReg);
+            //make number operand
+            Operand numOper = new Operand(Operand.OperandType.INTEGER);
+            numOper.setValue(expr2.getRegNum());
+        }
+        //else if register, make register operand with that reg num in it
+        else {
+            Operand regOper = new Operand(Operand.OperandType.REGISTER);
+            regOper.setValue(expr2.getRegNum());
         }
 
+        // if rhs is num, 
+        if (expr1 instanceof ExprType) {
+            //make number operand
+            Operand numOper = new Operand(Operand.OperandType.INTEGER);
+            numOper.setValue(expr1.getRegNum());
+        }
+        //else if register, make register operand with that reg num in it
+        else {
+            Operand regOper = new Operand(Operand.OperandType.REGISTER);
+            regOper.setValue(expr1.getRegNum());
+            
+        }
+        
+        //put overands into the operation 
+        
+        //Setting Destination Operand
+        Operand destOper = new Operand (Operand.OperandType.REGISTER);
+        destOper.setValue(f.getNewRegNum());
+        
+        oper1.setDestOperand(0, destOper);
+        
+        // annotate the node..
+        int destReg = f.getNewRegNum();
+            expr1.setRegNum(destReg);
+        
     }
 
 }

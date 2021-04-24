@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lowlevel.Function;
 
 /**
  *
@@ -37,7 +38,8 @@ public class NumExpression extends Expression {
 
     }
     
-        public void genLLCode () {
+    @Override
+        public void genLLCode (Function f) {
         // move num into register and annotate yourself
         
         }

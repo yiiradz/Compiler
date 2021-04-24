@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lowlevel.Function;
 
 /**
  *
@@ -60,6 +61,11 @@ public class AssignExpression extends Expression {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+     public void genLLCode (Function f) {
+        
+    
     }
 }
 

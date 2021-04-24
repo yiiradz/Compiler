@@ -77,8 +77,10 @@ public class FunctionDecl extends Declaration {
         for (int i = 0; i < params.params.size(); i++){
             //create local var for Param
             Param currentParam = params.params.get(i);
+            
             if(func.getTable().containsValue(currentParam.id)){
                 //error
+                
             }
             else {
                 // Put param in table and call a new register num for it
@@ -87,7 +89,9 @@ public class FunctionDecl extends Declaration {
             
             //Fill first param with param info from params.(i)
             FuncParam firstParam = new FuncParam(currentParam.type, (String)currentParam.id);
+            
             FuncParam tailParam = new FuncParam();
+            
             //tail param
             if (i == 0 ){
                 firstParam = tailParam;
@@ -95,7 +99,7 @@ public class FunctionDecl extends Declaration {
             }
             else {
                tailParam.setNextParam(firstParam);
-              // tailParam = new funcparam
+               firstParam = tailParam;
             }
             //Set param as head of LL 
             func.setFirstParam(firstParam);
@@ -117,10 +121,10 @@ public class FunctionDecl extends Declaration {
         func.appendBlock(func.getReturnBlock());
         
         // append the unconnect chain
-       
+        func.appendUnconnectedBlock(b2);
         
         
-        // genreturnBlock?
+        // return functionn
         return func;
     }
 

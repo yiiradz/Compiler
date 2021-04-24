@@ -7,6 +7,7 @@ package cminuscompiler;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import lowlevel.Function;
 
 /**
  *
@@ -29,7 +30,8 @@ public class ExpressionStmt extends Statement {
             }
     }
     
-    public void genLLCode () {
+    @Override
+    public void genLLCode (Function f) {
         
         // Call gencode on Expression
         expr.genLLCode();
