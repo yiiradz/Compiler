@@ -34,6 +34,6 @@ public class ExpressionStmt extends Statement {
     public void genLLCode (Function f) {
         
         // Call gencode on Expression
-        expr.genLLCode();
+        expr.genLLCode(f);
     }
 }
