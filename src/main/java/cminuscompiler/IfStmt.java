@@ -77,6 +77,8 @@ public class IfStmt extends Statement {
         //genCode on Expr
         myExpr.genLLCode(f);
         
+        //make branch to post or else
+        
         //append then to current block pointer
         f.appendToCurrentBlock(thenBlock);
        
