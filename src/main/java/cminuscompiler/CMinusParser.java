@@ -401,7 +401,7 @@ public class CMinusParser implements Parser {
                 return ep;
 
             default:
-                parseError(currentToken.getTokenType(), "an Expresion Token");
+                parseError(currentToken.getTokenType(), "an Expression Token");
                 return null;
         }
     }
@@ -430,8 +430,12 @@ public class CMinusParser implements Parser {
                 return a;
 
             case PARANOPEN_TOKEN:
+                currentToken = scan.getNextToken();
                 Expression args = parseArgs(ex);
                 return args;
+
+            case COMMA_TOKEN:
+                return ex;
 
             case PLUS_TOKEN:
                 se = parseSimpleExpressionPrime(ex);
@@ -648,18 +652,20 @@ public class CMinusParser implements Parser {
 
     private Expression parseArgs(Expression ex) {
         Expression e = null;
+        CallExpression arg = new CallExpression(ex, e);
         if (currentToken.getTokenType() == Token.TokenType.NUM_TOKEN
                 || currentToken.getTokenType() == Token.TokenType.PARANOPEN_TOKEN
                 || currentToken.getTokenType() == Token.TokenType.ID_TOKEN //|| or epsilon?
                 ) {
             e = parseExpression();
             // add to AST/ argE
+            arg.add(e);
             while (currentToken.getTokenType() == Token.TokenType.COMMA_TOKEN) {
                 currentToken = scan.getNextToken();
                 e = parseExpression();
                 // add to AST/argE
+                arg.add(e);
             }
-            Expression arg = new CallExpression(ex, e);
             return arg;
 
         } //Follow Set

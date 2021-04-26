@@ -24,7 +24,7 @@ public class AssignExpression extends Expression {
     boolean isBracket;
     Expression ld;
     Expression expr1;
-
+    
     public AssignExpression(boolean b, Expression var, Expression e1) {
         isBracket = b;
         ld = var;
@@ -34,52 +34,48 @@ public class AssignExpression extends Expression {
     
     @Override
     public void print(BufferedWriter w) {
-
+        
         try {
-           
+            
             w.write("=");
             w.write("\n");
-              w.write("     ");
-              w.write("     ");
-              w.write("     ");
-              w.write("     ");
-
+            w.write("     ");
+            w.write("     ");
+            w.write("     ");
+            w.write("     ");
+            
             if (isBracket == true) {
                 w.write("[");
                 ld.print(w);
                 w.write("]");
+            } else {
+                ld.print(w);
             }
-            else {
-            ld.print(w);
-            }
-             w.write("\n");
-             w.write("     ");
-             w.write("     ");
-             w.write("     ");
-            expr1.print(w); 
-
+            w.write("\n");
+            w.write("     ");
+            w.write("     ");
+            w.write("     ");
+            expr1.print(w);            
+            
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
     
     @Override
-     public void genLLCode (Function f) {
+    public void genLLCode(Function f) {
         // check for global var
-        if (CMinusCompiler.globalHash.containsValue(ld)){
+        if (CMinusCompiler.globalHash.containsValue(ld)) {
             //create store oper
-            Operation storeOper = new Operation (Operation.OperationType.STORE_I, f.getCurrBlock());
+            Operation storeOper = new Operation(Operation.OperationType.STORE_I, f.getCurrBlock());
             f.getCurrBlock().appendOper(storeOper);
-        }
-        
-        // check for local
-        else if (f.getTable().containsValue(ld)){
+        } // check for local
+        else if (f.getTable().containsValue(ld)) {
             //create assign oper
-            Operation assignOper = new Operation (Operation.OperationType.ASSIGN, f.getCurrBlock());
+            Operation assignOper = new Operation(Operation.OperationType.ASSIGN, f.getCurrBlock());
             f.getCurrBlock().appendOper(assignOper);
         }
-    
+        
     }
 }
-

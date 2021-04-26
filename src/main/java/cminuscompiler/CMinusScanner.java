@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  * @author mpoh98
  */
 public class CMinusScanner {
+
     static ArrayList<Character> tokenString = new ArrayList<Character>();
     static int mark_position = 0;
     static int fileInput = 0;
@@ -30,7 +31,7 @@ public class CMinusScanner {
     //List of Keywords
     static String[] Keywords = new String[]{"if", "else", "int", "void", "while", "return"};
     static StringBuffer sb = new StringBuffer();
-    
+
     static void CMinusScanner(BufferedReader file) {
         inFile = file;
         nextToken = scanToken();
@@ -63,16 +64,16 @@ public class CMinusScanner {
     //function to compare identifier to keywords
     static Token.TokenType keywordLookup(ArrayList tokenString) {
         Token.TokenType keywords = Token.TokenType.ID_TOKEN;
-        
+
         //Clear the String Buffer in case anything was left over
         sb.delete(0, sb.length());
-        
+
         //Convert the ArrayList to a String
         for (Object s : tokenString) {
             sb.append(s);
         }
         String tString = sb.toString();
-        
+
         //Loop through and compare the tokenString to the keyword
         for (int i = 0; i < Keywords.length; i++) {
             if (tString.equals(Keywords[i])) {
@@ -107,31 +108,29 @@ public class CMinusScanner {
         boolean save;
 
         while (state != Token.StateType.DONE) {
-            
-          try {
-            inFile.mark(mark_position);
-            fileInput = inFile.read();
-            mark_position += 1;
-            
-        } catch (IOException ex) {
-            Logger.getLogger(CMinusScanner.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            char c = (char)fileInput;
-            
+
+            try {
+                inFile.mark(mark_position);
+                fileInput = inFile.read();
+                mark_position += 1;
+
+            } catch (IOException ex) {
+                Logger.getLogger(CMinusScanner.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            char c = (char) fileInput;
+
             save = true;
             //SWITCH STATEMENT
             switch (state) {
                 case START:
-                    if (fileInput == -1){
+                    if (fileInput == -1) {
                         save = false;
                         currentToken.setTokenType(Token.TokenType.EOF_TOKEN);
                         state = Token.StateType.DONE;
-                      }
-                    // Check for white space
+                    } // Check for white space
                     else if (c == ' ' || c == '\t' || c == '\n' || c == '\r') {
                         save = false;
-                    }
-                    //Check if character is a digit
+                    } //Check if character is a digit
                     else if (Character.isDigit(c)) {
                         state = Token.StateType.ISNUM;
                     } //Check if character is an alpha
@@ -148,7 +147,7 @@ public class CMinusScanner {
                         state = Token.StateType.ISPLUS;
                     } else if (c == '-') {
                         state = Token.StateType.ISMINUS;
-                    
+
                     } else {
                         state = Token.StateType.DONE;
                         switch (c) {
@@ -167,6 +166,9 @@ public class CMinusScanner {
                                 break;
                             case ')':
                                 currentToken.setTokenType(Token.TokenType.PARANCLOSE_TOKEN);
+                                break;
+                            case ',':
+                                currentToken.setTokenType(Token.TokenType.COMMA_TOKEN);
                                 break;
                             case '*':
                                 currentToken.setTokenType(Token.TokenType.MULTIPLY_TOKEN);
@@ -193,8 +195,7 @@ public class CMinusScanner {
                             save = false;
                             state = Token.StateType.DONE;
                             currentToken.setTokenType(Token.TokenType.NUM_TOKEN);
-                        }
-                        else {
+                        } else {
                             ungetNextChar();
                             save = false;
                             state = Token.StateType.DONE;
@@ -209,8 +210,7 @@ public class CMinusScanner {
                             save = false;
                             state = Token.StateType.ISKEYWORD;
                             currentToken.setTokenType(Token.TokenType.ID_TOKEN);
-                        }
-                        else {
+                        } else {
                             ungetNextChar();
                             save = false;
                             state = Token.StateType.DONE;
@@ -277,17 +277,13 @@ public class CMinusScanner {
                     if (c == '=') {
                         if (tokenString.get(0) == '>') {
                             currentToken.setTokenType(Token.TokenType.GREATERTHANEQUAL_TOKEN);
-                        }
-                        else if (tokenString.get(0) == '<') {
+                        } else if (tokenString.get(0) == '<') {
                             currentToken.setTokenType(Token.TokenType.LESSTHANEQUAL_TOKEN);
-                        }
-                        else if (tokenString.get(0) == '=') {
+                        } else if (tokenString.get(0) == '=') {
                             currentToken.setTokenType(Token.TokenType.EQUALEQUAL_TOKEN);
-                        }
-                        else if (tokenString.get(0) == '!') {
+                        } else if (tokenString.get(0) == '!') {
                             currentToken.setTokenType(Token.TokenType.NOTEQUAL_TOKEN);
-                        }
-                        else {
+                        } else {
                             currentToken.setTokenType(Token.TokenType.ERROR_TOKEN);
                         }
                         state = Token.StateType.DONE;
@@ -296,17 +292,13 @@ public class CMinusScanner {
                         ungetNextChar();
                         if (tokenString.get(0) == '>') {
                             currentToken.setTokenType(Token.TokenType.GREATERTHAN_TOKEN);
-                        }
-                        else if (tokenString.get(0) == '<') {
+                        } else if (tokenString.get(0) == '<') {
                             currentToken.setTokenType(Token.TokenType.LESSTHAN_TOKEN);
-                        }
-                        else if (tokenString.get(0) == '=') {
+                        } else if (tokenString.get(0) == '=') {
                             currentToken.setTokenType(Token.TokenType.EQUAL_TOKEN);
-                        }
-                        else if (tokenString.get(0) == '!') {
+                        } else if (tokenString.get(0) == '!') {
                             currentToken.setTokenType(Token.TokenType.NOTEQUAL_TOKEN);
-                        }
-                        else {
+                        } else {
                             currentToken.setTokenType(Token.TokenType.ERROR_TOKEN);
                         }
                         state = Token.StateType.DONE;
@@ -323,12 +315,12 @@ public class CMinusScanner {
                     break;
             }
             //build tokenstring
-            if (save){
+            if (save) {
                 tokenString.add(c);
             }
 
         }
-        
+
         // Set Token Data
         sb.delete(0, sb.length());
         tokenString.forEach(s -> {
@@ -336,7 +328,7 @@ public class CMinusScanner {
         });
         String dataString = sb.toString();
         currentToken.setTokenData(dataString);
-        
+
         //return object of the class token with data filled in
         tokenString.clear();
         return currentToken;
@@ -344,35 +336,34 @@ public class CMinusScanner {
 
     //main method
     public static void main(String args[]) throws FileNotFoundException, IOException {
-        
+
         BufferedReader br = null;
         // Read c file into scanner (need to adjust this path name)
         br = new BufferedReader(new FileReader("/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test.c"));
-        
+
         //Call Scanner  
         CMinusScanner(br);
-        
+
         Token token;
         BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/outputfile.txt"));
 
         //Loop through and print the tokens until you the end of file token
         while (true) {
-            
+
             //clear the tokenString to prepare for the next token
             tokenString.clear();
-            
+
             token = getNextToken();
 
             //Print tokens (print end of file token)
             if (token.getTokenType() == Token.TokenType.EOF_TOKEN) {
-                writer.write(token.getTokenType().toString() + " " + token.getTokenData()+ "\n");
+                writer.write(token.getTokenType().toString() + " " + token.getTokenData() + "\n");
                 break;
-            }
-            else {
-                writer.write(token.getTokenType().toString() + " " + token.getTokenData()+ "\n");
+            } else {
+                writer.write(token.getTokenType().toString() + " " + token.getTokenData() + "\n");
             }
         }
-        
+
         writer.close();
 
     }

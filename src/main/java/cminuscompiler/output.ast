@@ -3,21 +3,12 @@ Program {
           Returns VOID
                ( main ){
 
-               =
-                    [x]
                
-                              0
-                              1
-               =
-                    [x]
+               output (
                
-                              1
-                              2
-               =
-                    y
-               =
-                    [x]
-                    1
+               x
+               z
+               )
                 }
       }
  }

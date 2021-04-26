@@ -7,7 +7,9 @@ package cminuscompiler;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import lowlevel.BasicBlock;
 import lowlevel.Function;
+import lowlevel.Operation;
 
 /**
  *
@@ -51,18 +53,18 @@ public class WhileStmt extends Statement{
         
         f.createBlock0();
         
-        /*//make 2-3 blocks: then block, post block, else block
+        //make 2-3 blocks: then block, post block, else block
         BasicBlock thenBlock = new BasicBlock(f); //then block
-        BasicBlock postBlock = new BasicBlock(f); //post block
+        BasicBlock postWhileBlock = new BasicBlock(f); //post block
         
-        //begin with an if without an else block
-        if (s2 == null) {
+        //If BEQ
+        if (stmt == null) {
             //genCode on Expr
             myExpr.genLLCode(f);
 
             //make branch to post or else?
-            Operation branch = new Operation(Operation.OperationType.BEQ, postBlock);
-            postBlock.appendOper(branch);
+            Operation branch = new Operation(Operation.OperationType.BEQ, postWhileBlock);
+            postWhileBlock.appendOper(branch);
 
             //append then to current block pointer
             f.appendToCurrentBlock(thenBlock);
@@ -70,22 +72,19 @@ public class WhileStmt extends Statement{
             //set current block pointer to then block
             f.setCurrBlock(thenBlock);
 
-            //genCode on Then
-            s1.genLLCode(f);
-            
             //append post block
-            f.appendToCurrentBlock(postBlock);
+            f.appendToCurrentBlock(postWhileBlock); 
         }
-        //if the else statement exists:
+        //if BNE
         else {
-            BasicBlock elseBlock = new BasicBlock(f); //else block
+            // repeat the body of the code
         
             //genCode on Expr
             myExpr.genLLCode(f);
 
             //make branch to post or else?
-            Operation branch = new Operation(Operation.OperationType.BEQ, elseBlock);
-            elseBlock.appendOper(branch);
+            Operation branch = new Operation(Operation.OperationType.BEQ, postWhileBlock);
+            postWhileBlock.appendOper(branch);
 
             //append then to current block pointer
             f.appendToCurrentBlock(thenBlock);
@@ -93,28 +92,22 @@ public class WhileStmt extends Statement{
             //set current block pointer to then block
             f.setCurrBlock(thenBlock);
 
-            //genCode on Then
-            s1.genLLCode(f);
+            //genCode on Stmt
+            stmt.genLLCode(f);
 
             //append post block
-            f.appendToCurrentBlock(postBlock);
+            f.appendToCurrentBlock(postWhileBlock);
 
-            //set current block pointer to else block
-            f.setCurrBlock(elseBlock);
-
-            //genCode on Else
-            s2.genLLCode(f);
+            //set current block pointer to then block
+            f.setCurrBlock(thenBlock);
 
             //add jump to post
-            Operation jump = new Operation(Operation.OperationType.JMP, postBlock);
-            postBlock.appendOper(jump);
-
-            //append else to unconnected chain
-            f.appendUnconnectedBlock(elseBlock);
-
+            Operation jump = new Operation(Operation.OperationType.JMP, postWhileBlock);
+            postWhileBlock.appendOper(jump);
+        
             //set current block pointer to post block
-            f.setCurrBlock(postBlock);
-        }*/
+            f.setCurrBlock(postWhileBlock);
+        }
        
     }
 }

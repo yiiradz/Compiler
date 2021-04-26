@@ -63,7 +63,20 @@ public class CompoundStmt extends Statement {
     
     @Override
     public void genLLCode(Function f){
+        
+       // loop through arraylist of local decls
+       for (int i = 0; i < ldList.size(); i++){
+           // call genCode on each local decl
+           ldList.get(i).genLLCode();
+           
+           // something about symbol table
+       }
        
+       // loop through arraylist of stmts
+       for (int i = 0; i < stList.size(); i++){
+           // call genCode on each stmt
+           stList.get(i).genLLCode(f);
+       }
     }
 
 }

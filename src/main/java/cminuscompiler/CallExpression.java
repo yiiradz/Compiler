@@ -7,6 +7,7 @@ package cminuscompiler;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lowlevel.Attribute;
@@ -22,7 +23,8 @@ public class CallExpression extends Expression {
     // where the fundecl is called
     //funct(x);
     Expression funct;
-    Expression expr; // should this be a param?
+    Expression expr;
+    public ArrayList<Expression> args = new ArrayList<>();
 
     public CallExpression(Expression fun, Expression e1) {
         funct = fun;
@@ -30,43 +32,72 @@ public class CallExpression extends Expression {
 
     }
 
+    public void add(Expression e) {
+        args.add(e);
+    }
+
     @Override
     public void print(BufferedWriter w) {
         try {
             w.write("\n");
-              w.write("     ");
-              w.write("     ");
-              w.write("     ");
+            w.write("     ");
+            w.write("     ");
+            w.write("     ");
 
             funct.print(w);
             w.write(" (");
             w.write("\n");
-             w.write("     ");
-              w.write("     ");
-              w.write("     ");
-            expr.print(w); 
+            w.write("     ");
+            w.write("     ");
+            w.write("     ");
+            for (int i = 0; i < args.size(); i++) {
+
+                if (args.get(i) != null) {
+                    w.write("\n");
+                    w.write("               ");
+                    args.get(i).print(w);
+                }
+            }
             w.write("\n");
-              w.write("     ");
-              w.write("     ");
-              w.write("     ");
+            w.write("     ");
+            w.write("     ");
+            w.write("     ");
             w.write(")");
         } catch (IOException ex) {
             Logger.getLogger(NumExpression.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
-     public void genLLCode (Function f) {
-         Attribute numParams = new Attribute("name", "value");
-         Operation pass = new Operation (Operation.OperationType.PASS, f.getCurrBlock());
-         Operation call = new Operation (Operation.OperationType.CALL, f.getCurrBlock());
-         pass.addAttribute(new Attribute("PARAM_NUM", Integer.toString(/*argNum*/0)));
-         
+    public void genLLCode(Function f) {
+        // local variable for array size
+        int argNum = args.size();
+        
+        // Attribute for call Oper with param size
+        Attribute numParams = new Attribute("PARAM_SIZE", Integer.toString(argNum));
+        
+        //Call Oper
+        Operation call = new Operation(Operation.OperationType.CALL, f.getCurrBlock());
+        
+        // Add param attribute to call oper
+        call.addAttribute(numParams);
+        
+        // Pass Oper
+        Operation pass = new Operation(Operation.OperationType.PASS, f.getCurrBlock());
+
         // for each param
-        //gencode
-        //pass 
-        // call oper
-        //new reg = retreg() <- move from special to generic register
-    
+        for (int i = 0; i < argNum; i++) {
+            //gencode
+            args.get(i).genLLCode(f);
+
+            // pass attribute to identify param
+            pass.addAttribute(new Attribute("PARAM_NUM", Integer.toString(i)));
+
+            // pass R1
+            // call oper
+            //new reg = retreg() <- move from special to generic register
+            
+        }
+
     }
 }
