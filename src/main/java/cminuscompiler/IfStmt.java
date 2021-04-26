@@ -73,6 +73,8 @@ public class IfStmt extends Statement {
         
         //begin with an if without an else block
         
+        
+        //genCode on Expr
         myExpr.genLLCode(f);
         
         //append then to current block pointer
@@ -81,7 +83,7 @@ public class IfStmt extends Statement {
         //set current block pointer to then block
         f.setCurrBlock(thenBlock);
         
-        //codeGen on Then
+        //genCode on Then
         s1.genLLCode(f);
         
         //append post block
@@ -89,6 +91,9 @@ public class IfStmt extends Statement {
         
         //set current block pointer to else block
         f.setCurrBlock(elseBlock);
+        
+        //genCode on Else
+        s2.genLLCode(f);
         
         //add jump to post?
         
