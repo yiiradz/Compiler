@@ -46,6 +46,10 @@ public class ReturnStmt extends Statement {
             // add jump to exit block
             f.getReturnBlock().appendOper(jump);
         }
+        else {
+            //jump to return block
+            f.getReturnBlock();
+        }
 
     }
 }

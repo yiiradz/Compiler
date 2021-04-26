@@ -66,16 +66,21 @@ public class CompoundStmt extends Statement {
         
        // loop through arraylist of local decls
        for (int i = 0; i < ldList.size(); i++){
+           // local var for current decl
+           Declaration ld = ldList.get(i);
            // call genCode on each local decl
            ldList.get(i).genLLCode();
            
-           // something about symbol table
+           // Assign register and add to symbol table
+            f.getTable().put(f.getNewRegNum(),ld);
        }
        
        // loop through arraylist of stmts
        for (int i = 0; i < stList.size(); i++){
            // call genCode on each stmt
+           if (stmt != null){
            stList.get(i).genLLCode(f);
+           }
        }
     }
 

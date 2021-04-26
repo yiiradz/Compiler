@@ -1,5 +1,9 @@
-void main ( void )
+int main ( void ) 
 {
-   output ( x , z ) ;
-
+    if ( a == 5 ) {
+        while ( x > 0 ) {
+            x = x + 1 ;
+        }
+    }
+    return 0 ;
 }
