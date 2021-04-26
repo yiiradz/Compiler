@@ -29,7 +29,12 @@ public class CMinusCompiler implements Compiler {
 
         String fileName = filePrefix + ".c";
         BufferedReader br = new BufferedReader(new FileReader (fileName));
-        String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
+        
+        //Matthew's filepath
+        String filename = "/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/output.ast";
+        
+        //Yayira's filepath
+        //String filename = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/output.ast";
         BufferedWriter w = new BufferedWriter(new FileWriter(filename));
         try {
             Parser myParser = new CMinusParser(br); //TODO: adapt this line to make our parser and scanner
@@ -130,7 +135,11 @@ public class CMinusCompiler implements Compiler {
     }
 
     public static void main(String[] args) throws IOException {
-        String filePrefix = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test";
+        //Matthew's filepath
+        String filePrefix = "/Users/matthewoh/NetBeansProjects/Compiler/src/main/java/cminuscompiler/test";
+        
+        //Yayira's filepath
+        //String filePrefix = "/Users/yiradz/College/SENIOR_sem2/compiler/compiler/src/main/java/cminuscompiler/test";
         CMinusCompiler myCompiler = new CMinusCompiler();
         myCompiler.setGenX64Code(true);
         myCompiler.compile(filePrefix);

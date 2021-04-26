@@ -78,7 +78,7 @@ public class CompoundStmt extends Statement {
        // loop through arraylist of stmts
        for (int i = 0; i < stList.size(); i++){
            // call genCode on each stmt
-           if (stmt != null){
+           if (stList.get(i) != null){
            stList.get(i).genLLCode(f);
            }
        }
