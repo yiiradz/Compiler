@@ -9,7 +9,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lowlevel.Attribute;
 import lowlevel.Function;
+import lowlevel.Operation;
 
 /**
  *
@@ -20,7 +22,7 @@ public class CallExpression extends Expression {
     // where the fundecl is called
     //funct(x);
     Expression funct;
-    Expression expr;
+    Expression expr; // should this be a param?
 
     public CallExpression(Expression fun, Expression e1) {
         funct = fun;
@@ -53,8 +55,18 @@ public class CallExpression extends Expression {
         }
     }
     
+    @Override
      public void genLLCode (Function f) {
-        
+         Attribute numParams = new Attribute("name", "value");
+         Operation pass = new Operation (Operation.OperationType.PASS, f.getCurrBlock());
+         Operation call = new Operation (Operation.OperationType.CALL, f.getCurrBlock());
+         pass.addAttribute(new Attribute("PARAM_NUM", Integer.toString(/*argNum*/0)));
+         
+        // for each param
+        //gencode
+        //pass 
+        // call oper
+        //new reg = retreg() <- move from special to generic register
     
     }
 }

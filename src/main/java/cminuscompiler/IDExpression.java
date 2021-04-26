@@ -43,16 +43,18 @@ public class IDExpression extends Expression {
          // is it a local var? check in the table
          if (f.getTable().containsValue(id)){
              //If inside table
-             // Set RegNum 
-             this.setRegNum(f.getNewRegNum());
+             // Set RegNum with the register within the table at that id
+             this.setRegNum((int)f.getTable().get((id)));
          }
          else {
              //search global table
              if(CMinusCompiler.globalHash.containsValue(id)){
              //if its in global
-             //make load oper. set src and dest oper for the load 
-             Operation load = new Operation(/*type??*/, f.getCurrBlock());
-             // set regNum
+             //make load oper. 
+             Operation load = new Operation(Operation.OperationType.LOAD_I, f.getCurrBlock());
+             // annotate node with destination register of load oper
+             this.setRegNum((int)load.getDestOperand((int)id).getValue());
+             
              }
          }
         

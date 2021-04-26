@@ -21,6 +21,7 @@ import lowlevel.Operation;
  */
 public class BinaryExpression extends Expression {
 
+    Operation.OperationType op;
     // op type
     Object operator;
     /*
@@ -92,53 +93,83 @@ public class BinaryExpression extends Expression {
         expr1.genLLCode(f);
         // genCode the lhs
         expr2.genLLCode(f);
-        
-        //Make new operationn
-        //convert binary oper type into oper type
-        Operation oper1 = new Operation(Operation.OperationType.ADD_I, f.getCurrBlock());
 
-        //set pointer?
-        
+        if (null != operator.toString()) //convert binary oper type into oper type
+        {
+            switch (operator.toString()) {
+                case "+" ->
+                    op = Operation.OperationType.ADD_I;
+                case "-" ->
+                    op = Operation.OperationType.SUB_I;
+                case "*" ->
+                    op = Operation.OperationType.MUL_I;
+                case "/" ->
+                    op = Operation.OperationType.DIV_I;
+                case "<" ->
+                    op = Operation.OperationType.LT;
+                case "<=" ->
+                    op = Operation.OperationType.LTE;
+                case ">" ->
+                    op = Operation.OperationType.GT;
+                case ">=" ->
+                    op = Operation.OperationType.GTE;
+                case "==" ->
+                    op = Operation.OperationType.EQUAL;
+                case "!=" ->
+                    op = Operation.OperationType.NOT_EQUAL;
+                default -> {
+                }
+            }
+        }
+
+        //Make new operation + sets pointer
+        Operation oper1 = new Operation(op, f.getCurrBlock());
+
         //Append new Operation to Block
         f.getCurrBlock().appendOper(oper1);
-        
+
         // if lhs is num, 
-        if (expr2 instanceof ExprType) {
+        if (expr2 instanceof NumExpression) {
             //make number operand
             Operand numOper = new Operand(Operand.OperandType.INTEGER);
             numOper.setValue(expr2.getRegNum());
-        }
-        //else if register, make register operand with that reg num in it
+            //put overands into the operation 
+            oper1.setSrcOperand(regNum, numOper);
+        } //else if register, make register operand with that reg num in it
         else {
             Operand regOper = new Operand(Operand.OperandType.REGISTER);
             regOper.setValue(expr2.getRegNum());
+            //put overands into the operation 
+            oper1.setSrcOperand(regNum, regOper);
         }
 
         // if rhs is num, 
-        if (expr1 instanceof ExprType) {
+        if (expr1 instanceof NumExpression) {
             //make number operand
             Operand numOper = new Operand(Operand.OperandType.INTEGER);
             numOper.setValue(expr1.getRegNum());
-        }
-        //else if register, make register operand with that reg num in it
+            //put overands into the operation 
+            oper1.setSrcOperand(regNum, numOper);
+        } //else if register, make register operand with that reg num in it
         else {
             Operand regOper = new Operand(Operand.OperandType.REGISTER);
             regOper.setValue(expr1.getRegNum());
-            
+            //put overands into the operation 
+            oper1.setSrcOperand(regNum, regOper);
+
         }
-        
-        //put overands into the operation 
+
         
         //Setting Destination Operand
-        Operand destOper = new Operand (Operand.OperandType.REGISTER);
+        Operand destOper = new Operand(Operand.OperandType.REGISTER);
         destOper.setValue(f.getNewRegNum());
-        
+
         oper1.setDestOperand(0, destOper);
-        
+
         // annotate the node..
         int destReg = f.getNewRegNum();
-            expr1.setRegNum(destReg);
-        
+        expr1.setRegNum(destReg);
+
     }
 
 }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lowlevel.Function;
+import lowlevel.Operation;
 
 /**
  *
@@ -63,8 +64,21 @@ public class AssignExpression extends Expression {
 
     }
     
+    @Override
      public void genLLCode (Function f) {
+        // check for global var
+        if (CMinusCompiler.globalHash.containsValue(ld)){
+            //create store oper
+            Operation storeOper = new Operation (Operation.OperationType.STORE_I, f.getCurrBlock());
+            f.getCurrBlock().appendOper(storeOper);
+        }
         
+        // check for local
+        else if (f.getTable().containsValue(ld)){
+            //create assign oper
+            Operation assignOper = new Operation (Operation.OperationType.ASSIGN, f.getCurrBlock());
+            f.getCurrBlock().appendOper(assignOper);
+        }
     
     }
 }

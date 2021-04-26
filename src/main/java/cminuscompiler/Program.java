@@ -8,6 +8,7 @@ package cminuscompiler;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import lowlevel.CodeItem;
 
 /**
@@ -19,7 +20,7 @@ public class Program {
     // decl-list
     public ArrayList<Declaration> DeclList = new ArrayList<>();
     // list of CodeItems
-    public ArrayList<CodeItem> cIList = new ArrayList<>();
+    public LinkedList<CodeItem> cIList = new LinkedList<>();
 
     public void printTree(BufferedWriter w) throws IOException {
         // Print "Program { 
@@ -36,14 +37,16 @@ public class Program {
     }
 
     public CodeItem genLLCode() {
-        int i;
+        
         // need to build a list of Code Items
-        for (i = 0; i < DeclList.size(); i++) {
+        for (int i = 0; i < DeclList.size(); i++) {
             CodeItem c = DeclList.get(i).genLLCode();
             cIList.add(i, c);
             
         }
-            //head and tail pointer for ll to return
-        return cIList.get(i); // TODO: This needs to return the whole list?
+        //head and tail pointers?
+        
+        //return head of LL
+        return cIList.element();
     }
 }

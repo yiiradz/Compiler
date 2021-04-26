@@ -40,7 +40,8 @@ public class NumExpression extends Expression {
     
     @Override
         public void genLLCode (Function f) {
+            
         // move num into register and annotate yourself
-        
+        this.setRegNum(f.getNewRegNum());
         }
 }
