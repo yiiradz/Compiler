@@ -41,14 +41,14 @@ public class IDExpression extends Expression {
     @Override
      public void genLLCode(Function f) {
          // is it a local var? check in the table
-         if (f.getTable().containsValue(id)){
+         if (f.getTable().containsKey(id)){
              //If inside table
              // Set RegNum with the register within the table at that id
              this.setRegNum((int)f.getTable().get((id)));
          }
          else {
              //search global table
-             if(CMinusCompiler.globalHash.containsValue(id)){
+             if(CMinusCompiler.globalHash.containsKey(id)){
              //if its in global
              //make load oper. 
              Operation load = new Operation(Operation.OperationType.LOAD_I, f.getCurrBlock());

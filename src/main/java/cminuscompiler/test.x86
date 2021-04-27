@@ -3,5 +3,6 @@
   )
   (BB 1
     (OPER 2 Return []  [(m EAX)])
+    (OPER 5 Return []  [(m 1)])
   )
 )

@@ -43,17 +43,22 @@ public class ReturnStmt extends Statement {
         if (expr != null) {
             expr.genLLCode(f);
             // new operand with num of return block
-            returnBlockNum = f.genReturnBlock().getBlockNum();
+            returnBlockNum = f.getReturnBlock().getBlockNum();
 
         }
 
         Operation jump = new Operation(Operation.OperationType.JMP, f.getCurrBlock());
         // oper to move expr result into return register
-        jump.setNum(expr.getRegNum());
+        Operation ret =
+            new Operation(Operation.OperationType.RETURN, f.getReturnBlock());
+        Operand retreg = new Operand(Operand.OperandType.MACRO, Integer.toString(expr.getRegNum()));
+        ret.setSrcOperand(0, retreg);
+        f.getReturnBlock().appendOper(ret);
+
         //set src oper = return block number
-        Operand src = new Operand(Operand.OperandType.INTEGER, returnBlockNum);
+        Operand src = new Operand(Operand.OperandType.BLOCK, returnBlockNum);
         jump.setSrcOperand(0, src);
-        
+
         // add jump to exit block
         f.getCurrBlock().appendOper(jump);
     }

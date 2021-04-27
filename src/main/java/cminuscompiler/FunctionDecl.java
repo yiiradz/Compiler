@@ -121,8 +121,9 @@ public class FunctionDecl extends Declaration {
         func.appendBlock(func.getReturnBlock());
         
         // append the unconnect chain
+        if (func.getFirstUnconnectedBlock() != null){
         func.appendBlock(func.getFirstUnconnectedBlock());
-        
+        }
         
         // return functionn
         return func;

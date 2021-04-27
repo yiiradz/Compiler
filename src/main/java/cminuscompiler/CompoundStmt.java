@@ -68,7 +68,7 @@ public class CompoundStmt extends Statement {
        for (int i = 0; i < ldList.size(); i++){
           LocalDecl ld = (LocalDecl)ldList.get(i);
            // Assign register and add to symbol table
-            f.getTable().put(f.getNewRegNum(),ld.name);
+            f.getTable().put(ld.name, f.getNewRegNum());
        }
        
        // loop through arraylist of stmts
