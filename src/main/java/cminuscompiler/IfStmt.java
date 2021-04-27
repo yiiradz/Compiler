@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import lowlevel.BasicBlock;
 import lowlevel.Function;
+import lowlevel.Operand;
 import lowlevel.Operation;
 
 /**
@@ -78,6 +79,13 @@ public class IfStmt extends Statement {
 
             //make branch to post or else?
             Operation branch = new Operation(Operation.OperationType.BEQ, postBlock);
+            Operand src = new Operand(Operand.OperandType.REGISTER);
+            src.setValue(myExpr.getRegNum());
+            branch.setSrcOperand(0, src);
+            
+            Operand dest = new Operand(Operand.OperandType.REGISTER);
+            dest.setValue(f.getNewRegNum());
+            branch.setDestOperand(0, dest);
             postBlock.appendOper(branch);
 
             //append then to current block pointer
@@ -101,6 +109,13 @@ public class IfStmt extends Statement {
 
             //make branch to post or else?
             Operation branch = new Operation(Operation.OperationType.BEQ, elseBlock);
+            Operand src = new Operand(Operand.OperandType.REGISTER);
+            src.setValue(myExpr.getRegNum());
+            branch.setSrcOperand(0, src);
+            
+            Operand dest = new Operand(Operand.OperandType.REGISTER);
+            dest.setValue(f.getNewRegNum());
+            branch.setDestOperand(0, dest);
             elseBlock.appendOper(branch);
 
             //append then to current block pointer
@@ -123,6 +138,15 @@ public class IfStmt extends Statement {
 
             //add jump to post
             Operation jump = new Operation(Operation.OperationType.JMP, postBlock);
+            
+            //set src + dest ops
+            Operand srcJMP = new Operand(Operand.OperandType.REGISTER);
+            srcJMP.setValue(myExpr.getRegNum());
+            jump.setSrcOperand(0, srcJMP);
+            
+            Operand destJMP = new Operand(Operand.OperandType.REGISTER);
+            destJMP.setValue(postBlock.getBlockNum());
+            jump.setDestOperand(0, destJMP);
             postBlock.appendOper(jump);
 
             //append else to unconnected chain

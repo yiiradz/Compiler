@@ -71,7 +71,7 @@ public class CMinusParser implements Parser {
     }
 
     public void parseError(TokenType curToken, String matchedToken) {
-        System.out.println("ERROR: Syntax Error.  Received: " + curToken + ", expected: " + matchedToken + ".  Parsing failed.");
+     //   System.out.println("ERROR: Syntax Error.  Received: " + curToken + ", expected: " + matchedToken + ".  Parsing failed.");
         //syntax error *here* expecting *this* because of *this* 
     }
 

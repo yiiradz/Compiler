@@ -34,6 +34,8 @@ public class ExpressionStmt extends Statement {
     public void genLLCode (Function f) {
         
         // Call gencode on Expression
+         if (expr != null){
         expr.genLLCode(f);
+         }
     }
 }

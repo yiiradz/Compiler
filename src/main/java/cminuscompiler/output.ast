@@ -1,31 +1,10 @@
 Program { 
      Function main { 
-          Returns INT
+          Returns VOID
                ( main ){
 
-               IF (
-                    ==
-                         a
-                              5
-               )
-               THEN 
-
-               WHILE (
-                    >
-                         x
-                              0
-               )
-
-               =
-                    x
                
-                    +
-                         x
-                              1
-               
-               RETURN 
-                    0
-               
+     INT x ;
                 }
       }
  }
