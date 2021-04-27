@@ -1,5 +1,7 @@
-void main ( void )
+int main ( void ) 
 {
-   int x ;
-
+    int a ;
+        a = 5 ;
+    
+    return a ;
 }

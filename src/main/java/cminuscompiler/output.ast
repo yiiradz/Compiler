@@ -1,10 +1,16 @@
 Program { 
      Function main { 
-          Returns VOID
+          Returns INT
                ( main ){
 
                
-     INT x ;
+     INT a ;
+               =
+                    a
+                    5
+               
+               RETURN 
+               a
                 }
       }
  }

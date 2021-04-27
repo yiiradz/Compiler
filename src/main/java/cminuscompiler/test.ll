@@ -7,5 +7,6 @@
   (BB 1
     (OPER 1 Func_Exit []  [])
     (OPER 2 Return []  [(m RetReg)])
+    (OPER 0 Jmp []  [])
   )
 )
